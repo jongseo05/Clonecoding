@@ -11,3 +11,13 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+@font-face {
+  font-family : Pretendard-Light;
+    src : url(./static/fonts/Pretendard-Light.otf) format('otf');
+}
+
+@font-face {
+  font-family : Pretendard-SemiBold;
+  src : url(./static/fonts/Pretendard-SemiBold.otf) format('otf');
+}
