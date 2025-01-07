@@ -1,0 +1,111 @@
+.ItemCard_section{
+    display: flex;
+    width: 207px;
+    height: 287px;
+    padding: 0px 11px 11px 0px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    flex-shrink: 0;
+}
+
+.ItemCard_container{
+    display: flex;
+    width: 196px;
+    height: 276px;
+    flex-direction: column;
+    align-items: flex-start;
+    flex-shrink: 0;
+
+    border: 1px solid #EEE;
+    background: #FFF;
+}
+
+.ItemCard_img_section{
+    display: flex;
+    width : 196px;
+    height: 196px;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+    align-self: stretch;
+}
+
+.ItemCard_img{
+    width: 196px;
+    height: 196px;
+    object-fit: cover;
+}
+
+.ItemCard_text_section{
+    display: flex;
+    height: 80px;
+    padding: 5px 10px;
+    flex-direction: column;
+    align-items: flex-start;
+    align-self: stretch;
+}
+
+.ItemCard_title_section{
+    display: flex;
+    padding-bottom: 20px;
+    flex-direction: column;
+    align-items: flex-start;
+    align-self: stretch;
+}
+
+.ItemCard_text_title{
+
+    align-self: stretch;
+    color: #212121;
+
+    font-family: Pretendard-Light;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 14px;
+    letter-spacing: -0.5px;
+
+}
+
+.ItemCard_info_section{
+    display: flex;
+    height: 20px;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+    align-self: stretch;
+    padding-bottom: 20px;
+}
+
+.ItemCard_price_section{
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+}
+
+.ItemCard_price_text{
+    color: #212121;
+    font-family: Pretendard-SemiBold;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 16px;
+    letter-spacing: -0.5px;
+}
+
+.ItemCard_time_section{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.ItemCard_time_text{
+    color: #212121;
+    font-family: Pretendard-SemiBold;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 16px;
+    letter-spacing: -0.5px;
+}

@@ -1,0 +1,39 @@
+.Img_dashboard {
+    display: flex;
+    position: relative;
+    width: 1023px;
+    height: 300px;
+    align-items: center;
+    justify-content: center;
+}
+
+.Img {
+    width: 1023px;
+    height: 300px;
+    object-fit: cover;
+}
+
+.arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background : none;
+    color: white;
+    border: none;
+    font-size: 24px;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.arrow.prev {
+    left: 10px;
+}
+
+.arrow.next {
+    right: 10px;
+}
+
+.arrow:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}

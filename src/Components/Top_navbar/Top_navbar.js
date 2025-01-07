@@ -24,7 +24,7 @@ function Top_navbar() {
                         {/*앱 다운로드*/}
                         <div className="Button_section">
                             <div className="Image_section">
-                                <img src={Logo} alt="logo"/>
+                                <img src={Logo} alt="logo" className = "Image"/>
                             </div>
                             <div className="Text_section">
                                 <p>앱 다운로드</p>
@@ -34,7 +34,7 @@ function Top_navbar() {
                         {/*즐겨찾기*/}
                         <div className="Button_section">
                             <div className="Image_section">
-                                <img src={Star} alt="logo"/>
+                                <img src={Star} alt="logo" className = "Image"/>
                             </div>
                             <div className="Text_section">
                                 <p>즐겨찾기</p>

@@ -17,7 +17,7 @@ function Context() {
 
                     {/*메인 로고*/}
                     <div className ="Title_section">
-                        <img src={HomeLogo} alt="logo"/>
+                        <img src={HomeLogo} alt="logo" className = "Homelogo"/>
                     </div>
 
                     {/*검색*/}
