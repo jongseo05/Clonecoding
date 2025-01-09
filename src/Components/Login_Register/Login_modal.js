@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./Login_modal.css";
 import Logo from './img/Logo.png';
 import Kakao from './img/kakaotalki_icon.png';
@@ -10,7 +11,6 @@ const Login_modal = ({ onClose }) => {
 
     {/* 배경 클릭 시 모달 닫기 */}
     const handleBackgroundClick = (e) => {
-
         if (e.target.className === "Login_back") {
             onClose(false);
         }
@@ -52,10 +52,10 @@ const Login_modal = ({ onClose }) => {
                         <p className="Login_button_text">네이버 로그인</p>
                     </div>
                     {/* 일반 로그인 버튼 */}
-                    <div className="Login_button">
+                    <Link to="/sign_up" className="Login_button">
                         <img src={Phone} className="Login_button_img" alt="일반" />
                         <p className="Login_button_text">일반 로그인</p>
-                    </div>
+                    </Link>
                 </div>
 
                 <div className="Login_info_section">
