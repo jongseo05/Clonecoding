@@ -1,0 +1,81 @@
+.Login_modal{
+    display: flex;
+    width: 420px;
+    padding: 40px 0px 24px 0px;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+
+    border-radius: 10px;
+    background: #FFF;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.Login_logo{
+    display: flex;
+    width: 20px;
+    height: 20px;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.Login_title_section{
+    display: flex;
+    padding: 0px 88px 0px 88px;
+    flex-direction: column;
+    align-items: center;
+    align-self: stretch;
+}
+
+.Login_title{
+    align-self : stretch;
+    color: #212121;
+    text-align: center;
+
+
+    font-family: Pretendard-SemiBold;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 30px;
+    letter-spacing: -0.5px;
+}
+
+.Login_explain_section{
+    display: flex;
+    padding: 5px 105px 0px 105px;
+    flex-direction: column;
+    align-items: center;
+    align-self: stretch;
+}
+.Login_explain{
+    width : 207px;
+    font-family: Pretendard-Light;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 30px;
+    letter-spacing: -0.5px;
+}
+
+.Login_button_container{
+    display: flex;
+    padding: 25px 70px 46px 70px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    align-self: stretch;
+}
+
+.Login_button{
+    display: flex;
+    height: 38px;
+    padding: 10.9px 88.77px 11px 88.77px;
+    align-items: flex-start;
+    align-self: stretch;
+    border-radius : 10px;
+
+    background: #FFFFFF;
+    box-shadow: 0px 1px 7px 0px rgba(0, 0, 0, 0.05);
+}
+

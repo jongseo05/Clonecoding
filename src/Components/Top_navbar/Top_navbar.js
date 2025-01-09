@@ -7,6 +7,14 @@ import { Link } from 'react-router-dom';
 
 function Top_navbar() {
 
+    const [stateLoginModal, setOpenLoginModal] = React.useState(false);
+
+    const openLoginModal = () => {
+        setOpenLoginModal(true);
+        console.log("openLoginModal");
+    }
+
+    
 
 
     return(
@@ -49,7 +57,7 @@ function Top_navbar() {
                 {/*로그인,회원가입*/}
                 <div className="Top_navbar_content_container">
                    <div className="Login_Text_section">
-                          <p className = "Text_section">로그인/회원가입</p>
+                          <p className = "Text_section" >로그인/회원가입</p>
                    </div>
 
                    <div className = "Login_Text_section">
