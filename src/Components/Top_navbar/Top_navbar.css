@@ -5,6 +5,8 @@
     justify-content: center;
     align-items: flex-start;
     border-bottom: 1px solid rgb(238, 238, 238);
+    position: relative;
+    z-index: 10;
 
 }
 
@@ -68,5 +70,20 @@
     align-self : stretch;
 }
 
+.Login_Text_button {
+    display: inline-flex;
+    padding: 10px 15px;
+    align-items: center;
+    background: none; /* 버튼 배경 제거 */
+    border: none; /* 기본 버튼 스타일 제거 */
+    color: rgb(102, 102, 102); /* 텍스트 색상 */
+    font-family: Pretendard-Light;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 18px;
+    letter-spacing: 0.5px;
+    cursor: pointer; /* 버튼 커서 스타일 */
+}
 
 
