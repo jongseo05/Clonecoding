@@ -1,0 +1,65 @@
+.Number_background{
+    display: flex;
+    padding: 100px 435px;
+    justify-content: center;
+    align-items: flex-start;
+    align-self: stretch;
+}
+
+.Number_section{
+    display: flex;
+    width: 570px;
+    padding: 60px;
+    flex-direction: column;
+    align-items: flex-start;
+    align-self: stretch;
+
+    border-radius: 6px;
+    background: #FFFFFF;
+    box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.10);
+}
+
+.Number_container{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 45px;
+    align-self: stretch;
+}
+
+.Number-Title{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    align-self: stretch;
+
+
+
+}
+
+.Number-Title-Text{
+    color: #3f3f3f;
+
+    font-family: Pretendard-SemiBold;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 30px;
+    letter-spacing: -0.5px;
+}
+
+.Number-Input{
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    align-self: stretch;
+
+    height: 60px;
+    flex: 1 0 0;
+
+    background: #FFFFFF;
+
+
+
+}
