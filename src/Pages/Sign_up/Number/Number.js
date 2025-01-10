@@ -1,7 +1,8 @@
+
 import React, { useState, useEffect } from "react";
 import "./Number.css";
 import TextField from "@mui/material/TextField";
-import '../Sign_up/Sign_up.css';
+import { auth } from "../../../firebase";
 
 const Number = () => {
     const [time, setTime] = useState(180); // 초기 타이머 시간 (180초 = 3분)
@@ -17,7 +18,20 @@ const Number = () => {
         }
     }, [time]);
 
-    // 타이머 형식 변환 함수 (mm:ss)
+    const verifyCode = () => {
+        const code = inputValue;
+        window.confirmationResult
+            .confirm(code)
+            .then((result) => {
+                const user = result.user;
+                console.log("Phone number verified!", user);
+                // 추가 회원가입 로직 실행
+            })
+            .catch((error) => {
+                console.error("Verification failed: ", error);
+            });
+    };
+
     const formatTime = (seconds) => {
         const minutes = Math.floor(seconds / 60);
         const secs = seconds % 60;
@@ -34,7 +48,7 @@ const Number = () => {
 
                     <div className="Number-Input">
                         <TextField
-                            id="name-input"
+                            id="verification-code-input"
                             variant="standard"
                             placeholder="인증번호 입력"
                             fullWidth
@@ -51,8 +65,8 @@ const Number = () => {
                                             fontWeight: "bold",
                                         }}
                                     >
-                    {formatTime(time)}
-                  </span>
+                                        {formatTime(time)}
+                                    </span>
                                 ),
                             }}
                             sx={{
@@ -66,10 +80,9 @@ const Number = () => {
                         />
                     </div>
 
-                    <button className="Sign_up_button">
+                    <button className="Sign_up_button" onClick={verifyCode}>
                         <p className="Sign_up_button_text">확인</p>
                     </button>
-
                 </div>
             </div>
         </div>
