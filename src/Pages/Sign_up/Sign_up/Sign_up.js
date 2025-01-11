@@ -1,4 +1,5 @@
 import React, { useState , useEffect} from 'react';
+import {useNavigate} from 'react-router-dom';
 import './Sign_up.css';
 import TextField from "@mui/material/TextField";
 import FormControl from "@mui/material/FormControl";
@@ -18,9 +19,13 @@ function Sign_up() {
         carrier: ""
     });
 
-    // reCAPTCHA 초기화를 위한 useEffect 추가
+    const navigate = useNavigate();
+
+    {/* reCAPTCHA 초기화 */}
+
     useEffect(() => {
-        // auth 객체 확인
+
+        // auth 객체 출력
         console.log("Auth object:", auth);
 
         if (!window.recaptchaVerifier && auth) {
@@ -86,6 +91,7 @@ function Sign_up() {
             );
             window.confirmationResult = confirmationResult;
             alert("인증번호가 발송되었습니다.");
+            navigate('/sign_up/number');
 
         } catch (error) {
             console.error("Error:", error);
