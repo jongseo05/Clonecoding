@@ -1,0 +1,101 @@
+.Sign_up_background{
+    display: flex;
+    padding: 100px 426.5px;
+    justify-content: center;
+    align-items: flex-start;
+    align-self: stretch;
+}
+
+.Sign_up_container{
+    display: flex;
+    width: 570px;
+    padding: 60px;
+    gap : 45px;
+    flex-direction: column;
+    align-items: center;
+    align-self: stretch;
+
+    border-radius: 6px;
+    background: #FFFFFF;
+    box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.10);
+}
+
+.Sign_up_title{
+    display: flex;
+    flex-direction: column;
+    align-self: stretch;
+    text-align: center;
+
+    color: #3f3f3f;
+    font-family: Pretendard-SemiBold;
+    font-size: 30px;
+    font-weight: 750;
+    line-height: 30px;
+    letter-spacing: -0.5px;
+}
+
+.Sign_up_birth_input{
+    display: flex;
+    flex-direction: row;
+    height : 50px;
+    gap: 10px;
+    align-self: stretch;
+    align-items: center;
+    font-size: 40px;
+    font-weight: 750;
+}
+
+.password-input{
+    font-size : 40px;
+}
+
+.text-field-input {
+    font-size: 18px; /* 글자 크기 */
+    color: #555; /* 글자 색상 */
+    font-weight: bold; /* 글자 두께 */
+}
+
+.form-control-input {
+    font-size: 18px; /* 텍스트 크기 */
+    font-weight: bold; /* 텍스트 두께 */
+    color: #555; /* 텍스트 색상 */
+    margin-top: 16px; /* 위아래 간격 */
+}
+
+.Sign_up_button{
+    display: flex;
+    height: 72px;
+    padding: 25.3px 208.93px 26px 208.94px;
+    justify-content: center;
+    align-items: center;
+    align-self: stretch;
+
+    border-radius: 6px;
+    background: #ff0000;
+    border : none;
+
+    opacity: 0.4;
+    transition: opacity 0.3s ease;
+
+    color: #FFFFFF;
+    text-align: center;
+
+    font-family: Pretendard-SemiBold;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 20px;
+    letter-spacing: -0.5px;
+
+}
+
+.Sign_up_button:hover {
+    opacity: 0.8;
+}
+
+.Sign_up_button_text{
+
+    display: flex;
+    width: 44px;
+
+}

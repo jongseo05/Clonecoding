@@ -1,0 +1,150 @@
+.Login_back {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* 모달이 다른 요소 위에 표시되도록 z-index 설정 */
+}
+.Login_modal{
+    display: flex;
+    width: 420px;
+    padding: 40px 0px 24px 0px;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+
+    border-radius: 10px;
+    background: #FFF;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.Login_logo{
+    display: flex;
+    width: 34px;
+    height: 34px;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.Login_title_section{
+    display: flex;
+    height : 30px;
+    padding: 0px 70px 0px 70px;
+    flex-direction: column;
+    align-items: center;
+    align-self: stretch;
+}
+
+.Login_title{
+    align-self : stretch;
+    color: #212121;
+    text-align: center;
+
+
+    font-family: Pretendard-SemiBold;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 30px;
+    letter-spacing: -0.5px;
+}
+
+.Login_explain_section{
+    display: flex;
+    padding: 10px 85px 10px 80px;
+    flex-direction: column;
+    align-items: center;
+    align-self: stretch;
+}
+.Login_explain{
+    width : 250px;
+    font-family: Pretendard-Light;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 350;
+    line-height: 30px;
+    letter-spacing: -0.5px;
+    text-align: center;
+}
+
+.Login_button_container{
+    display: flex;
+    padding: 25px 70px 46px 70px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    align-self: stretch;
+}
+
+.Login_button{
+
+    display: flex;
+    height: 38px;
+    padding: 11px 88.77px 11px 88.77px;
+    align-items: center;
+    align-self: stretch;
+    border-radius : 10px;
+    margin-bottom : 10px;
+
+    background: #FFFFFF;
+    box-shadow: 0px 1px 7px 0px rgba(0, 0, 0, 0.05);
+}
+
+.Login_button_img{
+
+    width: 36px;
+    height: 36px;
+    margin-right: 35px;
+    left: 35px;
+    top: 7px;
+}
+
+.Login_button_text{
+    color: #212121;
+    text-align: center;
+
+    font-family: Pretendard-Light;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 14px;
+    letter-spacing: -0.5px;
+}
+
+.Login_info_section{
+
+    padding: 25px 25px 0px 25px;
+    display: flex;
+    padding-top: 17px;
+    align-items: center;
+    align-self: stretch;
+
+
+    border-top : 1px solid #E5E5E5;
+}
+
+.Login_info_text{
+
+    flex: 1 0 0;
+    align-items: center;
+    text-align: center;
+    font-family: Pretendard-Light;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 350;
+    line-height: 30px;
+    letter-spacing: -0.5px;
+    text-align: center;
+}
+
+.Login_close{
+    width: 20px;
+    height: 20px;
+    margin-right: 25px;
+    cursor: pointer;
+}
