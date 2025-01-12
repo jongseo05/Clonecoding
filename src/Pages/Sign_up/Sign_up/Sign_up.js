@@ -9,7 +9,6 @@ import MenuItem from "@mui/material/MenuItem";
 import { auth } from "../../../firebase";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 
-
 function Sign_up() {
     const [formData, setFormData] = useState({
         name: "",
@@ -90,9 +89,12 @@ function Sign_up() {
                 appVerifier
             );
             window.confirmationResult = confirmationResult;
+
+            // 회원가입 데이터를 localStorage에 저장
+            localStorage.setItem("formData", JSON.stringify(formData));
+
             alert("인증번호가 발송되었습니다.");
             navigate('/sign_up/number');
-
         } catch (error) {
             console.error("Error:", error);
             alert(error.message);
@@ -103,6 +105,7 @@ function Sign_up() {
             }
         }
     };
+
 
     // SMS 발송 처리를 위한 별도 함수
     const handleSendSMS = async (phoneNumber) => {
@@ -116,6 +119,8 @@ function Sign_up() {
                 window.recaptchaVerifier
             );
             window.confirmationResult = confirmationResult;
+
+            localStorage.setItem("formData", JSON.stringify(formData));
             console.log("Verification code sent successfully!");
             alert("SMS 인증번호가 발송되었습니다.");
         } catch (error) {

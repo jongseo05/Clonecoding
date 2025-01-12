@@ -2,16 +2,13 @@ import React, { useState, useEffect } from "react";
 import "./Number.css";
 import TextField from "@mui/material/TextField";
 import { auth } from "../../../firebase";
-import { getFirestore, doc, setDoc } from "firebase/firestore";
-import { signInWithPhoneNumber } from "firebase/auth"; // 누락된 부분 추가
+import { getDatabase, ref, set } from "firebase/database";
 import { useNavigate } from "react-router-dom";
 
-
 const Number = () => {
-    const [time, setTime] = useState(180); // 초기 타이머 시간 (180초 = 3분)
-    const [inputValue, setInputValue] = useState(""); // 입력 값 관리
+    const [time, setTime] = useState(180); // 초기 타이머 시간
+    const [inputValue, setInputValue] = useState(""); // 인증번호 입력 값 관리
     const navigate = useNavigate();
-    const db = getFirestore(); // Firestore 초기화
 
     useEffect(() => {
         if (time > 0) {
@@ -29,66 +26,67 @@ const Number = () => {
         return `${String(minutes).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
     };
 
-    const saveUserToDatabase = async (user) => {
+    const saveUserToDatabase = async (user, formData) => {
         try {
-            const formData = JSON.parse(localStorage.getItem("formData")); // Sign_up에서 저장된 정보 가져오기
-            await setDoc(doc(db, "users", user.uid), {
+            if (!formData) {
+                throw new Error("Form data is missing");
+            }
+
+            const db = getDatabase(); // Realtime Database 초기화
+            const userRef = ref(db, `users/${user.uid}`); // 사용자 UID 경로 설정
+
+            await set(userRef, {
                 name: formData.name,
                 phoneNumber: formData.phoneNumber,
                 birthdate: formData.birthdate,
                 carrier: formData.carrier,
-                createdAt: new Date()
+                createdAt: new Date().toISOString(), // 현재 시간 저장
             });
-            console.log("User saved successfully!");
+            console.log("User saved to Realtime Database successfully!");
         } catch (error) {
-            console.error("Error saving user:", error);
+            console.error("Error saving user to Realtime Database:", error);
         }
     };
 
     const verifyCode = () => {
-        const code = inputValue; // 사용자가 입력한 인증번호
-        window.confirmationResult
-            .confirm(code)
-            .then(async (result) => {
-                const user = result.user;
-                console.log("Phone number verified!", user);
+    const code = inputValue; // 사용자가 입력한 인증번호
+    Promise.race([
+        window.confirmationResult.confirm(code),
+        new Promise((_, reject) =>
+            setTimeout(() => reject(new Error("Timeout during verification")), 120000) // 120초 제한으로 변경
+        ),
+    ])
+        .then(async (result) => {
+            const user = result.user; // 인증된 사용자 정보
+            console.log("Phone number verified!", user);
 
-                // 1. 사용자 정보 Firestore에 저장
-                await saveUserToDatabase(user);
+            // localStorage에서 formData를 가져옴
+            const formData = JSON.parse(localStorage.getItem("formData"));
+            console.log("FormData from localStorage:", formData);
 
-                // 2. 세션 유지
-                localStorage.setItem("user", JSON.stringify(user));
+            if (!formData) {
+                throw new Error("Form data not found in localStorage");
+            }
 
-                // 3. 다음 페이지로 이동
-                navigate("/");
-                alert("회원가입이 완료되었습니다!");
-            })
-            .catch((error) => {
-                console.error("Verification failed: ", error);
-                alert("인증 실패: 입력한 인증번호를 확인해주세요.");
-            });
-    };
+            // 사용자 정보를 Realtime Database에 저장
+            await saveUserToDatabase(user, formData);
 
-    const resendCode = async () => {
-        try {
-            const formData = JSON.parse(localStorage.getItem("formData")); // Sign_up에서 저장된 정보 가져오기
-            const phoneNumber = formData.phoneNumber.trim();
-            const internationalPhoneNumber = `+82${phoneNumber.slice(1)}`;
-            const appVerifier = window.recaptchaVerifier;
+            // 로컬 스토리지 초기화
+            localStorage.removeItem("formData");
 
-            const confirmationResult = await signInWithPhoneNumber(
-                auth,
-                internationalPhoneNumber,
-                appVerifier
-            );
-            window.confirmationResult = confirmationResult;
-            console.log("Verification code resent successfully!");
-            alert("새로운 인증번호가 발송되었습니다.");
-        } catch (error) {
-            console.error("Resend failed: ", error);
-            alert("인증번호 재전송에 실패했습니다. 다시 시도해주세요.");
-        }
-    };
+            // 세션 정보 저장
+            localStorage.setItem("user", JSON.stringify(user));
+
+            // 홈 페이지로 이동
+            navigate("/");
+            alert("회원가입이 완료되었습니다!");
+        })
+        .catch((error) => {
+            console.error("Verification failed:", error);
+            alert(error.message || "인증 실패: 입력한 인증번호를 확인해주세요.");
+        });
+};
+
 
     return (
         <div className="Number_background">
@@ -97,7 +95,6 @@ const Number = () => {
                     <div className="Number-Title">
                         <h3 className="Number-Title-Text">인증번호를 입력해주세요</h3>
                     </div>
-
                     <div className="Number-Input">
                         <TextField
                             id="verification-code-input"
@@ -131,13 +128,9 @@ const Number = () => {
                             }}
                         />
                     </div>
-
                     <button className="Sign_up_button" onClick={verifyCode}>
                         <p className="Sign_up_button_text">확인</p>
                     </button>
-
-                    {/* 인증번호 재전송 버튼 기입 예정 */}
-                    
                 </div>
             </div>
         </div>
