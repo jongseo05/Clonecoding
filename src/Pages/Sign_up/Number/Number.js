@@ -1,3 +1,4 @@
+// Number.js
 import React, { useState, useEffect } from "react";
 import "./Number.css";
 import TextField from "@mui/material/TextField";
@@ -7,7 +8,8 @@ import { useNavigate } from "react-router-dom";
 
 const Number = () => {
     const [time, setTime] = useState(180); // 초기 타이머 시간
-    const [inputValue, setInputValue] = useState(""); // 인증번호 입력 값 관리
+    const [inputValue, setInputValue] = useState(""); // 인증번호 입력 값
+    const [isVerifying, setIsVerifying] = useState(false); // 인증 처리 상태
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -16,8 +18,16 @@ const Number = () => {
                 setTime((prevTime) => prevTime - 1);
             }, 1000);
 
-            return () => clearInterval(timer); // 컴포넌트 언마운트 시 타이머 제거
+            return () => clearInterval(timer); // 컴포넌트 언마운트 시 타이머 정리
         }
+
+        // 컴포넌트 언마운트 시 confirmationResult 초기화
+        return () => {
+            if (window.confirmationResult) {
+                console.log("confirmationResult 초기화");
+                window.confirmationResult = null;
+            }
+        };
     }, [time]);
 
     const formatTime = (seconds) => {
@@ -45,23 +55,37 @@ const Number = () => {
             console.log("User saved to Realtime Database successfully!");
         } catch (error) {
             console.error("Error saving user to Realtime Database:", error);
+            throw error;
         }
     };
 
     const verifyCode = async () => {
+        if (!inputValue.trim()) {
+            alert("인증번호를 입력해주세요.");
+            return;
+        }
 
-        const maxRetries = 2;
-        let retryCount = 0;
+        let timeoutHandle;
+        setIsVerifying(true);
 
-        const attemptVerification = async () => {
+        try {
+            if (!window.confirmationResult) {
+                throw new Error("인증 정보가 없습니다. 다시 시도해주세요.");
+            }
+
+            // Promise.race로 타임아웃 처리
+            const result = await Promise.race([
+                window.confirmationResult.confirm(inputValue),
+                new Promise((_, reject) => {
+                    timeoutHandle = setTimeout(() => {
+                        reject(new Error("인증 시간이 초과되었습니다."));
+                    }, 180000); // 3분
+                })
+            ]);
+
+            clearTimeout(timeoutHandle); // 타임아웃 정리
+
             try {
-                if (!window.confirmationResult) {
-                    throw new Error("인증 정보가 없습니다. 다시 시도해주세요.");
-                }
-
-                const result = await window.confirmationResult.confirm(inputValue);
-
-                // 인증 성공 시 처리
                 const formData = JSON.parse(localStorage.getItem("formData"));
                 if (!formData) {
                     throw new Error("회원가입 정보를 찾을 수 없습니다.");
@@ -71,60 +95,35 @@ const Number = () => {
                 localStorage.removeItem("formData");
                 localStorage.setItem("user", JSON.stringify(result.user));
 
-                navigate("/");
+                window.confirmationResult = null;
                 alert("회원가입이 완료되었습니다!");
-                return true;
-
-            } catch (error) {
-                console.error(`Verification attempt ${retryCount + 1} failed:`, error);
-
-                if (error.code === "auth/timeout" || error.code === "auth/network-request-failed") {
-                    if (retryCount < maxRetries) {
-                        retryCount++;
-                        console.log(`Retrying verification (${retryCount}/${maxRetries})...`);
-                        return false;
-                    }
-                }
-
-                // 다른 에러이거나 최대 재시도 횟수를 초과한 경우
-                throw error;
+                navigate("/");
+            } catch (dbError) {
+                console.error("Database error:", dbError);
+                alert("회원 정보 저장 중 오류가 발생했습니다. 고객센터로 문의해주세요.");
+                navigate("/"); // 에러 발생 시 홈으로 이동
             }
-        };
-
-        try {
-            let success = false;
-            while (!success && retryCount <= maxRetries) {
-                success = await attemptVerification();
-                if (!success) {
-                    // 재시도 전 잠시 대기
-                    await new Promise(resolve => setTimeout(resolve, 1000));
-                }
-            }
-
-            if (!success) {
-                throw new Error("인증에 실패했습니다. 다시 시도해주세요.");
-            }
-
         } catch (error) {
-            console.error("Final verification error:", error);
+            if (timeoutHandle) clearTimeout(timeoutHandle); // 타임아웃 정리
 
-            // 사용자 친화적인 에러 메시지 표시
-            let errorMessage = "인증에 실패했습니다. ";
-
-            if (error.code === "auth/invalid-verification-code") {
-                errorMessage += "올바른 인증번호를 입력해주세요.";
-            } else if (error.code === "auth/network-request-failed") {
-                errorMessage += "네트워크 연결을 확인해주세요.";
-            } else if (error.code === "auth/timeout") {
-                errorMessage += "시간이 초과되었습니다. 다시 시도해주세요.";
+            let errorMessage = "인증에 실패했습니다.";
+            if (error.message.includes("초과")) {
+                errorMessage = "인증 시간이 초과되었습니다. 처음부터 다시 시도해주세요.";
+                navigate("/sign_up");
+            } else if (error.code === "auth/code-expired") {
+                errorMessage = "인증 코드가 만료되었습니다. 처음부터 다시 시도해주세요.";
+                navigate("/sign_up");
+            } else if (error.code === "auth/invalid-verification-code") {
+                errorMessage = "올바른 인증번호를 입력해주세요.";
             } else {
-                errorMessage += "잠시 후 다시 시도해주세요.";
+                errorMessage = "네트워크 상태를 확인하고 잠시 후 다시 시도해주세요.";
             }
 
             alert(errorMessage);
+        } finally {
+            setIsVerifying(false); // 인증 상태 초기화
         }
     };
-
 
     return (
         <div className="Number_background">
@@ -166,8 +165,14 @@ const Number = () => {
                             }}
                         />
                     </div>
-                    <button className="Sign_up_button" onClick={verifyCode}>
-                        <p className="Sign_up_button_text">확인</p>
+                    <button
+                        className="Sign_up_button"
+                        onClick={verifyCode}
+                        disabled={isVerifying}
+                    >
+                        <p className="Sign_up_button_text">
+                            {isVerifying ? "처리중" : "확인"}
+                        </p>
                     </button>
                 </div>
             </div>

@@ -29,14 +29,14 @@ function Sign_up() {
 
         if (!window.recaptchaVerifier && auth) {
             window.recaptchaVerifier = new RecaptchaVerifier(
-
-                auth,'recaptcha-container',
+                auth,
+                'recaptcha-container',
                 {
                     size: 'invisible',
                     callback: (response) => {
                         console.log("reCAPTCHA resolved");
                     }
-                },
+                }
             );
         }
 
