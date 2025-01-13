@@ -48,44 +48,82 @@ const Number = () => {
         }
     };
 
-    const verifyCode = () => {
-    const code = inputValue; // 사용자가 입력한 인증번호
-    Promise.race([
-        window.confirmationResult.confirm(code),
-        new Promise((_, reject) =>
-            setTimeout(() => reject(new Error("Timeout during verification")), 120000) // 120초 제한으로 변경
-        ),
-    ])
-        .then(async (result) => {
-            const user = result.user; // 인증된 사용자 정보
-            console.log("Phone number verified!", user);
+    const verifyCode = async () => {
 
-            // localStorage에서 formData를 가져옴
-            const formData = JSON.parse(localStorage.getItem("formData"));
-            console.log("FormData from localStorage:", formData);
+        const maxRetries = 2;
+        let retryCount = 0;
 
-            if (!formData) {
-                throw new Error("Form data not found in localStorage");
+        const attemptVerification = async () => {
+            try {
+                if (!window.confirmationResult) {
+                    throw new Error("인증 정보가 없습니다. 다시 시도해주세요.");
+                }
+
+                const result = await window.confirmationResult.confirm(inputValue);
+
+                // 인증 성공 시 처리
+                const formData = JSON.parse(localStorage.getItem("formData"));
+                if (!formData) {
+                    throw new Error("회원가입 정보를 찾을 수 없습니다.");
+                }
+
+                await saveUserToDatabase(result.user, formData);
+                localStorage.removeItem("formData");
+                localStorage.setItem("user", JSON.stringify(result.user));
+
+                navigate("/");
+                alert("회원가입이 완료되었습니다!");
+                return true;
+
+            } catch (error) {
+                console.error(`Verification attempt ${retryCount + 1} failed:`, error);
+
+                if (error.code === "auth/timeout" || error.code === "auth/network-request-failed") {
+                    if (retryCount < maxRetries) {
+                        retryCount++;
+                        console.log(`Retrying verification (${retryCount}/${maxRetries})...`);
+                        return false;
+                    }
+                }
+
+                // 다른 에러이거나 최대 재시도 횟수를 초과한 경우
+                throw error;
+            }
+        };
+
+        try {
+            let success = false;
+            while (!success && retryCount <= maxRetries) {
+                success = await attemptVerification();
+                if (!success) {
+                    // 재시도 전 잠시 대기
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                }
             }
 
-            // 사용자 정보를 Realtime Database에 저장
-            await saveUserToDatabase(user, formData);
+            if (!success) {
+                throw new Error("인증에 실패했습니다. 다시 시도해주세요.");
+            }
 
-            // 로컬 스토리지 초기화
-            localStorage.removeItem("formData");
+        } catch (error) {
+            console.error("Final verification error:", error);
 
-            // 세션 정보 저장
-            localStorage.setItem("user", JSON.stringify(user));
+            // 사용자 친화적인 에러 메시지 표시
+            let errorMessage = "인증에 실패했습니다. ";
 
-            // 홈 페이지로 이동
-            navigate("/");
-            alert("회원가입이 완료되었습니다!");
-        })
-        .catch((error) => {
-            console.error("Verification failed:", error);
-            alert(error.message || "인증 실패: 입력한 인증번호를 확인해주세요.");
-        });
-};
+            if (error.code === "auth/invalid-verification-code") {
+                errorMessage += "올바른 인증번호를 입력해주세요.";
+            } else if (error.code === "auth/network-request-failed") {
+                errorMessage += "네트워크 연결을 확인해주세요.";
+            } else if (error.code === "auth/timeout") {
+                errorMessage += "시간이 초과되었습니다. 다시 시도해주세요.";
+            } else {
+                errorMessage += "잠시 후 다시 시도해주세요.";
+            }
+
+            alert(errorMessage);
+        }
+    };
 
 
     return (
