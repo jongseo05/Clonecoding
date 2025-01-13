@@ -23,31 +23,26 @@ function Sign_up() {
     {/* reCAPTCHA 초기화 */}
 
     useEffect(() => {
-
-        // auth 객체 출력
-        console.log("Auth object:", auth);
-
         if (!window.recaptchaVerifier && auth) {
             window.recaptchaVerifier = new RecaptchaVerifier(
-                auth,
-                'recaptcha-container',
+                auth,'recaptcha-container',
                 {
                     size: 'invisible',
                     callback: (response) => {
                         console.log("reCAPTCHA resolved");
-                    }
-                }
+                    },
+                },
+
             );
         }
 
-        // 컴포넌트 언마운트 시 정리
         return () => {
             if (window.recaptchaVerifier) {
                 window.recaptchaVerifier.clear();
                 window.recaptchaVerifier = null;
             }
         };
-    }, []);  // 빈 배열로 한 번만 실행
+    }, [auth]);
 
     const handleChange = (event) => {
         const { name, value } = event.target;
