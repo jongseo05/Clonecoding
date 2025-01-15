@@ -274,7 +274,7 @@
 
 .Item_name_head2_section{
     display: flex;
-    width: 130px;
+    width: 168px;
     flex-direction: column;
     align-items: flex-start;
     align-self: stretch;
@@ -302,7 +302,7 @@
 
 .Item_name_input{
     display: flex;
-    width: 800px;
+    width: 770px;
     padding: 15px 17px;
     justify-content: center;
     align-items: flex-start;
@@ -332,3 +332,20 @@
     letter-spacing: -0.5px;
 }
 
+.Chosen_category_section{
+    display: flex;
+    width : 850px;
+    align-items: center;
+    align-self: stretch;
+}
+
+.Chose_category_text{
+    color: #D80C18;
+
+    font-family: Pretendard-Light;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 16px;
+    letter-spacing: -0.5px;
+}

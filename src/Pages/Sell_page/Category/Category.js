@@ -5,6 +5,7 @@ import './Category.css';
 function Category() {
     const [mainCategory, setMainCategory] = useState(null);
     const [subCategory, setSubCategory] = useState(null);
+    const [smallCategory, setSmallCategory] = useState(null);
     const [currentSubCategories, setCurrentSubCategories] = useState([]);
     const [currentSmallCategories, setCurrentSmallCategories] = useState([]);
 
@@ -27,18 +28,18 @@ function Category() {
         "아우터": ["패딩", "점퍼", "코트", "자켓", "가디건", "조끼/베스트"]
     };
 
-    // 메인 카테고리 변경 시 중분류 업데이트
     useEffect(() => {
         if (mainCategory) {
             setCurrentSubCategories(subCategories[mainCategory] || []);
-            setSubCategory(null); // 중분류 초기화
+            setSubCategory(null);
+            setSmallCategory(null); // 중분류 및 소분류 초기화
         }
     }, [mainCategory]);
 
-    // 중분류 변경 시 소분류 업데이트
     useEffect(() => {
         if (subCategory) {
             setCurrentSmallCategories(smallCategories[subCategory] || []);
+            setSmallCategory(null); // 소분류 초기화
         }
     }, [subCategory]);
 
@@ -48,53 +49,67 @@ function Category() {
                 <p className="Category_head2">카테고리</p>
             </div>
 
-            <div className="Category_selection_section">
-                {/* 메인 카테고리 */}
-                <div className="Category_selection_container_selected">
-                    {mainCategories.map((category, index) => (
-                        <Category_select_button
-                            key={index}
-                            button_text={category}
-                            onClick={() => setMainCategory(category)}
-                        />
-                    ))}
-                </div>
-
-                {/* 중분류 카테고리 */}
-                <div className={
-                    currentSubCategories.length > 0
-                        ? "Category_selection_container_selected"
-                        : "Category_selection_container_unselected"
-                }>
-                    {currentSubCategories.length > 0 ? (
-                        currentSubCategories.map((subCategoryOption, index) => (
+            <div className="Category_select_section">
+                <div className="Category_selection_section">
+                    {/* 메인 카테고리 */}
+                    <div className="Category_selection_container_selected">
+                        {mainCategories.map((category, index) => (
                             <Category_select_button
                                 key={index}
-                                button_text={subCategoryOption}
-                                onClick={() => setSubCategory(subCategoryOption)}
+                                button_text={category}
+                                onClick={() => setMainCategory(category)}
                             />
-                        ))
-                    ) : (
-                        <div className="Category_text">중분류 선택</div>
-                    )}
+                        ))}
+                    </div>
+
+                    {/* 중분류 카테고리 */}
+                    <div className={
+                        currentSubCategories.length > 0
+                            ? "Category_selection_container_selected"
+                            : "Category_selection_container_unselected"
+                    }>
+                        {currentSubCategories.length > 0 ? (
+                            currentSubCategories.map((subCategoryOption, index) => (
+                                <Category_select_button
+                                    key={index}
+                                    button_text={subCategoryOption}
+                                    onClick={() => setSubCategory(subCategoryOption)}
+                                />
+                            ))
+                        ) : (
+                            <div className="Category_text">중분류 선택</div>
+                        )}
+                    </div>
+
+                    {/* 소분류 카테고리 */}
+                    <div className={
+                        currentSmallCategories.length > 0
+                            ? "Category_selection_container_selected"
+                            : "Category_selection_container_unselected"
+                    }>
+                        {currentSmallCategories.length > 0 ? (
+                            currentSmallCategories.map((smallCategoryOption, index) => (
+                                <Category_select_button
+                                    key={index}
+                                    button_text={smallCategoryOption}
+                                    onClick={() => setSmallCategory(smallCategoryOption)}
+                                />
+                            ))
+                        ) : (
+                            <div className="Category_text">소분류 선택</div>
+                        )}
+                    </div>
                 </div>
 
-                {/* 소분류 카테고리 */}
-                <div className={
-                    currentSmallCategories.length > 0
-                        ? "Category_selection_container_selected"
-                        : "Category_selection_container_unselected"
-                }>
-                    {currentSmallCategories.length > 0 ? (
-                        currentSmallCategories.map((smallCategoryOption, index) => (
-                            <Category_select_button
-                                key={index}
-                                button_text={smallCategoryOption}
-                            />
-                        ))
-                    ) : (
-                        <div className="Category_text">소분류 선택</div>
-                    )}
+                {/* 선택된 카테고리 표시 */}
+                <div className="Chosen_category_section">
+                    <p className="Category_text">
+                        선택한 카테고리: <span style={{ color: 'red' , fontWeight : 800}}>
+                            {mainCategory ? mainCategory : "없음"}
+                        {subCategory ? ` > ${subCategory}` : ""}
+                        {smallCategory ? ` > ${smallCategory}` : ""}
+                        </span>
+                    </p>
                 </div>
             </div>
         </div>
