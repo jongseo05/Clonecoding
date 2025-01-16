@@ -1,0 +1,57 @@
+/* Header 관련 CSS */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.header .logo {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.logo-image {
+    height: 47px;
+    width: 150px;
+    margin-top: 50px;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+}
+
+.header2 {
+    margin-top: 15px;
+}
+
+.search-bar {
+    position: relative;
+    width: 400px;
+    margin-top: -17px;
+}
+
+.search-input {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 14px;
+    border: 2px solid #ed0e0e;
+    border-radius: 0;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    outline: none;
+    transition: box-shadow 0.2s ease-in-out;
+}
+
+.search-button {
+    position: absolute;
+    top: 50%;
+    right: -20px;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    font-size: 16px;
+    color: #888;
+    cursor: pointer;
+}

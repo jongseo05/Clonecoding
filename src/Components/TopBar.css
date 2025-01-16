@@ -1,0 +1,18 @@
+/* Top Bar Container */
+.top-bar {
+    display: flex;
+    justify-content: flex-end;
+    background-color: #f8f9fa;
+    padding: 10px 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Top Bar Buttons */
+.top-bar-button {
+    background: none;
+    border: none;
+    color: #4a4949;
+    font-size: 13px;
+    margin-left: 15px;
+    cursor: pointer;
+}
