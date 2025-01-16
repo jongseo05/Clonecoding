@@ -4,6 +4,13 @@ import Top_navbar from "../../Components/Top_navbar/Top_navbar";
 import Context from "../../Components/Context/Context";
 import Img_uploader from "./Img_uploader/Img_uploader";
 import Category_selecter from "./Category/Category";
+import Item_description from "./Item_description/Item_description";
+import Tag_selecter from './Tag/Tag';
+import Item_status from './Item_status/Item_status'
+import Item_price from "./Item_price/Item_price";
+import Package from "./Package/Package";
+import Extra_information from "./Extra_information/Extra_information";
+
 
 function Sell_page() {
     const [images, setImages] = useState([]);
@@ -109,12 +116,37 @@ function Sell_page() {
                     {/*카테고리 입력*/}
                     <Category_selecter/>
 
+                    {/*상품 상태 입력*/}
+                    <Item_status/>
+
+                    {/*상품설명 입력*/}
+                    <Item_description/>
+
+                    {/*태그 입력*/}
+                    <Tag_selecter/>
+
+                    {/*상품 가격 입력*/}
+                    <Item_price/>
+
+                    {/*택배거래 입력*/}
+                    <Package/>
+
+                    {/*추가정보 입력*/}
+                    <Extra_information/>
+
+
+
 
 
 
 
                 </div>
             </div>
+
+
+
+
+
         </div>
     );
 }

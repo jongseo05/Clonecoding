@@ -1,0 +1,84 @@
+.Tag_section {
+    display: flex;
+    width: 1024px;
+    height: 220px;
+    padding: 32px 0px;
+    align-items: flex-start;
+    align-self: stretch;
+}
+
+.Tag_head2_section {
+    display: flex;
+    width: 168px;
+    align-items: flex-start;
+    gap: 2px;
+    align-self: stretch;
+}
+
+.Tag_head2 {
+    color: #191919;
+    font-family: Pretendard-SemiBold;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 18px;
+    letter-spacing: -0.5px;
+}
+
+.Tag_input_section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex: 1 0 0;
+    align-self: stretch;
+}
+
+.Tag_input_container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+    border-radius: 2px;
+    border: 1px solid #8C8C8C;
+    background: #FFFFFF;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.Tag_list {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    flex: 1;
+}
+
+.Tag_input {
+    flex: 1;
+    min-width: 120px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    color: #8C8C8C;
+    background: transparent;
+    padding-left:20px;
+}
+
+.Tag_input::placeholder {
+    color: #CCCCCC;
+}
+
+.Tag_input_guide_text {
+    display: flex;
+    height: 25px;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 5px;
+
+    color: #666666;
+    font-family: Pretendard-Light;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 450;
+    line-height: 21px;
+    letter-spacing: -0.5px;
+}

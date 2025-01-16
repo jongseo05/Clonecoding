@@ -1,0 +1,56 @@
+.Item_status_section {
+    display: flex;
+    min-height: 325px;
+    padding-top : 32px;
+    align-items: flex-start;
+    align-self: stretch;
+
+    border-bottom: 1px solid #f6f6f6;
+}
+
+.Item_status_head2_section {
+    display: flex;
+    width: 168px;
+    height: auto;
+    flex-direction: column;
+    align-items: flex-start;
+    align-self: stretch;
+}
+
+.Item_status_head2 {
+    color: #191919;
+    font-family: Pretendard-Light;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 18px;
+    letter-spacing: -0.5px;
+}
+
+.Item_status_select_section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex: 1 0 0;
+    align-self: stretch;
+    gap: 16px;
+}
+
+.Item_status_label_horizontal {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* 라벨 제목과 설명 간 간격 */
+}
+
+.Item_status_label_title {
+    font-size: 16px;
+    color: #191919;
+    font-weight: 400;
+}
+
+.Item_status_description {
+    font-size: 12px;
+    color: #666666;
+    line-height: 20px;
+}
+
