@@ -34,7 +34,7 @@ const TabContent = ({ activeTab }) => (
             <div>
                 <p className="tab-title-large">찜 0</p>
                 <div className="tab-line"></div>
-                <p style={{ color: "gray", textAlign: "left", fontSize: "14px", marginTop: "30px" }}>
+                <p style={{color: "gray", textAlign: "left", fontSize: "14px", marginTop: "30px"}}>
                     찜한 상품이 없습니다.
                 </p>
             </div>

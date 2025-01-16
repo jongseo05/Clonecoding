@@ -4,6 +4,7 @@
     align-items: center;
     padding: 20px 0;
     border-bottom: 1px solid #ddd;
+    width: 140vh;
 }
 
 .store-header {
@@ -17,7 +18,6 @@
     height: 300px;
     background-color: #ddd;
     margin-right: 30px;
-    margin-left: 200px;
 }
 
 .store-details {
@@ -73,6 +73,10 @@
 
 .store-details2 p {
     color: gray;
+}
+
+.store-header{
+    padding-left: 200px;
 }
 
 .store-header p {

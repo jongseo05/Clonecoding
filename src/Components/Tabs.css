@@ -5,11 +5,13 @@
     border-bottom: 1px solid #ddd; /* 기본 하단 선 */
     margin-top: 20px;
     position: relative; /* 자식 요소의 위치 제어 */
+    padding-left: 200px;
+    width:120vh;
 }
 
 /* Individual Tab */
-.tab {
-    flex: 1;
+.tab-item {
+    flex: 1px;
     padding: 15px 0;
     text-align: center;
     cursor: pointer;
@@ -20,7 +22,7 @@
 }
 
 /* Active Tab */
-.tab.active {
+.tab-item.active {
     font-weight: bold;
     background-color: white;
     color: black;

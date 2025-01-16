@@ -1,0 +1,23 @@
+.sell-tab-navigation {
+display: inline-flex;
+    padding-left: 160px;
+}
+.sell-tab-navigation .tab {
+    cursor: pointer;
+    background: #fdfdfd;
+    border: none;
+    color: black;
+    width: 130px;
+    height: 60px;
+    padding: 0;
+    font-size: 12px;
+}
+
+.sell-tab-navigation .tab.active {
+    color: red;
+}
+
+.sell-tab-content {
+    padding-left: 200px;
+}
+

@@ -1,0 +1,69 @@
+.product-management .header {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.product-management .header input{
+    padding: 10px;
+    width: 400px;
+    height: 30px;
+    border: 1px solid #c1c0ca;
+    font-size: 14px;
+}
+
+.product-management .header input:focus{
+    border-color: black;
+    border-style: solid;
+    border-width: 1px;
+    outline: none;
+}
+
+.product-management .header select{
+    padding: 10px;
+    width: 90px;
+    height: 50px;
+    border: 1px solid #c1c0ca;
+    font-size: 14px;
+    outline: none;
+}
+
+.product-management .header select:focus{
+    background-color: #fdfdfd; /* 셀렉트 박스 클릭 시 배경색 변경 */
+    border-color: black; /* 포커스 시 테두리 색 변경 */
+    outline: none; /* 기본 아웃라인 제거 */
+}
+
+.product-management table {
+    width: 115vw;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+.product-management td {
+    padding: 10px;
+    border-bottom: 1px solid #bfbec8;
+}
+
+.product-management th {
+    padding: 10px;
+    background-color: #fdfdfd;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
+.product-management button {
+    width: 100px;
+    height: 40px;
+    padding: 10px 10px;
+    margin-bottom: 10px;
+    margin-left: 65px;
+    background-color: #fdfdfd;
+    color: black;
+    border: 1px solid #c1c0ca;
+    cursor: pointer;
+    display: flex;
+    font-size: 16px;
+    font-weight: bold;
+    justify-content: center; /* 수평 중앙 정렬 */
+}
