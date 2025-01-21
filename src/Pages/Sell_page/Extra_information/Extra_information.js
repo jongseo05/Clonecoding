@@ -15,15 +15,27 @@ const CustomRadio = styled(Radio)({
     },
 });
 
-function Extra_information() {
-    return(
+function Extra_information({ onExtraInfoChange }) {
+    const [quantity, setQuantity] = React.useState("");
+    const [tradeOption, setTradeOption] = React.useState("직거래_불가능");
+
+    const handleQuantityChange = (e) => {
+        setQuantity(e.target.value);
+        onExtraInfoChange({ quantity: e.target.value, tradeOption });
+    };
+
+    const handleTradeOptionChange = (e) => {
+        setTradeOption(e.target.value);
+        onExtraInfoChange({ quantity, tradeOption: e.target.value });
+    };
+
+    return (
         <div className="Extra_information_section">
             <div className="Extra_information_head1_section">
                 <p className="Extra_information_head1">추가 정보</p>
             </div>
 
-
-            {/*직거래*/}
+            {/* 직거래 */}
             <div className="Extra_information_container">
                 <div className="Extra_information_head2_section">
                     직거래
@@ -34,14 +46,16 @@ function Extra_information() {
                         row
                         aria-labelledby="demo-row-radio-buttons-group-label"
                         name="row-radio-buttons-group"
+                        value={tradeOption}
+                        onChange={handleTradeOptionChange}
                     >
                         <FormControlLabel
-                            value="possible"
+                            value="직거래_가능"
                             control={<CustomRadio />}
                             label="가능"
                         />
                         <FormControlLabel
-                            value="impossible"
+                            value="직거래_불가능"
                             control={<CustomRadio />}
                             label="불가"
                         />
@@ -49,7 +63,7 @@ function Extra_information() {
                 </FormControl>
             </div>
 
-            {/*수량*/}
+            {/* 수량 */}
             <div className="Extra_information_container">
                 <div className="Extra_information_head2_section">
                     수량
@@ -58,14 +72,14 @@ function Extra_information() {
                     <input
                         className="Item_price_input"
                         placeholder="수량을 입력하세요"
+                        value={quantity}
+                        onChange={handleQuantityChange}
                     />
                     개
                 </div>
             </div>
-
-
         </div>
-    )
+    );
 }
 
 export default Extra_information;

@@ -6,23 +6,47 @@ import Img_uploader from "./Img_uploader/Img_uploader";
 import Category_selecter from "./Category/Category";
 import Item_description from "./Item_description/Item_description";
 import Tag_selecter from './Tag/Tag';
-import Item_status from './Item_status/Item_status'
+import Item_status from './Item_status/Item_status';
 import Item_price from "./Item_price/Item_price";
 import Package from "./Package/Package";
 import Extra_information from "./Extra_information/Extra_information";
-
+import Buttons from './buttons/buttons';
 
 function Sell_page() {
-    const [images, setImages] = useState([]);
+    const [formData, setFormData] = useState({
+        Category: {
+            mainCategory: "",
+            subCategory: "",
+            smallCategory: ""
+        },
+        extraInfo: {
+            quantity: "",
+            tradeOption: "직거래_유무",
+        },
+        name: "",
+        images: [],
+        description: "",
+        price: {
+            price: "",
+            allowNegotiation: false,
+        },
+        status: "",
+        package: {
+            package_price: "",
+        },
+        tags: [],
+    });
 
     const handleImageUpload = (file) => {
         if (!file) return;
 
-        if (images.length < 12) {
+        if (formData.images.length < 12) {
             const reader = new FileReader();
             reader.onload = () => {
-                setImages((prevImages) => [...prevImages, reader.result]);
-                console.log("Uploaded images:", [...images, reader.result]); // 상태 업데이트 확인
+                setFormData((prevFormData) => ({
+                    ...prevFormData,
+                    images: [...prevFormData.images, reader.result],
+                }));
             };
             reader.onerror = (error) => {
                 console.error("File reading error:", error);
@@ -58,22 +82,22 @@ function Sell_page() {
                 <div className="Item_register_container">
                     <div className="Item_register_head1">상품정보</div>
 
-                    {/*물건 사진 업로드*/}
+                    {/* 물건 사진 업로드 */}
                     <div className="Item_info_section">
                         <div className="Item_img_upload_section">
                             <div className="Item_img_upload_text_section">
                                 <p className="Item_img_upload_head2">상품이미지</p>
-                                <p className="Item_img_count_text">({images.length}/12)</p>
+                                <p className="Item_img_count_text">
+                                    ({formData.images.length}/12)
+                                </p>
                             </div>
 
-                            {/*물건 사진 업로드*/}
-                            <div className = "Grid">
+                            <div className="Grid">
                                 <div className="Item_img_section uploaded-images-grid">
-
-                                    {images.length < 12 && (
+                                    {formData.images.length < 12 && (
                                         <Img_uploader onImageUpload={handleImageUpload} />
                                     )}
-                                    {images.map((image, index) => (
+                                    {formData.images.map((image, index) => (
                                         <div key={index} className="uploaded-image-container">
                                             <img
                                                 src={image}
@@ -83,69 +107,112 @@ function Sell_page() {
                                         </div>
                                     ))}
                                 </div>
-                                <div className = "Img_upload_detaiil_section">
-                                    <p className = "Img_upload_detail_text">
-                                    상품 이미지는 PC에서는 1:1, 모바일에서는 1:1.23 비율로 보여져요
+                                <div className="Img_upload_detaiil_section">
+                                    <p className="Img_upload_detail_text">
+                                        상품 이미지는 PC에서는 1:1, 모바일에서는 1:1.23 비율로 보여져요
                                     </p>
                                 </div>
                             </div>
-
-
-
                         </div>
-
                     </div>
 
-                    {/*상품명 입력*/}
+                    {/* 상품명 입력 */}
                     <div className="Item_name_section">
-                        <div className = "Item_name_head2_section">
-                            <p className = "Item_name_head2">
-                                상품명
-                            </p>
+                        <div className="Item_name_head2_section">
+                            <p className="Item_name_head2">상품명</p>
                         </div>
 
                         <div className="Item_name_input_section">
-                            <input className = "Item_name_input" placeholder="상품명을 입력해주세요"/>
-                            <p className = "Item_name_count">
-                                0/40
-                            </p>
+                            <input className="Item_name_input"
+                                   placeholder="상품명을 입력해주세요"
+                                   value={formData.name}
+                                   onChange={(e) => {
+                                       const inputValue = e.target.value;
+                                       if (inputValue.length <= 40) {
+                                           setFormData((prevFormData) => ({
+                                               ...prevFormData,
+                                               name: inputValue,
+                                           }));
+                                       }
+                                   }}
+                            />
+                            <p className="Item_name_count">{formData.name.length}/40</p>
                         </div>
-
                     </div>
 
-                    {/*카테고리 입력*/}
-                    <Category_selecter/>
+                    {/* 카테고리 입력 */}
+                    <Category_selecter
+                        onCategoryChange={(main, sub, small) => {
+                            setFormData((prevFormData) => ({
+                                ...prevFormData,
+                                Category: {
+                                    mainCategory: main,
+                                    subCategory: sub,
+                                    smallCategory: small
+                                },
+                            }));
+                        }}
+                    />
 
-                    {/*상품 상태 입력*/}
-                    <Item_status/>
+                    {/* 상품 상태 입력 */}
+                    <Item_status
+                        onStatusChange={(statusValue) => {
+                            setFormData((prevFormData) => ({
+                                ...prevFormData,
+                                status: statusValue,
+                            }));
+                        }}
+                    />
 
-                    {/*상품설명 입력*/}
-                    <Item_description/>
+                    {/* 상품 설명 입력 */}
+                    <Item_description
+                        onDescriptionChange={(description) => {
+                            setFormData((prevFormData) => ({
+                                ...prevFormData,
+                                description: description,
+                            }));
+                        }}
+                    />
 
-                    {/*태그 입력*/}
-                    <Tag_selecter/>
+                    {/* 태그 입력 */}
+                    <Tag_selecter
+                        onTagsChange={(tags) => {
+                            setFormData((prevFormData) => ({
+                                ...prevFormData,
+                                tags: tags,
+                            }));
+                        }}
+                    />
 
-                    {/*상품 가격 입력*/}
-                    <Item_price/>
+                    {/* 상품 가격 입력 */}
+                    <Item_price
+                        onPriceChange={({ price, allowNegotiation }) => {
+                            setFormData((prevFormData) => ({
+                                ...prevFormData,
+                                price: {
+                                    price: price,
+                                    allowNegotiation: allowNegotiation,
+                                },
+                            }));
+                        }}
+                    />
 
-                    {/*택배거래 입력*/}
-                    <Package/>
+                    {/* 택배거래 입력 */}
+                    <Package />
 
-                    {/*추가정보 입력*/}
-                    <Extra_information/>
-
-
-
-
-
-
-
+                    {/* 추가정보 입력 */}
+                    <Extra_information
+                        onExtraInfoChange={(extraInfo) => {
+                            setFormData((prevFormData) => ({
+                                ...prevFormData,
+                                extraInfo: extraInfo,
+                            }));
+                        }}
+                    />
                 </div>
             </div>
 
-
-
-
+            <Buttons formData={formData} />
 
         </div>
     );

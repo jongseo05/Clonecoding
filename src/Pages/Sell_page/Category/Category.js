@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Category_select_button from './Category_select_button/Category_select_button';
 import './Category.css';
 
-function Category() {
+function Category({ onCategoryChange }) {
     const [mainCategory, setMainCategory] = useState(null);
     const [subCategory, setSubCategory] = useState(null);
     const [smallCategory, setSmallCategory] = useState(null);
@@ -32,16 +32,24 @@ function Category() {
         if (mainCategory) {
             setCurrentSubCategories(subCategories[mainCategory] || []);
             setSubCategory(null);
-            setSmallCategory(null); // 중분류 및 소분류 초기화
+            setSmallCategory(null);
+            onCategoryChange(mainCategory, null, null);
         }
     }, [mainCategory]);
 
     useEffect(() => {
         if (subCategory) {
             setCurrentSmallCategories(smallCategories[subCategory] || []);
-            setSmallCategory(null); // 소분류 초기화
+            setSmallCategory(null);
+            onCategoryChange(mainCategory, subCategory, null);
         }
     }, [subCategory]);
+
+    useEffect(() => {
+        if (smallCategory) {
+            onCategoryChange(mainCategory, subCategory, smallCategory);
+        }
+    }, [smallCategory]);
 
     return (
         <div className="Category_section">
@@ -51,7 +59,6 @@ function Category() {
 
             <div className="Category_select_section">
                 <div className="Category_selection_section">
-                    {/* 메인 카테고리 */}
                     <div className="Category_selection_container_selected">
                         {mainCategories.map((category, index) => (
                             <Category_select_button
@@ -61,50 +68,36 @@ function Category() {
                             />
                         ))}
                     </div>
-
-                    {/* 중분류 카테고리 */}
                     <div className={
                         currentSubCategories.length > 0
                             ? "Category_selection_container_selected"
                             : "Category_selection_container_unselected"
                     }>
-                        {currentSubCategories.length > 0 ? (
-                            currentSubCategories.map((subCategoryOption, index) => (
-                                <Category_select_button
-                                    key={index}
-                                    button_text={subCategoryOption}
-                                    onClick={() => setSubCategory(subCategoryOption)}
-                                />
-                            ))
-                        ) : (
-                            <div className="Category_text">중분류 선택</div>
-                        )}
+                        {currentSubCategories.map((subCategoryOption, index) => (
+                            <Category_select_button
+                                key={index}
+                                button_text={subCategoryOption}
+                                onClick={() => setSubCategory(subCategoryOption)}
+                            />
+                        ))}
                     </div>
-
-                    {/* 소분류 카테고리 */}
                     <div className={
                         currentSmallCategories.length > 0
                             ? "Category_selection_container_selected"
                             : "Category_selection_container_unselected"
                     }>
-                        {currentSmallCategories.length > 0 ? (
-                            currentSmallCategories.map((smallCategoryOption, index) => (
-                                <Category_select_button
-                                    key={index}
-                                    button_text={smallCategoryOption}
-                                    onClick={() => setSmallCategory(smallCategoryOption)}
-                                />
-                            ))
-                        ) : (
-                            <div className="Category_text">소분류 선택</div>
-                        )}
+                        {currentSmallCategories.map((smallCategoryOption, index) => (
+                            <Category_select_button
+                                key={index}
+                                button_text={smallCategoryOption}
+                                onClick={() => setSmallCategory(smallCategoryOption)}
+                            />
+                        ))}
                     </div>
                 </div>
-
-                {/* 선택된 카테고리 표시 */}
                 <div className="Chosen_category_section">
                     <p className="Category_text">
-                        선택한 카테고리: <span style={{ color: 'red' , fontWeight : 800}}>
+                        선택한 카테고리: <span style={{ color: 'red', fontWeight: 800 }}>
                             {mainCategory ? mainCategory : "없음"}
                         {subCategory ? ` > ${subCategory}` : ""}
                         {smallCategory ? ` > ${smallCategory}` : ""}

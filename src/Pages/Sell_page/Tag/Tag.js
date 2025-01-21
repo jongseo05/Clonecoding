@@ -2,14 +2,16 @@ import React, { useState } from "react";
 import "./Tag.css";
 import Tag_icon from "../../../Components/Tag_icon/Tag_icon";
 
-function Tag() {
+function Tag({ onTagsChange }) {
     const [tags, setTags] = useState([]);
     const [inputValue, setInputValue] = useState("");
 
     const addTag = (e) => {
         if (e.key === "Enter" && inputValue.trim() !== "") {
             if (tags.length < 5 && inputValue.length <= 9) {
-                setTags([...tags, inputValue.trim()]);
+                const newTags = [...tags, inputValue.trim()];
+                setTags(newTags);
+                onTagsChange(newTags); // 부모로 태그 전달
                 setInputValue("");
             } else if (tags.length >= 5) {
                 alert("최대 5개의 태그만 추가할 수 있습니다.");
@@ -20,7 +22,9 @@ function Tag() {
     };
 
     const removeTag = (indexToRemove) => {
-        setTags(tags.filter((_, index) => index !== indexToRemove));
+        const newTags = tags.filter((_, index) => index !== indexToRemove);
+        setTags(newTags);
+        onTagsChange(newTags); // 부모로 태그 전달
     };
 
     return (

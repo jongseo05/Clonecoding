@@ -1,6 +1,5 @@
 .Tag_icon_section{
     display: flex;
-    width: 100px;
     height: 28px;
     flex-direction: row;
     align-items: flex-start;
@@ -41,7 +40,6 @@
 
 .Tag_icon_icon_section{
     display: flex;
-    width: 28px;
     height: 20px;
     padding-left: 8px;
     flex-direction: column;

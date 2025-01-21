@@ -50,6 +50,7 @@
     align-items: center;
     flex-wrap: wrap;
     flex: 1;
+    gap:8px;
 }
 
 .Tag_input {

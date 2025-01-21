@@ -7,13 +7,21 @@ import FormControl from '@mui/material/FormControl';
 import { styled } from '@mui/material/styles';
 
 const CustomRadio = styled(Radio)({
-    color: '#B2B2B2', // 기본 회색
+    color: '#B2B2B2',
     '&.Mui-checked': {
-        color: 'red', // 선택된 상태의 빨간색
+        color: 'red',
     },
 });
 
-function Item_status() {
+function Item_status({ onStatusChange }) {
+    const [status, setStatus] = React.useState("new");
+
+    const handleStatusChange = (e) => {
+        const value = e.target.value;
+        setStatus(value);
+        onStatusChange(value); // 선택된 상태 값을 부모로 전달
+    };
+
     return (
         <div className="Item_status_section">
             <div className="Item_status_head2_section">
@@ -23,8 +31,9 @@ function Item_status() {
             <div className="Item_status_select_section">
                 <FormControl>
                     <RadioGroup
-                        defaultValue="new"
                         name="item-status-group"
+                        value={status}
+                        onChange={handleStatusChange}
                     >
                         <FormControlLabel
                             value="new"

@@ -1,0 +1,73 @@
+.Buttons_section{
+    display: flex;
+    padding: 0px 200px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    background: #f6f6f6;
+    box-shadow:  0px -1px 0px 0px #E5E5E5;
+
+    position : sticky;
+    bottom : 0px;
+    z-index : 10;
+}
+
+.Buttons_container{
+    display: flex;
+    width: 1024px;
+    padding: 15px 0px;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 14px;
+    flex: 1 0 0;
+}
+
+.Temporary_button{
+    display: flex;
+    padding: 16px 46px;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 2px;
+    border: 1px solid #E5E5E5;
+    background: #FFFFFF;
+
+    color: #666666;
+
+
+    font-family: Pretendard-Light;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 23px;
+    letter-spacing: -0.5px;
+}
+
+.Item_register_button{
+    display: flex;
+    padding: 16px 46px;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+
+    border: none;
+    border-radius: 2px;
+    background: #d80c18;
+
+    color: #FFFFFF;
+
+    font-family: Pretendard-Light;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 23px;
+    letter-spacing: -0.5px;
+}
+
+
+
+
+
+
+
