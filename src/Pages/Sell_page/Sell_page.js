@@ -13,6 +13,7 @@ import Extra_information from "./Extra_information/Extra_information";
 import Buttons from './buttons/buttons';
 
 function Sell_page() {
+
     const [formData, setFormData] = useState({
         Category: {
             mainCategory: "",
