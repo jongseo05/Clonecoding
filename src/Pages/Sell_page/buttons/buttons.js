@@ -17,7 +17,8 @@ function Buttons({ formData }) {
 
     const handleRegister = () => {
         try {
-            const user = JSON.parse(localStorage.getItem("user")); // LocalStorage에서 사용자 정보 가져오기
+            const user = JSON.parse(localStorage.getItem("user"));
+
             if (!user || !user.uid) {
                 alert("로그인이 필요합니다.");
                 return;
