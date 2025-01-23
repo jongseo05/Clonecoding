@@ -1,0 +1,100 @@
+.Lightning_talk_section{
+    display: flex;
+    width:100%;
+    height:701px;
+    background-color: #F9F9F9;
+    align-items: center;
+    justify-content: center;
+}
+
+.Lightning_talk_container{
+    display: flex;
+    width:1024px;
+    height:701px;
+    background-color: rgb(255, 255, 255);
+    align-items: center;
+    justify-content: center;
+}
+
+.Lightning_talk_talkList_section{
+
+    display: flex;
+    width : 50%;
+    height : 700px;
+    flex-direction: column;
+    border-right : 1px solid #F9F9F9;
+
+}
+
+.Dot_container{
+    width: 100%;
+    display: flex;
+    -webkit-box-pack: justify;
+    justify-content: flex-end;
+    -webkit-box-align: center;
+    align-items: center;
+}
+
+.Dot_image{
+    width: 30px;
+    height:30px;
+}
+
+.Lightning_talk_other_info_section{
+
+    padding: 5px 10px 5px 20px;
+    height : 50px;
+}
+
+.Lightning_talk_list_container{
+    width: 100%;
+    flex-direction: column;
+    height: calc(100% - 50px);
+    overflow: hidden scroll;
+}
+
+.Lightning_talk_category_section{
+    padding-bottom : 10px;
+
+}
+
+.Lightning_talk_category_container{
+    display: flex;
+    width:494px;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: justify;
+    justify-content: flex-start;
+    color: rgb(25, 25, 25);
+    font-size: 22px;
+    font-weight: bold;
+    padding: 20px 20px 20px;
+    line-height: 33px;
+}
+
+.Lightning_talk_category_text_section{
+    cursor: pointer;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+}
+
+.Lightning_talk_category_img{
+    margin-left : 4px;
+    width : 30px;
+    height : 30px;
+}
+
+
+
+
+.Lightning_talk_talk_section{
+
+    display: flex;
+    width : 50%;
+    height : 700px;
+    border-right : #F9F9F9;
+
+
+}
+

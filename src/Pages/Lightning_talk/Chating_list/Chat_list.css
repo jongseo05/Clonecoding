@@ -1,0 +1,75 @@
+.Chat_list_section{
+    cursor: pointer;
+    height: 80px;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    padding: 0px 20px;
+    user-select: none;
+    position: relative;
+    left: 0px;
+}
+
+.Chat_list_img{
+    width:40px;
+    height:40px;
+    margin-right:10px;
+}
+
+.Chat_list_text_section{
+    width: 100%;
+    height : 44px;
+    display: flex;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    letter-spacing: -0.5px;
+    flex-direction: column;
+}
+
+.Chat_list_strong_section{
+    display: flex;
+    height : 21px;
+    -webkit-box-align: center;
+    align-items: center;
+}
+
+.Chat_list_normal_text_section{
+    width: 100%;
+    display: flex;
+    font-size: 12px;
+    line-height: 1.3;
+    color: rgb(153, 153, 153);
+}
+
+.Chat_list_recent_chat_text{
+    width: fit-content;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+
+.Chat_list_recent_date_text{
+    width: 100%;
+    max-width: fit-content;
+    min-width: fit-content;
+}
+
+.Chat_list_item_img_section{
+    display: flex;
+    -webkit-box-pack: end;
+    justify-content: end;
+}
+
+.Chat_list_item_img{
+    display: flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    margin-left: 14px;
+    width:32px;
+    height:32px;
+}
+
