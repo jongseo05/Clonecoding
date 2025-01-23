@@ -32,7 +32,7 @@ function Context() {
                         <div className="User_container">
                             <div className="Link_section">
                                 <img src={Sold} alt="Sold_icon" className="User_container_img"/>
-                                <p className="User_container_text">판매하기</p>
+                                <Link to='/sell_page' className="User_container_text">판매하기</Link>
 
                             </div>
 

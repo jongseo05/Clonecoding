@@ -3,6 +3,12 @@
     padding: 35px 200px 1px 200px;
     align-items: flex-start;
     border-bottom: 1px solid rgb(238, 238, 238);
+
+    z-index: 10;
+    position : sticky;
+    top : 0px;
+    background: rgb(255, 255, 255);
+
 }
 
 .Context_main_container{

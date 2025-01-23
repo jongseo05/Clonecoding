@@ -1,0 +1,45 @@
+.Img_uploader {
+    display: flex;
+    width: 202px;
+    height: 202px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    border: 1px solid #B2B2B2;
+    background-color: #F9F9F9;
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.Img_uploader_input {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.Img_uploader_icon_section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.Img_uploader_icon {
+    width: 32px;
+    height: 32px;
+
+}
+
+.Img_uploader_icon_text {
+    color: #666666;
+    font-family: Pretendard-Light;
+    font-size: 16px;
+    font-weight: 400;
+    text-align: center;
+}

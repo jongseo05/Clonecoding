@@ -16,7 +16,7 @@ function Top_navbar() {
             setIsLoggedIn(!!user); // 로그인 여부를 상태로 설정
         });
 
-        return () => unsubscribe(); // 컴포넌트 언마운트 시 리스너 제거
+        return () => unsubscribe();
     }, []);
 
     const openLoginModal = () => {

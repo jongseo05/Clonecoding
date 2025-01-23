@@ -6,7 +6,9 @@
     align-items: flex-start;
     border-bottom: 1px solid rgb(238, 238, 238);
     position: relative;
-    z-index: 10;
+
+    z-index : 1000;
+
 
 }
 
@@ -85,5 +87,4 @@
     letter-spacing: 0.5px;
     cursor: pointer; /* 버튼 커서 스타일 */
 }
-
 

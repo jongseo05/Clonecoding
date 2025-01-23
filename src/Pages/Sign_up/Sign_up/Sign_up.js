@@ -23,6 +23,7 @@ function Sign_up() {
     {/* reCAPTCHA 초기화 */}
 
     useEffect(() => {
+
         if (!window.recaptchaVerifier && auth) {
             window.recaptchaVerifier = new RecaptchaVerifier(
                 auth,'recaptcha-container',
@@ -35,6 +36,8 @@ function Sign_up() {
 
             );
         }
+
+        {/*컴포넌트 언마운트*/}
 
         return () => {
             if (window.recaptchaVerifier) {
@@ -55,7 +58,6 @@ function Sign_up() {
 
 
     {/* SMS 발송 처리를 위한 별도 함수 */}
-
 
     const sendVerificationCode = async () => {
         try {
@@ -119,6 +121,7 @@ function Sign_up() {
             console.log("Verification code sent successfully!");
             alert("SMS 인증번호가 발송되었습니다.");
         } catch (error) {
+
             console.error("SMS sending error:", error);
             alert("SMS 인증번호 발송에 실패했습니다. 다시 시도해주세요.");
 
