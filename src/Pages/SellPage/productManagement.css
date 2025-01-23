@@ -1,41 +1,155 @@
+.container {
+    flex: 1;
+    width: 150vh; /* 페이지의 여백 설정 */
+}
+
 .product-management .header {
-    display: flex;
+    display: inline-flex;
+    justify-content: space-between; /* 좌우 요소를 양 끝으로 배치 */
+    align-items: center; /* 세로 정렬 중앙 */
     gap: 10px;
     margin-bottom: 20px;
 }
 
-.product-management .header input{
+.product-management .header input {
     padding: 10px;
-    width: 400px;
+    width: 360px;
     height: 30px;
     border: 1px solid #c1c0ca;
     font-size: 14px;
 }
 
-.product-management .header input:focus{
+.product-management .header input:hover{
     border-color: black;
-    border-style: solid;
-    border-width: 1px;
+}
+
+.product-management .header input:focus {
+    border-color: black;
     outline: none;
 }
 
-.product-management .header select{
-    padding: 10px;
-    width: 90px;
-    height: 50px;
+.status {
+    margin-left: 320px;
+    text-align: right;
+    white-space: nowrap;
+    font-weight: bold;
+}
+
+.status-tabs{
+    padding-left: 190px;
+}
+
+.status-tabs button{
+    padding: 5px 16px;
+    cursor: pointer;
+    border: none !important;
+    color: #7e7e7e;
+}
+
+.status-tabs button.active {
+    color: #fb4e56;
+}
+
+.status span{
+    margin-right: 15px;
+}
+
+/* 공통 드롭다운 스타일 */
+.custom-dropdown {
+    position: relative;
+    font-size: 16px;
+    text-align: center;
+}
+
+.custom-dropdown-selected {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     border: 1px solid #c1c0ca;
-    font-size: 14px;
-    outline: none;
+    background-color: white;
+    cursor: pointer;
 }
 
-.product-management .header select:focus{
-    background-color: #fdfdfd; /* 셀렉트 박스 클릭 시 배경색 변경 */
-    border-color: black; /* 포커스 시 테두리 색 변경 */
-    outline: none; /* 기본 아웃라인 제거 */
+.custom-dropdown-selected:focus {
+    outline: none;
+    border-color: black;
+}
+
+.custom-dropdown-selected:hover {
+    outline: none;
+    border-color: black;
+}
+
+.custom-dropdown-options {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    border: 1px solid #fdfdfd;
+    border-top: none;
+    z-index: 1000;
+    font-size: 16px;
+    color: #575555;
+    max-height: 150px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    list-style: none; /* 글머리 기호 제거 */
+    margin: 0; /* 기본 마진 제거 */
+    padding: 0; /* 기본 패딩 제거 */
+}
+
+.custom-dropdown-option {
+    padding: 10px;
+    cursor: pointer;
+    text-align: left;
+    margin-left: 5px;
+}
+
+.custom-dropdown-option:hover {
+    background-color: #f0f0f0;
+    color: black;
+}
+
+.items-dropdown .custom-dropdown-selected{
+    width: 110px;
+    height: 50px;
+    padding-left: 10px;
+}
+
+.status-dropdown .custom-dropdown-selected {
+    width: 110px;
+    height: 50px;
+    padding-left: 70px;
+    padding-right: 30px;
+    margin-left: 20px;
+    text-align: center;
+}
+
+.items-dropdown .custom-dropdown-options,
+.items-dropdown .custom-dropdown-option {
+    width: 110px;
+    padding-right: 10px;
+}
+
+.status-dropdown .custom-dropdown-options,
+.status-dropdown .custom-dropdown-option {
+    width: 215px;
+    padding-left: 15px;
+}
+
+.items-dropdown .dropdown-icon {
+    font-size: 1rem;
+    padding-right: 10px;
+}
+
+.status-dropdown .dropdown-icon{
+    font-size: 1rem;
+    padding-right: 0;
 }
 
 .product-management table {
-    width: 115vw;
+    width: 130%;
+    max-width: 1150px;
     border-collapse: collapse;
     text-align: center;
 }
@@ -53,17 +167,55 @@
 }
 
 .product-management button {
-    width: 100px;
+    width: 90px;
     height: 40px;
     padding: 10px 10px;
     margin-bottom: 10px;
-    margin-left: 65px;
     background-color: #fdfdfd;
-    color: black;
     border: 1px solid #c1c0ca;
     cursor: pointer;
-    display: flex;
     font-size: 16px;
     font-weight: bold;
-    justify-content: center; /* 수평 중앙 정렬 */
+    text-align: center;
 }
+
+.button-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.btn-up {
+    color: #dd0c18;
+    background-color: white;
+    cursor: pointer;
+}
+
+.btn-edit, .btn-hide {
+    color: #0279fd;
+    background-color: white;
+    cursor: pointer;
+}
+
+.product-management-img {
+    width: 150px;
+    height: 150px;
+}
+
+.pagination {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 16px;
+    color: #7e7e7e;
+    padding-top:10px;
+}
+.pagination button {
+    width: 35px;
+    height: 35px;
+    background-color: #fd4f57;
+    color: white;
+}
+
+
+
+
