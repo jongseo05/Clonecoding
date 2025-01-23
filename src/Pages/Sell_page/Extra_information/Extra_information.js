@@ -6,6 +6,7 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import { styled } from '@mui/material/styles';
+import {useEffect} from "react";
 
 // 커스텀 Radio 스타일 정의
 const CustomRadio = styled(Radio)({
@@ -15,9 +16,16 @@ const CustomRadio = styled(Radio)({
     },
 });
 
-function Extra_information({ onExtraInfoChange }) {
+function Extra_information({ onExtraInfoChange , formExtraInformation }) {
     const [quantity, setQuantity] = React.useState("");
     const [tradeOption, setTradeOption] = React.useState("직거래_불가능");
+
+    useEffect(() => {
+        if(formExtraInformation) {
+            setQuantity(formExtraInformation.quantity);
+            setTradeOption(formExtraInformation.tradeOption);
+        }
+    }, [formExtraInformation]);
 
     const handleQuantityChange = (e) => {
         setQuantity(e.target.value);

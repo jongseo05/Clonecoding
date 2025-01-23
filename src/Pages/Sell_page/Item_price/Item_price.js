@@ -12,9 +12,16 @@ const CustomCheckbox = styled(Checkbox)({
     },
 });
 
-function Item_price({ onPriceChange }) {
+function Item_price({ onPriceChange, formDataPrice }) {
     const [price, setPrice] = React.useState("");
     const [allowNegotiation, setAllowNegotiation] = React.useState(false);
+
+    React.useEffect(() => {
+        if (formDataPrice) {
+            setPrice(formDataPrice.price || "");
+            setAllowNegotiation(formDataPrice.allowNegotiation || false);
+        }
+    }, [formDataPrice]);
 
     const handlePriceChange = (e) => {
         const newPrice = e.target.value;

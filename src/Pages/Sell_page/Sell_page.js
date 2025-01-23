@@ -1,5 +1,5 @@
 import './Sell_page.css';
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import Top_navbar from "../../Components/Top_navbar/Top_navbar";
 import Context from "../../Components/Context/Context";
 import Img_uploader from "./Img_uploader/Img_uploader";
@@ -11,8 +11,58 @@ import Item_price from "./Item_price/Item_price";
 import Package from "./Package/Package";
 import Extra_information from "./Extra_information/Extra_information";
 import Buttons from './buttons/buttons';
+import Temporary_save_modal from "./buttons/Temporary_save_modal/Temporary_save_modal";
 
 function Sell_page() {
+
+    const [showModal, setShowModal] = useState(false);
+
+    useEffect(() => {
+        const savedData = localStorage.getItem("sellPageFormData");
+        if (savedData) {
+            try {
+                const parsedData = JSON.parse(savedData);
+                if (parsedData) {
+                    console.log("Stored data is existed")
+                    setShowModal(true); // 데이터가 존재하면 모달 표시
+                }
+            } catch (error) {
+                console.error("Error parsing saved data:", error);
+            }
+        }
+    }, []);
+
+    {/*새로 등록 함수*/}
+    const handleNewRegister = () => {
+
+        localStorage.removeItem("sellPageFormData"); // localstorage 초기화
+        setFormData({
+            Category: { mainCategory: "", subCategory: "", smallCategory: "" },
+            extraInfo: { quantity: "", tradeOption: "직거래_유무" },
+            name: "",
+            images: [],
+            description: "",
+            price: { price: "", allowNegotiation: false },
+            status: "",
+            package: { package_price: "" },
+            tags: [],
+        });
+
+    };
+
+    // "이어서 하기" 동작
+    const handleContinue = () => {
+        const savedData = localStorage.getItem("sellPageFormData");
+        if (savedData) {
+            try {
+                const parsedData = JSON.parse(savedData);
+                setFormData(parsedData); // 저장된 데이터를 formData에 반영
+            } catch (error) {
+                console.error("Error parsing saved data:", error);
+            }
+        }
+    };
+
 
     const [formData, setFormData] = useState({
         Category: {
@@ -38,6 +88,9 @@ function Sell_page() {
         tags: [],
     });
 
+
+
+
     const handleImageUpload = (file) => {
         if (!file) return;
 
@@ -60,6 +113,12 @@ function Sell_page() {
 
     return (
         <div>
+            {showModal && (
+                <Temporary_save_modal
+                    onClose={setShowModal}
+                    onNewRegister={handleNewRegister}
+                    onContinue={handleContinue} />
+            )}
             <Top_navbar />
             <Context />
 
@@ -96,7 +155,8 @@ function Sell_page() {
                             <div className="Grid">
                                 <div className="Item_img_section uploaded-images-grid">
                                     {formData.images.length < 12 && (
-                                        <Img_uploader onImageUpload={handleImageUpload} />
+                                        <Img_uploader
+                                            onImageUpload={handleImageUpload} />
                                     )}
                                     {formData.images.map((image, index) => (
                                         <div key={index} className="uploaded-image-container">
@@ -143,6 +203,7 @@ function Sell_page() {
 
                     {/* 카테고리 입력 */}
                     <Category_selecter
+                        formDataCategory={formData.Category}
                         onCategoryChange={(main, sub, small) => {
                             setFormData((prevFormData) => ({
                                 ...prevFormData,
@@ -157,6 +218,7 @@ function Sell_page() {
 
                     {/* 상품 상태 입력 */}
                     <Item_status
+                        formDataStatus={formData.status}
                         onStatusChange={(statusValue) => {
                             setFormData((prevFormData) => ({
                                 ...prevFormData,
@@ -167,6 +229,7 @@ function Sell_page() {
 
                     {/* 상품 설명 입력 */}
                     <Item_description
+                        formDataDescription={formData.description} // 초기값 전달
                         onDescriptionChange={(description) => {
                             setFormData((prevFormData) => ({
                                 ...prevFormData,
@@ -174,6 +237,7 @@ function Sell_page() {
                             }));
                         }}
                     />
+
 
                     {/* 태그 입력 */}
                     <Tag_selecter
@@ -187,6 +251,7 @@ function Sell_page() {
 
                     {/* 상품 가격 입력 */}
                     <Item_price
+                        formDataPrice={formData.price}
                         onPriceChange={({ price, allowNegotiation }) => {
                             setFormData((prevFormData) => ({
                                 ...prevFormData,
@@ -199,10 +264,18 @@ function Sell_page() {
                     />
 
                     {/* 택배거래 입력 */}
-                    <Package />
+                    <Package
+                        formDataPackage={formData.package}
+                        onPackageChange={(packageOption) => {
+                            setFormData((prevFormData) => ({
+                                ...prevFormData,
+                                package: { ...prevFormData.package, packageOption },
+                            }));
+                        }}/>
 
                     {/* 추가정보 입력 */}
                     <Extra_information
+                        formExtraInformation={formData.extraInfo}
                         onExtraInfoChange={(extraInfo) => {
                             setFormData((prevFormData) => ({
                                 ...prevFormData,

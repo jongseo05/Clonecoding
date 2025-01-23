@@ -5,6 +5,7 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import { styled } from '@mui/material/styles';
+import {useEffect} from "react";
 
 const CustomRadio = styled(Radio)({
     color: '#B2B2B2',
@@ -13,8 +14,14 @@ const CustomRadio = styled(Radio)({
     },
 });
 
-function Item_status({ onStatusChange }) {
+function Item_status({ onStatusChange , formDataStatus}) {
     const [status, setStatus] = React.useState("new");
+
+    useEffect(() => {
+        if(formDataStatus){
+            setStatus(formDataStatus);
+        }
+    }, [formDataStatus]);
 
     const handleStatusChange = (e) => {
         const value = e.target.value;

@@ -1,16 +1,21 @@
-.Temporary_save_modal_background{
+.Temporary_save_back{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6); /* 회색 반투명 */
     display: flex;
-    padding: 100px 426.5px;
     justify-content: center;
-    align-items: flex-start;
-    align-self: stretch;
+    align-items: center;
+    z-index: 1000; /* 모달이 다른 요소 위에 표시되도록 설정 */
 }
 
 .Temporary_save_modal_container{
     display: flex;
     flex-direction: column;
     width: 315px;
-    height: 194px;
+    height: 199px;
     border-radius: 15px;
     background: rgb(255, 255, 255);
 }
@@ -31,4 +36,54 @@
     font-size: 18px;
     font-weight: 700;
     line-height: 140%;
+}
+
+.Temporary_save_modal_divider{
+    width: 315px;
+    height: 1px;
+    background-color: rgb(246, 246, 246);
+}
+
+.Temporary_save_modal_button1{
+
+    cursor : pointer;
+    display: inline-flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    width: 155px;
+    padding: 22px 20px;
+    color: rgb(127, 127, 127);
+    text-align: center;
+    white-space: nowrap;
+    font-size: 16px;
+    font-weight: 700;
+    border-right: 1px solid rgb(246, 246, 246);
+    border-left:none;
+    border-top:none;
+    border-bottom:none;
+}
+
+.Temporary_save_modal_button2{
+
+    cursor : pointer;
+    display: inline-flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    width: 156px;
+    padding: 22px 20px;
+    color: rgb(0, 165, 135);
+    text-align: center;
+    white-space: nowrap;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.Temporary_save_modal_button_container{
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
 }

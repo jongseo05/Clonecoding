@@ -10,6 +10,7 @@ function Buttons({ formData }) {
             localStorage.setItem("sellPageFormData", JSON.stringify(formData));
             console.log(formData);
             alert("임시저장이 완료되었습니다!");
+            navigate('/');
         } catch (error) {
             console.error("로컬스토리지 저장 오류:", error);
         }

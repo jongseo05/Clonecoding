@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Category_select_button from './Category_select_button/Category_select_button';
 import './Category.css';
 
-function Category({ onCategoryChange }) {
+function Category({ onCategoryChange , formDataCategory }) {
     const [mainCategory, setMainCategory] = useState(null);
     const [subCategory, setSubCategory] = useState(null);
     const [smallCategory, setSmallCategory] = useState(null);
@@ -27,6 +27,16 @@ function Category({ onCategoryChange }) {
     const smallCategories = {
         "아우터": ["패딩", "점퍼", "코트", "자켓", "가디건", "조끼/베스트"]
     };
+
+
+    useEffect(() => {
+        if (formDataCategory) {
+            setMainCategory(formDataCategory.mainCategory);
+            setSubCategory(formDataCategory.subCategory);
+            setSmallCategory(formDataCategory.smallCategory);
+        }
+    }, [formDataCategory]);
+
 
     useEffect(() => {
         if (mainCategory) {
