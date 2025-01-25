@@ -1,4 +1,4 @@
-.Chat_list_section{
+.Chat_list_section {
     cursor: pointer;
     height: 80px;
     display: flex;
@@ -8,7 +8,13 @@
     user-select: none;
     position: relative;
     left: 0px;
+    transition: background-color 0.3s ease; /* Smooth transition */
 }
+
+.Chat_list_section:hover {
+    background-color: #f0f0f0; /* Light gray color on hover */
+}
+
 
 .Chat_list_img{
     width:40px;

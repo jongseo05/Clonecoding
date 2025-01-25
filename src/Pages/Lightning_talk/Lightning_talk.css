@@ -38,10 +38,11 @@
 .Dot_image{
     width: 30px;
     height:30px;
+    cursor : pointer;
 }
 
 .Lightning_talk_other_info_section{
-
+    width : 480px;
     padding: 5px 10px 5px 20px;
     height : 50px;
 }
@@ -85,6 +86,10 @@
     height : 30px;
 }
 
+.Chat_icon{
+    width : 120px;
+    height : 120px;
+}
 
 
 
@@ -94,7 +99,50 @@
     width : 50%;
     height : 700px;
     border-right : #F9F9F9;
+    flex-direction: column;
 
+}
 
+.Lightning_talk_market_info_section{
+    width: 480px;
+    align-items: center;
+    z-index: 4;
+
+}
+
+.Lightning_talk_market_info_container{
+
+    width: 480px;
+
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    height: 50px;
+    position: relative;
+    z-index: 4;
+    padding: 0px 20px;
+    justify-content: space-between;
+}
+
+.Lightning_talk_item_section{
+    display: flex;
+    position: relative;
+    padding: 10px 22px;
+    border-bottom: 1px solid rgb(246, 246, 246);
+    z-index: 2;
+    letter-spacing: -0.5px;
+}
+
+.Lightning_talk_item_img{
+    position: relative;
+    min-width: 36px;
+    height: 36px;
+}
+
+.Lightning_talk_item_info_text_section{
+    display: flex;
+    width: 100%;
+    margin-left: 10px;
+    flex-direction: column;
 }
 
