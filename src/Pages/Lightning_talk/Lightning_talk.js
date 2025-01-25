@@ -110,6 +110,11 @@ function Lightning_talk() {
 
                         </div>
 
+                        {/*채팅 섹션*/}
+                        <div className = "Lightning_talk_talk_container">
+                            <img src={Chat_icon} className = "Chat_icon"/>
+                            <h3>대화상대를 선택하세요</h3>
+                        </div>
 
                     </div>
                 </div>
