@@ -1,0 +1,97 @@
+.Chatroom_section {
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    background-color: white;
+}
+
+.Chatroom_info_section {
+    text-align: center;
+    padding-top: 50px;
+    margin: 0 auto;
+}
+
+.Chatroom_icon_section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.Chatroom_icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: #f2f2f2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.Chatroom_icon img {
+    width: 50%;
+    height: 50%;
+    object-fit: contain;
+}
+
+.Market_icon{
+
+}
+
+.Chatroom_name {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+
+.Chatroom_rating {
+    font-size: 14px;
+    color: #888;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.Chatroom_rating_star {
+    color: #f5a623; /* 별 색상 */
+    font-size: 14px;
+}
+
+.Chatroom_date_section {
+    margin-top: 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 480px;
+}
+
+.Chatroom_date_text {
+    padding: 0 10px;
+    font-size: 12px;
+    color: #aaa;
+    background-color: white;
+    z-index: 1;
+}
+
+.Chatroom_date_divider{
+    position: absolute;
+    width: 480px;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background-color: #aaaaaa;
+    z-index: 0;
+}
+
+.Chatroom_chat_section{
+    overflow-y: auto;
+    height : 400px;
+    display: flex;
+    flex-direction: column-reverse;
+}
