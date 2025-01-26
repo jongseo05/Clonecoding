@@ -1,0 +1,35 @@
+.User_chatIcon_section{
+    display: flex;
+    width: 480px;
+    -webkit-box-align: end;
+    align-items: end;
+    justify-content : flex-end;
+}
+
+.User_chatIcon_container{
+    display: flex;
+    width: fit-content;
+    padding: 14px 18px;
+    white-space: pre-line;
+    border-radius: 25px;
+    color: rgb(25, 25, 25);
+    background-color: rgb(229, 229, 229);
+    border: none;
+
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 145%;
+}
+
+.User_chatIcon_time_container{
+    display: flex;
+    white-space: nowrap;
+    margin-left: 8px;
+    color: rgb(178, 178, 178);
+    font-size: 11px;
+    white-space: nowrap;
+    letter-spacing: -0.5px;
+    margin-top: 6px;
+    text-align: left;
+    margin-right: 8px;
+}

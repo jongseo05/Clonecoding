@@ -6,8 +6,19 @@ import Three_dot from './Images/tabler_dots.png'
 import Arrow_down from "./Images/ei_arrow-down.png"
 import Chat_icon from './Images/채팅방 아이콘.png'
 import Ex_icon from './Images/market_icon.png'
+import {useState} from "react";
+import ChatIcon from './Chating_icon/PartnerIcon/Partner_chat_icon'
+import UserIcon from './Chating_icon/UserIcon/UserIcon';
+import Chatroom from './Chatroom/Chatroom'
 
 function Lightning_talk() {
+
+    const [selectedChatroom, setSelectedChatroom] = useState(null);
+
+    const openChatroom = (chatroom) => {
+        setSelectedChatroom('ItemID');
+    }
+
     return(
         <div>
             <Top_navbar/>
@@ -16,6 +27,8 @@ function Lightning_talk() {
             <div className="Lightning_talk_section">
 
                 <div className = "Lightning_talk_container">
+
+
 
                     {/* 대화 목록 리스트 */}
                     <div className = "Lightning_talk_talkList_section">
@@ -36,9 +49,9 @@ function Lightning_talk() {
                                 </div>
                                 </div>
 
-                                <Chating_list/>
-                                <Chating_list/>
-                                <Chating_list/>
+                                <Chating_list onClick = { () => openChatroom('Item_number')} />
+                                <Chating_list onClick = { () => openChatroom('Item_number')} />
+                                <Chating_list onClick = { () => openChatroom('Item_number')} />
 
 
                         </div>
@@ -92,7 +105,7 @@ function Lightning_talk() {
                                     fontSize : '12px',
                                     color : "gray",
                                     alignItems: 'center',
-                                    margin : '0'
+                                    margin : '0C'
                                 }}>1000원
                                     <span style={{
                                         fontSize : '12px',
@@ -112,8 +125,14 @@ function Lightning_talk() {
 
                         {/*채팅 섹션*/}
                         <div className = "Lightning_talk_talk_container">
-                            <img src={Chat_icon} className = "Chat_icon"/>
-                            <h3>대화상대를 선택하세요</h3>
+                            {openChatroom ? (
+                                <Chatroom/>
+                            ) : (
+                                <div>
+                                <img src={Chat_icon} className="Chat_icon"/>
+                                <h3>대화상대를 선택하세요</h3>
+                                </div>)}
+
                         </div>
 
                     </div>
