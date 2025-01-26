@@ -1,6 +1,7 @@
 import './Chat_list.css';
 import market from '../Images/market_icon.png'
 
+
 function ChatList() {
     return(
         <div className="Chat_list_section">
