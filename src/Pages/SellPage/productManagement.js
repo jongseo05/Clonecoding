@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./productManagement.css"; // 스타일은 별도로 작성
 import ExImg1 from "../../Components/Card/Ex_img/Ex_img1.png";
 import { SlArrowDown } from "react-icons/sl";
+import { useNavigate } from "react-router-dom";
 
 const CustomDropdown = ({ options, value, onChange, className }) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -39,6 +40,7 @@ const CustomDropdown = ({ options, value, onChange, className }) => {
 };
 
 const ProductManagement = () => {
+    const navigate = useNavigate();
     const [itemsPerPage, setItemsPerPage] = useState("10");
     const [saleStatus, setSaleStatus] = useState("전체");
     const [activeTab, setActiveTab] = useState("전체");
@@ -136,6 +138,8 @@ const ProductManagement = () => {
                                 src={product.image}
                                 alt="상품 이미지"
                                 className="product-management-img"
+                                onClick={() => navigate("/products")}
+                                style={{ cursor: "pointer" }}
                             />
                         </td>
                         <td>

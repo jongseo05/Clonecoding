@@ -3,12 +3,6 @@ import "./Card.css";
 import Ex_img1 from './Ex_img/Ex_img1.png'
 
 function Card(){
-
-
-
-
-
-
     return(
         <div className = "ItemCard_section">
             <div className = "ItemCard_container">

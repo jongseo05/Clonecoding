@@ -1,0 +1,107 @@
+/* container: 페이지 전체를 감싸는 컨테이너 */
+.container {
+    padding: 20px;
+    min-height: 100vh; /* 화면 전체 높이 */
+}
+
+/* 상품 이미지와 정보가 나란히 배치되도록 설정 */
+.product-content {
+    display: flex;
+    gap: 20px; /* 이미지와 정보 간 간격 */
+    margin-top: 20px;
+}
+
+/* 이미지 영역 */
+.image {
+    flex: 1; /* 이미지 영역이 화면의 일부를 차지 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.products-img {
+    width: 100%; /* 이미지가 컨테이너에 맞게 크기 조정 */
+    max-width: 450px;
+    height: auto; /* 비율 유지 */
+}
+
+/* 상품 정보 영역 */
+.productsInfo {
+    flex: 1.5; /* 정보 영역이 더 넓게 차지 */
+}
+
+.icons {
+    display: flex;
+    gap: 15px; /* 아이콘 간 간격 */
+    color: #cacaca;
+    padding-top: 10px;
+}
+
+.icons p{
+    display: flex;
+    margin-top: 0;
+}
+
+.detail {
+    display: flex;
+    flex-direction: column; /* 각 항목을 세로로 나열 */
+    gap: 3px; /* 항목 간 간격 */
+    align-items: flex-start; /* 항목들을 왼쪽에 정렬 */
+    margin-top: 20px;
+    color: #555;
+}
+
+.detail div {
+    display: flex;
+    gap: 10px; /* 항목명과 값 사이 간격 */
+    align-items: center; /* 항목명과 값을 수평 정렬 */
+}
+
+.detail li {
+    font-weight: bold;
+    font-size: 14px;
+    color:#cacaca;
+}
+
+.detail p {
+    font-size: 14px;
+    color: black;
+}
+
+/* 버튼 스타일 */
+.mainbutton {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-top: 20px;
+}
+
+.mainbutton button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    border: none;
+    padding: 10px 15px;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 180px;
+    height: 60px;
+}
+
+.btn1 {
+    background-color: #cacaca;
+    color: white;
+}
+
+.btn2 {
+    background-color: #fda325;
+    color: white;
+}
+
+.btn3 {
+    background-color: #f50000;
+    color: white;
+}

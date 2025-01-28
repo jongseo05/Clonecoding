@@ -13,11 +13,91 @@
     flex: 1;
 }
 
+/* 전체 배경 영역 */
 .store-image {
-    width: 300px;
-    height: 300px;
-    background-color: #ddd;
+    position: relative;
+    width: 350px;
+    height: 350px;
+    background: #959595;
     margin-right: 30px;
+    overflow: hidden; /* 자식 요소가 벗어나지 않도록 설정 */
+}
+
+/* 블러 처리된 배경 이미지 */
+.store-image-blur {
+    position: absolute;
+    width: 350px;
+    height: 350px;
+    background-size: cover;
+    background-position: center;
+    filter: blur(10px); /* 블러 효과 */
+    z-index: -1; /* 뒤로 배치 */
+}
+
+.store-name-display {
+    position: absolute;
+    top: 48%; /* 이미지 중앙에 배치 */
+    left: 48%;
+    transform: translate(-50%, -50%); /* 중앙 정렬 */
+    color: white; /* 텍스트 색상 */
+    font-size: 21px; /* 텍스트 크기 */
+}
+
+/* 동그란 프로필 이미지 */
+.store-profile-image {
+    position: absolute;
+    top: 38%; /* 수직 중앙 */
+    left: 48%; /* 수평 중앙 */
+    transform: translate(-50%, -50%); /* 중앙 정렬 */
+    width: 120px;
+    height: 120px;
+    background-size: cover;
+    background-position: center;
+    border: none;
+    border-radius: 50%; /* 동그란 모양 */
+}
+
+
+/* 내 상점 관리 버튼 */
+.store-manage-btn {
+    position: absolute;
+    top: 53%;
+    left: 48%;
+    transform: translateX(-50%);
+    padding: 13px 20px;
+    background-color: transparent;
+    color: white;
+    font-size: 14px;
+    border: 1px #fdfdfd solid;
+    cursor: pointer;
+}
+
+/* 상점명 입력 창 스타일 */
+.store-name-edit input {
+    width: 200px; /* 입력창 너비 */
+    padding: 8px 10px; /* 안쪽 여백 */
+    border: none; /* 테두리 색상 */
+    box-shadow: 0 0 0 1px #f1f0f0;
+    font-size: 14px; /* 글씨 크기 */
+    transition: all 0.3s ease; /* 부드러운 효과 */
+}
+
+/* 입력창 포커스 시 스타일 */
+.store-name-edit input:focus {
+    outline: none; /* 기본 outline 제거 */
+}
+
+/* 확인 버튼 스타일 */
+.store-name-edit button {
+    margin-left: 0; /* 왼쪽 간격 */
+    padding: 8px 12px; /* 버튼 안쪽 여백 */
+    background-color: #f8f8f8; /* 버튼 배경색 */
+    color: #878787; /* 텍스트 색상 */
+    border: none; /* 테두리 제거 */
+    border-radius: 5px; /* 둥근 모서리 */
+    cursor: pointer; /* 마우스 포인터 */
+    font-size: 14px; /* 글씨 크기 */
+    transition: all 0.3s ease; /* 부드러운 효과 */
 }
 
 .store-details {
@@ -118,3 +198,5 @@
     color: gray;
     margin-top: 5px;
 }
+
+
