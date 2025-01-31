@@ -41,14 +41,7 @@ const StoreInfo = () => {
     return (
         <section className="store-info">
             <div className="store-header">
-                <div className="store-image"></div>
-                {/* 블러 처리된 배경 이미지 */}
-                <div
-                    className="store-image-blur"
-                    style={{
-                        backgroundImage: `url(${Image})`
-                    }}
-                ></div>
+                <div className="store-image">
 
                 {/* 동그란 프로필 이미지와 버튼 */}
                 <div className="store-image-container">
@@ -65,7 +58,10 @@ const StoreInfo = () => {
                         내 상점 관리
                     </button>
                 </div>
+                </div>
+            </div>
 
+            <div className="store-info2">
                 <div className="store-details">
                     <div className="store-title">
                         {editingName ? (
