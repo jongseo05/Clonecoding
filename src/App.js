@@ -8,6 +8,13 @@ import SellRegister from "./Pages/SellPage/SellRegister";
 import SellManage from "./Pages/SellPage/SellManage";
 import LightningTalk from "./Pages/LightningTalk/LightningTalk";
 import Products from "./Pages/Products/Products";
+import { useParams } from "react-router-dom";
+
+const LightningTalkWrapper = () => {
+    const { chatId } = useParams(); // ✅ URL에서 chatId 가져오기
+    console.log("🚀 [App.js] chatId 확인:", chatId);
+    return <LightningTalk chatId={chatId} />;
+};
 
 function App() {
     return (
@@ -21,6 +28,7 @@ function App() {
                     <Route path="/sell/register" element={<SellRegister />} />
                     <Route path="/sell/manage" element={<SellManage />} />
                     <Route path="/lightningtalk" element={<LightningTalk />} />
+                    <Route path="/lightningtalk/:chatId" element={<LightningTalkWrapper/>} /> {/* ✅ chatId를 URL에서 받아서 전달 */}
                     <Route path="/products" element={<Products />} />
                 </Routes>
             </div>
