@@ -1,25 +1,59 @@
 import React from "react";
+import PropTypes from "prop-types";
+import { useCurrentUser, timeFormat } from "./frontend";
+import './Message.css';
 
-// Message 컴포넌트
-const Message = ({ text, displayName, photoURL, senderId }) => {
+const Message = ({
+                     createdAt = null,
+                     uid = "",
+                     text = "",
+                     displayName = "",
+                     photoURL = "",
+                     isRead = false,
+                 }) => {
+    const { currentUser } = useCurrentUser();
+    if (!text) return null;
+
+    const isCurrentUser = uid === currentUser?.id;
+
     return (
-        <div className="message-container flex items-center space-x-2 p-3 border-b">
-            {/* 사용자 프로필 이미지 */}
-            {photoURL && (
-                <img
-                    src={photoURL}
-                    alt="User"
-                    className="w-8 h-8 rounded-full object-cover"
-                />
-            )}
+        <div className="message-wrapper">
+            <div className={`message-container ${isCurrentUser ? "flex-row-reverse" : ""}`}>
+                {/* 메시지 내용 */}
+                <div className={`message-content ${isCurrentUser ? "current-user" : "other-user"}`}>
+                    <span className="message-name">{displayName}</span>
+                    <span className="message-text">{text}</span>
+                </div>
 
-            {/* 사용자 이름과 메시지 내용 */}
-            <div className="message-content flex flex-col">
-                <span className="text-sm font-semibold">{displayName}</span>
-                <span className="text-gray-800">{text}</span>
+                {/* 읽음 여부 & 시간 */}
+                <div className="message-status">
+                    {createdAt?.seconds ? (
+                        <span className={`message-time ${isCurrentUser ? "text-right" : ""}`}>
+                            {/* 읽음 상태 표시 */}
+                            {isCurrentUser && (
+                                <div className={`read-status ${isRead ? "read" : "unread"}`}>
+                                    {isRead ? "읽음" : "안읽음"}
+                                </div>
+                            )}
+                            {/* 메시지 전송 시간 */}
+                            {timeFormat(new Date(createdAt.seconds * 1000))}
+                        </span>
+                    ) : null}
+                </div>
             </div>
         </div>
     );
+};
+
+Message.propTypes = {
+    text: PropTypes.string,
+    createdAt: PropTypes.shape({
+        seconds: PropTypes.number,
+    }),
+    displayName: PropTypes.string,
+    photoURL: PropTypes.string,
+    uid: PropTypes.string,
+    isRead: PropTypes.bool,
 };
 
 export default Message;

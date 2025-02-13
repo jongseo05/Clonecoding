@@ -9,6 +9,7 @@ import SellManage from "./Pages/SellPage/SellManage";
 import LightningTalk from "./Pages/LightningTalk/LightningTalk";
 import Products from "./Pages/Products/Products";
 import { useParams } from "react-router-dom";
+import { fireStore } from "./firebase";
 
 const LightningTalkWrapper = () => {
     const { chatId } = useParams(); // ✅ URL에서 chatId 가져오기
@@ -21,17 +22,19 @@ function App() {
         <Router>
             <div className="App">
                 <Routes>
-                    <Route path="/" element={<Homepage />} />
-                    <Route path="/sign_up" element={<Sign_up />} />
-                    <Route path="/sign_up/number" element={<Number />} />
-                    <Route path="/mymarket" element={<MyMarket />} />
-                    <Route path="/sell/register" element={<SellRegister />} />
-                    <Route path="/sell/manage" element={<SellManage />} />
-                    <Route path="/lightningtalk" element={<LightningTalk />} />
-                    <Route path="/lightningtalk/:chatId" element={<LightningTalkWrapper/>} /> {/* ✅ chatId를 URL에서 받아서 전달 */}
-                    <Route path="/products" element={<Products />} />
+                    <Route path="/" element={<Homepage/>}/>
+                    <Route path="/sign_up" element={<Sign_up/>}/>
+                    <Route path="/sign_up/number" element={<Number/>}/>
+                    <Route path="/mymarket" element={<MyMarket/>}/>
+                    <Route path="/sell/register" element={<SellRegister/>}/>
+                    <Route path="/sell/manage" element={<SellManage/>}/>
+                    <Route path="/lightningtalk" element={<LightningTalk/>}/>
+                    <Route path="/lightningtalk/:chatId"
+                           element={<LightningTalkWrapper/>}/> {/* ✅ chatId를 URL에서 받아서 전달 */}
+                    <Route path="/products" element={<Products/>}/>
                 </Routes>
             </div>
+            <div>{fireStore._databaseId.projectId}</div>
         </Router>
     );
 }

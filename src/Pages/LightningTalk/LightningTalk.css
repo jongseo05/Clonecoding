@@ -1,22 +1,24 @@
-/* ===== 전체 컨테이너 (채팅 목록 + 채팅창) ===== */
-.container {
-    flex: 1;
-    justify-content: center; /* 화면 중앙 정렬 */
-    align-items: center; /* 세로 중앙 정렬 */
-    width: 150vw;
-    height: 100vh; /* 전체 화면 높이 */
-    background-color: #f9f9f9;
+/* ===== 채팅 목록 + 채팅창을 감싸는 컨테이너 ===== */
+.chat-container {
+    display: flex;
+    width: 100%;
+    height: 80vh;
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    border-bottom: 1px solid #ddd;
 }
 
 /* ===== 왼쪽 채팅방 목록 ===== */
 .chat-list {
     flex: 1;
-    width: 30%;
-    height: 70vh; /* 화면 높이 기준 크기 */
-    background-color: #f7f7f7;
+    width: 100%;
+    height: 100%;
+    background-color: #fdfdfd;
     border-right: 1px solid #ddd;
-    padding-top: 50px;
     padding-left: 200px;
+    padding-top: 50px;
+    overflow-y: scroll;
 }
 
 /* 개별 채팅방 스타일 */
@@ -55,55 +57,29 @@
 
 /* ===== 오른쪽 채팅 화면 ===== */
 .chat-window {
-    flex: 1;
-    width: 30%;
-    height: 70vh; /* 화면 높이 기준 크기 */
-    background-color: #f7f7f7;
-    border-right: 1px solid #ddd;
-    padding-top: 50px;
-    padding-right: 100px;
+    flex: 2;
+    width: 70%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #fff;
+    overflow-x: hidden;
 }
 
 /* 메시지 리스트 */
 .message-list {
     flex-grow: 1;
     overflow-y: auto;
-    padding: 10px;
+    padding: 20px;
+    overflow-x: hidden;
 }
 
-/* 개별 메시지 스타일 */
-.message {
-    margin-bottom: 12px;
-    padding: 8px 12px;
-    border-radius: 8px;
-    background-color: #f0f0f0;
-    width: fit-content;
-    max-width: 70%; /* 메시지 최대 너비 제한 */
-}
-
-.message strong {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
-/* 내 메시지 스타일 */
-.my-message {
-    background-color: #ff4d4d;
-    color: white;
-    align-self: flex-end;
-}
-
-/* ===== 입력창 ===== */
+/* 메시지 입력창 */
 .chat-input {
-    position: relative;
-    left: 153%; /* 화면 오른쪽에서 5% 떨어진 위치 */
-    bottom: 40%; /* 화면 아래에서 20% 떨어진 위치 */
     display: flex;
-    align-items: center;
-    width: 400px; /* 입력창 크기 조절 */
     padding: 12px;
-    border: 1px solid #ddd;
+    border-top: 1px solid #ddd;
     background-color: #fff;
 }
 
@@ -115,7 +91,7 @@
     margin-right: 10px;
 }
 
-.chat-input input:focus{
+.chat-input input:focus {
     outline: none;
 }
 

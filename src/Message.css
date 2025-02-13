@@ -1,0 +1,99 @@
+/* 전체 메시지 컨테이너 (화면 중앙 정렬, 하단 정렬) */
+.message-wrapper {
+    display: flex;
+    justify-content: right; /* 중앙 정렬 */
+    align-items: end; /* 하단 정렬 */
+    width: 100%;
+    height: 10vh; /* 화면 전체 높이 */
+    padding: 10px;
+    overflow-x: hidden;
+}
+
+/* 메시지 박스 컨테이너 */
+.message-container {
+    display: flex;
+    align-items: flex-start; /* 세로 정렬 */
+    width: 100%;
+    max-width: 80%;
+    background-color: #fdfdfd;
+    gap: 10px; /* 메시지 간 간격 */
+}
+
+/* 내가 보낸 메시지 (오른쪽 하단 정렬) */
+.message-container.flex-row-reverse {
+    flex-direction: row-reverse;
+    justify-content: right; /* 우측 정렬 */
+    align-items: flex-end; /* 하단 정렬 */
+    padding-top: 10px;
+}
+
+/* 메시지 내용 */
+.message-content {
+    max-width: 60%;
+    padding: 10px;
+    border-radius: 10px;
+    word-wrap: break-word;
+    text-align: left;
+}
+
+/* 내가 보낸 메시지 스타일 */
+.message-content.current-user {
+    background-color: #f4f4f4; /* 연한 빨강 계열 */
+    border: 1px solid #f4f4f4;
+    border-radius: 30px;
+    padding: 15px 15px;
+    margin-right: 10px;
+}
+
+/* 다른 사용자의 메시지 스타일 */
+.message-content.other-user {
+    background-color: #fdfdfd;
+    border: 1px solid #f4f4f4;
+    padding: 10px 15px;
+}
+
+/* 메시지 이름 */
+.message-name {
+    font-weight: bold;
+    font-size: 0.875rem;
+    color: #4a4949;
+    display: block;
+    margin-bottom: 4px;
+}
+
+/* 메시지 텍스트 */
+.message-text {
+    font-size: 0.9rem;
+    color: #333;
+    line-height: 1.4;
+}
+
+/* 메시지 읽음 상태 */
+.read-status {
+    font-size: 0.8rem;
+    margin-top: 5px;
+}
+
+.read-status.read {
+    color: #48bb78; /* 녹색 (읽음) */
+}
+
+.read-status.unread {
+    color: #e53e3e; /* 빨간색 (안읽음) */
+}
+
+/* 메시지 전송 시간 */
+.message-time {
+    font-size: 0.75rem;
+    color: #a0aec0; /* 회색 */
+    text-align: right;
+}
+
+/* 읽음 여부 및 시간 표시 위치 */
+.message-status {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; /* 시간과 읽음 여부를 우측 정렬 */
+    margin-left: 8px;
+    padding-right: 5px;
+}

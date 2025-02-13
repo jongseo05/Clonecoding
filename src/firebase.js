@@ -14,10 +14,13 @@ const firebaseConfig = {
     appId: "1:520958268952:web:a786eb49c8d8db144e156d",
     measurementId: "G-3STD4EKMF8"
 };
+
 // Firebase 초기화 (중복 실행 방지)
 const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 const auth = getAuth(app); // Firebase Authentication
 const db = getFirestore(app); // Firestore Database
 const analytics = typeof window !== "undefined" ? getAnalytics(app) : null; // 브라우저 환경에서만 실행
+const firebase = initializeApp(firebaseConfig);
+const fireStore = getFirestore(firebase);
 
-export { app, auth, db, analytics };
+export { app, auth, db, analytics, fireStore};

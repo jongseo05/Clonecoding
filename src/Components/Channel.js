@@ -1,46 +1,52 @@
 import React, { useEffect, useState, useRef } from "react";
-import { db } from "../firebase"; // db는 firebase.js에서 export 되어야 합니다.
-import { useFirestoreQuery } from "../useFirestoreQuery";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore"; // 추가된 import
-import Message from "../Message"; // 상대 경로로 수정
+import { db } from "../firebase"; // Firestore 인스턴스 가져오기
+import { useFirestoreQuery } from "../useFirestoreQuery"; // 커스텀 훅
+import { collection, addDoc, query, orderBy, limit } from "firebase/firestore";
+import { serverTimestamp } from "firebase/firestore"; // Firestore 서버 타임스탬프
+import Message from "../Message"; // 메시지 컴포넌트
 import { BiSend } from "react-icons/bi";
 
-const Channel = ({ id }) => {
-    const messagesRef = collection(db, `messages-${id}`); // collection()을 통해 messages collection 지정
-    const messages = useFirestoreQuery(
-        messagesRef.orderBy("createdAt", "desc").limit(1000)
-    );
+const Channel = ({ id = null, currentUser }) => {
+    // Firestore에서 메시지 컬렉션 가져오기
+    const messagesRef = collection(db, `messages-${id}`);
+    const messagesQuery = query(messagesRef, orderBy("createdAt", "desc"), limit(1000));
+    const messages = useFirestoreQuery(messagesQuery);
 
+    // 상태 및 Ref
     const [newMessage, setNewMessage] = useState("");
     const inputRef = useRef();
     const bottomListRef = useRef();
 
+    // 입력값 변경 핸들러
     const handleOnChange = (e) => {
         setNewMessage(e.target.value);
     };
 
+    // 메시지 전송 핸들러
     const handleOnSubmit = async (e) => {
         e.preventDefault();
         const trimmedMessage = newMessage.trim();
         if (trimmedMessage) {
-            await addDoc(messagesRef, { // addDoc을 사용하여 Firestore에 새 메시지 추가
+            await addDoc(messagesRef, {
                 text: trimmedMessage,
-                createdAt: serverTimestamp(), // Firestore의 서버 타임스탬프 사용
-                uid: "현재 유저 ID", // TODO: 인증 시스템 연결
-                displayName: "현재 유저 이름", // TODO: 인증 시스템 연결
-                photoURL: "현재 유저 프로필 이미지", // TODO: 인증 시스템 연결
+                createdAt: serverTimestamp(), // 서버 타임스탬프 사용
+                uid: currentUser?.id || "guest", // 현재 유저 ID (기본값 guest)
+                displayName: currentUser?.name || "익명", // 현재 유저 이름
+                photoURL: currentUser?.image || "", // 현재 유저 프로필 이미지
                 isRead: false,
             });
 
-            setNewMessage("");
+            setNewMessage(""); // 입력 필드 초기화
             bottomListRef.current.scrollIntoView({ behavior: "smooth" });
         }
     };
 
+    // 인풋 필드 자동 포커스
     useEffect(() => {
         if (inputRef.current) inputRef.current.focus();
     }, []);
 
+    // 메시지 업데이트 시 하단으로 스크롤
     useEffect(() => {
         if (bottomListRef.current) {
             bottomListRef.current.scrollIntoView({ behavior: "smooth" });
@@ -53,16 +59,20 @@ const Channel = ({ id }) => {
                 <div className="py-4 max-w-screen-lg mx-auto">
                     {/* 메시지 리스트 */}
                     <ul>
-                        {messages?.map((message) => (
-                            <li key={message.id}>
-                                <Message
-                                    text={message.text}
-                                    displayName={message.displayName}
-                                    photoURL={message.photoURL}
-                                    senderId={message.uid}
-                                />
-                            </li>
-                        ))}
+                        {messages
+                            ?.sort((a, b) =>
+                                a?.createdAt?.seconds <= b?.createdAt?.seconds ? -1 : 1
+                            )
+                            ?.map((message) => (
+                                <li key={message.id}>
+                                    <Message
+                                        text={message.text}
+                                        displayName={message.displayName}
+                                        photoURL={message.photoURL}
+                                        senderId={message.uid}
+                                    />
+                                </li>
+                            ))}
                     </ul>
                     <div ref={bottomListRef} className="mb-16" />
                 </div>
