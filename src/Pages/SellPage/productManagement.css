@@ -113,7 +113,7 @@
 }
 
 .items-dropdown .custom-dropdown-selected{
-    width: 100px;
+    width: 130px;
     height: 30px;
     padding-left: 10px;
     padding-right: 10px;
@@ -137,7 +137,7 @@
 .status-dropdown .custom-dropdown-options,
 .status-dropdown .custom-dropdown-option {
     width: 200px;
-    padding-left: 5px;
+    padding-left: 10px;
     margin-left: 0;
 }
 

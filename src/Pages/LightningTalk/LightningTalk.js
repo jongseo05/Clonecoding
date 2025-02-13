@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { IoIosArrowDropdown } from "react-icons/io";
 import Top_navbar from "../../Components/Top_navbar/Top_navbar";
 import Context from "../../Components/Context/Context";
 import { sendMessage, listenForMessages } from "../../useFirestoreQuery";
@@ -11,6 +12,8 @@ const LightningTalk = ({ chatId }) => {
     const { currentUser: user } = useCurrentUser();
     const [message, setMessage] = useState("");
     const [messages, setMessages] = useState([]);
+    const [selectedChat, setSelectedChat] = useState("전체대화");
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     const handleSendMessage = async () => {
         if (!message.trim()) return;
@@ -55,6 +58,14 @@ const LightningTalk = ({ chatId }) => {
         return () => unsubscribe();
     }, [chatId]);
 
+    const handleSelectChange = (e) => {
+        setSelectedChat(e.target.value);
+    };
+
+    const toggleDropdown = () => {
+        setIsDropdownOpen((prev) => !prev);
+    };
+
     return (
         <div className="container">
             <div className="bar">
@@ -65,7 +76,24 @@ const LightningTalk = ({ chatId }) => {
             <div className="chat-container">
                 {/* 왼쪽 채팅방 목록 */}
                 <div className="chat-list">
-                    <h2>전체대화</h2>
+                    {/* 드롭다운 메뉴 */}
+                    <div className="dropdown">
+                        <div className="dropdown-btn" onClick={toggleDropdown}>
+                            <h2>{selectedChat}</h2>
+                            <IoIosArrowDropdown size={24} style={{color: "gray"} }/>
+                        </div>
+
+                        {/* 드롭다운 메뉴 내용 */}
+                        {isDropdownOpen && (
+                            <div className="dropdown-content">
+                                <button onClick={() => setSelectedChat("전체대화")}>전체대화</button>
+                                <button onClick={() => setSelectedChat("구매대화")}>구매대화</button>
+                                <button onClick={() => setSelectedChat("판매대화")}>판매대화</button>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* 각 채팅방 리스트 */}
                     <div className="chat-room">
                         <img src="/profile1.jpg" alt="User" />
                         <div className="chat-info">
