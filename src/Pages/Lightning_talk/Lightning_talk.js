@@ -1,0 +1,149 @@
+import './Lightning_talk.css';
+import Top_navbar from "../../Components/Top_navbar/Top_navbar";
+import Context from "../../Components/Context/Context";
+import Chating_list from './Chating_list/Chat_list'
+import Three_dot from './Images/tabler_dots.png'
+import Arrow_down from "./Images/ei_arrow-down.png"
+import Chat_icon from './Images/채팅방 아이콘.png'
+import Ex_icon from './Images/market_icon.png'
+import {useState} from "react";
+import ChatIcon from './Chating_icon/PartnerIcon/Partner_chat_icon'
+import UserIcon from './Chating_icon/UserIcon/UserIcon';
+import Chatroom from './Chatroom/Chatroom'
+
+function Lightning_talk() {
+
+    const [selectedChatroom, setSelectedChatroom] = useState(null);
+
+    const openChatroom = (chatroom) => {
+        setSelectedChatroom('ItemID');
+    }
+
+    return(
+        <div>
+            <Top_navbar/>
+            <Context/>
+
+            <div className="Lightning_talk_section">
+
+                <div className = "Lightning_talk_container">
+
+
+
+                    {/* 대화 목록 리스트 */}
+                    <div className = "Lightning_talk_talkList_section">
+
+                        <div className = "Lightning_talk_other_info_section">
+                            <div className = "Dot_container">
+                                <img src = {Three_dot} className = "Dot_image"/>
+                            </div>
+                        </div>
+
+                        <div className = "Lightning_talk_list_container">
+                            <div className = "Lightning_talk_category_section">
+
+                                <div className = "Lightning_talk_category_container">
+                                    <div className = "Lightning_talk_category_text_section">
+                                    전체대화
+                                    <img src={Arrow_down} className = "Lightning_talk_category_img"/>
+                                </div>
+                                </div>
+
+                                <Chating_list onClick = { () => openChatroom('Item_number')} />
+                                <Chating_list onClick = { () => openChatroom('Item_number')} />
+                                <Chating_list onClick = { () => openChatroom('Item_number')} />
+
+
+                        </div>
+                        </div>
+                    </div>
+
+                    {/* 대화 창 */}
+                    <div className="Lightning_talk_talk_section">
+
+                        {/* 상점 정보 */}
+                        <div className = "Lightning_talk_market_info_container">
+                            <div className = "Text_container"
+                            style = {{
+                                flexDirection: 'column'
+                            }}>
+                                <p style={{
+                                    fontWeight: 'bold',
+                                    fontSize : '16px',
+                                    cursor: 'pointer',
+                                    margin: '0'
+                                }}>상점명0928</p>
+                                <p style={{
+                                    fontSize : '12px',
+                                    color : "gray",
+                                    alignItems: 'center',
+                                    margin : '0'
+                                }}>2일전 접속</p>
+                            </div>
+
+                            <div>
+                                <img src = {Three_dot} className = "Dot_image"/>
+                            </div>
+
+                        </div>
+
+                        {/* 물품 정보 */}
+                        <div className = "Lightning_talk_item_section">
+
+                            {/*물품 사진*/}
+                            <img src = {Ex_icon} className = "Lightning_talk_item_img"/>
+
+                            {/*물품 정보*/}
+                            <div className = "Lightning_talk_item_info_text_section">
+                                <span style={{
+                                    fontSize : '12px',
+                                    color : "gray",
+                                    alignItems: 'center',
+                                    margin : '0'
+                                }}>예시</span>
+                                <span style={{
+                                    fontSize : '12px',
+                                    color : "gray",
+                                    alignItems: 'center',
+                                    margin : '0C'
+                                }}>1000원
+                                    <span style={{
+                                        fontSize : '12px',
+                                        textDecoration : 'underline',
+                                        color : "76,76,76",
+                                        alignItems: 'center',
+                                        marginLeft: '6px',
+                                        cursor: 'pointer',
+                                    }}>가격변경</span>
+                                </span>
+
+
+                            </div>
+
+
+                        </div>
+
+                        {/*채팅 섹션*/}
+                        <div className = "Lightning_talk_talk_container">
+                            {openChatroom ? (
+                                <Chatroom/>
+                            ) : (
+                                <div>
+                                <img src={Chat_icon} className="Chat_icon"/>
+                                <h3>대화상대를 선택하세요</h3>
+                                </div>)}
+
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+
+
+        </div>
+    )
+}
+
+export default Lightning_talk;

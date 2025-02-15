@@ -1,0 +1,68 @@
+.Chat_input_section{
+    display: flex;
+    position: relative;
+    border-top: 1px solid rgb(246, 246, 246);
+    background-color: rgb(255, 255, 255);
+    margin-top :10px;
+    align-items: center;
+    z-index : 4;
+    height : 76px;
+    width: 100%;
+
+
+}
+
+.Chat_input_container{
+    display: flex;
+    align-items: center;
+    margin: 12px 20px;
+}
+
+.Chat_input_img_section{
+    cursor: pointer;
+    margin-right: 12px;
+}
+
+.Chat_input_input_section{
+    position: relative;
+    display: flex;
+    align-items: center;
+    -webkit-box-pack: center;
+    background-color: rgb(250, 250, 250);
+    border-radius: 24px;
+    width: 437px;
+    max-height: 120px;
+}
+
+.Chat_input_text_section{
+    padding: 13px 0px;
+    width: 373px;
+}
+
+.Chat_input_textarea{
+    height: 19px !important;
+    appearance: none;
+    outline: none;
+    border: none;
+    line-height: 1.2;
+    background: transparent;
+    width: 100%;
+    max-height: 96px;
+    letter-spacing: -0.5px;
+    overflow-y: scroll;
+    padding: 0px 13px 0px 16px;
+    resize: none;
+    box-sizing: border-box;
+    scrollbar-width: none;
+    font-weight: 500;
+    font-size: 16px;
+    font-family: Pretendard-Light;
+}
+
+.emoticon_section{
+
+}
+
+.Image_upload_section{
+    padding: 15px 16px 14px 12px;
+}
