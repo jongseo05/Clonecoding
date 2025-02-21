@@ -1,0 +1,13 @@
+.Category_box{
+    display: inline-flex;
+    padding: 8px 11px;
+    justify-content: center;
+    align-items: center;
+    gap: 90px;
+    width : 154px;
+    height : 20px;
+
+    border: 1px solid #EEE;
+    background: #FFF;
+
+}

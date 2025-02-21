@@ -1,0 +1,29 @@
+.Lightning_talk_button{
+    display: flex;
+    width: 178px;
+    height: 56px;
+    padding: 17px 50px 17px 50px;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 5px;
+    flex-shrink: 0;
+    border: 1px solid #F39614;
+    background: #FFA425;
+}
+
+.Lightning_talk_text{
+    width : 50px;
+    color: #FFF;
+    font-family: Pretendard-Light;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 20px;
+    letter-spacing: -0.5px;
+}
+
+.Lightning_talk_icon{
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}

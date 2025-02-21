@@ -1,0 +1,23 @@
+.Purchase_button{
+    display: flex;
+    width: 178px;
+    height: 56px;
+    padding: 17px 50px 17px 50px;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+
+    border: 1px solid #DF0000;
+    background: #F70000;
+
+}
+
+.Purchase_button_text{
+    color: #FFF;
+    font-family: Pretendard-Light;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: -0.5px;
+}
