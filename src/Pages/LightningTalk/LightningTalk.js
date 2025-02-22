@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { IoIosArrowDropdown } from "react-icons/io";
 import Top_navbar from "../../Components/Top_navbar/Top_navbar";
 import Context from "../../Components/Context/Context";
@@ -14,6 +14,8 @@ const LightningTalk = ({ chatId }) => {
     const [messages, setMessages] = useState([]);
     const [selectedChat, setSelectedChat] = useState("전체대화");
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+    const dropdownRef = useRef(null); // 드롭다운 감지를 위한 ref
 
     const handleSendMessage = async () => {
         if (!message.trim()) return;
@@ -58,13 +60,19 @@ const LightningTalk = ({ chatId }) => {
         return () => unsubscribe();
     }, [chatId]);
 
-    const handleSelectChange = (e) => {
-        setSelectedChat(e.target.value);
-    };
+    // 드롭다운 바깥을 클릭하면 닫히도록 설정
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setIsDropdownOpen(false);
+            }
+        }
 
-    const toggleDropdown = () => {
-        setIsDropdownOpen((prev) => !prev);
-    };
+        window.addEventListener("click", handleClickOutside);
+        return () => {
+            window.removeEventListener("click", handleClickOutside);
+        };
+    }, []);
 
     return (
         <div className="container">
@@ -73,22 +81,43 @@ const LightningTalk = ({ chatId }) => {
                 <Context />
             </div>
 
-            <div className="chat-container">
+            <div className={`chat-container ${isDropdownOpen ? "dark-overlay" : ""}`}>
                 {/* 왼쪽 채팅방 목록 */}
                 <div className="chat-list">
                     {/* 드롭다운 메뉴 */}
-                    <div className="dropdown">
-                        <div className="dropdown-btn" onClick={toggleDropdown}>
+                    <div className="dropdown" ref={dropdownRef}>
+                        <div
+                            className="dropdown-btn"
+                            onClick={(e) => {
+                                e.stopPropagation(); // 드롭다운 내부 클릭 시 닫히지 않도록 방지
+                                setIsDropdownOpen((prev) => !prev);
+                            }}
+                        >
                             <h2>{selectedChat}</h2>
-                            <IoIosArrowDropdown size={24} style={{color: "gray"} }/>
+                            <IoIosArrowDropdown size={24} style={{ color: "gray" }} />
                         </div>
 
                         {/* 드롭다운 메뉴 내용 */}
                         {isDropdownOpen && (
                             <div className="dropdown-content">
-                                <button onClick={() => setSelectedChat("전체대화")}>전체대화</button>
-                                <button onClick={() => setSelectedChat("구매대화")}>구매대화</button>
-                                <button onClick={() => setSelectedChat("판매대화")}>판매대화</button>
+                                <button
+                                    className={selectedChat === "전체대화" ? "chat-btn selected" : "chat-btn"}
+                                    onClick={() => setSelectedChat("전체대화")}
+                                >
+                                    전체대화
+                                </button>
+                                <button
+                                    className={selectedChat === "구매대화" ? "chat-btn selected" : "chat-btn"}
+                                    onClick={() => setSelectedChat("구매대화")}
+                                >
+                                    구매대화
+                                </button>
+                                <button
+                                    className={selectedChat === "판매대화" ? "chat-btn selected" : "chat-btn"}
+                                    onClick={() => setSelectedChat("판매대화")}
+                                >
+                                    판매대화
+                                </button>
                             </div>
                         )}
                     </div>

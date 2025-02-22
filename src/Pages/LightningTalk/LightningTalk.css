@@ -9,22 +9,30 @@
     border-bottom: 1px solid #ddd;
 }
 
+/* 드롭다운이 열렸을 때 배경 어둡게 */
+.chat-container.dark-overlay .chat-list {
+    background: rgba(0, 0, 0, 0.2);
+}
+
 /* ===== 왼쪽 채팅방 목록 ===== */
 .chat-list {
     flex: 1;
     width: 100%;
     height: 100%;
+    align-items: flex-start;
     background-color: #fdfdfd;
     border-right: 1px solid #ddd;
-    padding-left: 200px;
-    padding-top: 50px;
+    padding-left: 50px;
+    padding-right: 130px;
+    padding-top: 30px;
+    margin-left: 200px;
     overflow-y: scroll;
 }
 
 /* 개별 채팅방 스타일 */
 .chat-room {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     padding: 12px;
     cursor: pointer;
     border-radius: 8px;
@@ -112,6 +120,7 @@
 .dropdown {
     position: relative;
     display: inline-block;
+    align-items: flex-start;
 }
 
 .dropdown-btn {
@@ -123,29 +132,56 @@
 }
 
 .dropdown-content {
-    display: none;
-    position: absolute;
+    display: flex;
+    position: fixed;
+    bottom: 2.5%;
+    left: 26.3%;
+    width: 62.3%;
+    height: 30%;
     background-color: white;
-    min-width: 200px;
-    z-index: 1;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-}
-
-.dropdown:hover .dropdown-content {
-    display: block;
+    z-index: 1000;
+    border-top: 1px solid #ddd;
+    border-radius: 10px 10px 0 0;
+    padding: 20px 0;
+    flex-direction: column;
+    align-items: center; /* 내부 요소들을 중앙 정렬 */
+    justify-content: center; /* 세로 방향 중앙 정렬 */
 }
 
 .dropdown-content button {
     width: 100%;
-    padding: 10px;
-    text-align: left;
+    padding: 15px;
+    text-align: center; /* 버튼 내부 텍스트 중앙 정렬 */
     background-color: white;
     border: none;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 18px;
+    font-weight: bold; /* 볼드체 적용 */
 }
+
 
 .dropdown-content button:hover {
     background-color: #f1f1f1;
 }
+
+/* 기본 버튼 스타일 */
+.chat-btn {
+    width: 100%;
+    padding: 15px;
+    text-align: center;
+    background-color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: normal;
+    color: #666; /* 기본 회색 */
+    transition: color 0.2s ease-in-out;
+}
+
+/* 선택된 버튼 스타일 */
+.chat-btn.selected {
+    color: red;
+    font-weight: bold;
+}
+
+
