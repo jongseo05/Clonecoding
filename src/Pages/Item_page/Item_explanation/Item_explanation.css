@@ -192,3 +192,41 @@
     line-height: 13px; /* 100% */
     letter-spacing: -0.5px;
 }
+
+.Market_image_section{
+    display: flex;
+    width: 245px;
+    height: 294px;
+    padding-top : 50px;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+
+}
+
+.Market_button_section{
+    display: flex;
+    width: 245px;
+    height: 56px;
+    padding-top : 50px;
+    gap : 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* Item_explanation.css 파일에 추가 */
+.Market_button_section .Lightning_talk_button {
+    width: 178px !important; /* 버튼의 원래 정의된 너비 */
+    align-items: center !important; /* 세로 중앙 정렬 수정 */
+}
+
+.Market_button_section .Purchase_button {
+    width: 178px !important; /* 버튼의 원래 정의된 너비 */
+}
+
+/* Market_button_section의 너비를 버튼 두 개와 간격에 맞게 조정 */
+.Market_info_section .Market_button_section {
+    width: auto !important;
+    min-width: 366px; /* 178px + 178px + 10px(gap) */
+}

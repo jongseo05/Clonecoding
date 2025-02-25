@@ -4,6 +4,11 @@ import Category_icon from './Images/Category.png'
 import Tag_icon from './Images/Tag.png'
 import Market_icon from './Images/Market.png'
 import Follow_button from "../Button/Follow_button/Follow_button";
+import Market_item_image from "../Market_item_image/Market_item_image";
+import Lightning_talk_button_size from "../Button/Lightning_talk_button/Lightning_talk_button_size";
+import Purchase_button_size from "../Button/Purchase_button/Purchase_button_size";
+
+
 
 function Item_explanation() {
     return (
@@ -100,10 +105,15 @@ function Item_explanation() {
                 <Follow_button/>
 
                 {/*상점 상품 이미지*/}
+                <div className = "Market_image_section">
+                    <Market_item_image/>
+                </div>
 
 
-
-
+                <div className="Market_button_section">
+                    <Lightning_talk_button_size/>
+                    <Purchase_button_size/>
+                </div>
 
             </div>
 

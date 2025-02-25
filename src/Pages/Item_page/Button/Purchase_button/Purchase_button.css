@@ -12,10 +12,34 @@
 
 }
 
+.Purchase_button_size{
+    display: flex;
+    width: 140px;
+    height: 56px;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+
+    border: 1px solid #DF0000;
+    background: #F70000;
+    pointer : curs
+}
+
+
 .Purchase_button_text{
     color: #FFF;
     font-family: Pretendard-Light;
     font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: -0.5px;
+}
+.Purchase_button_text_size{
+    width: 100px;
+    color: #FFF;
+    font-family: Pretendard-Light;
+    font-size: 14px;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
