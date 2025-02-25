@@ -201,4 +201,16 @@
     font-weight: bold;
 }
 
+.message-list h3{
+   text-align: center;
+    padding-bottom: 80px;
+}
+
+.chat-icon{
+    color: #cacaca;
+    padding-left: 260px;
+    font-size: 80px;
+    padding-top: 250px;
+}
+
 

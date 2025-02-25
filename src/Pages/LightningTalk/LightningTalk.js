@@ -1,21 +1,30 @@
 import React, { useState, useEffect, useRef } from "react";
 import { IoIosArrowDropdown } from "react-icons/io";
+import { HiChatBubbleLeftRight } from "react-icons/hi2";
+import { useNavigate, useParams } from "react-router-dom";
 import Top_navbar from "../../Components/Top_navbar/Top_navbar";
 import Context from "../../Components/Context/Context";
 import { sendMessage, listenForMessages } from "../../useFirestoreQuery";
 import { useCurrentUser } from "../../frontend";
 import Message from "../../Message";
-import '../../Message.css';
-import './LightningTalk.css';
+import "../../Message.css";
+import "./LightningTalk.css";
 
-const LightningTalk = ({ chatId }) => {
+const LightningTalk = () => {
+    const { chatId } = useParams(); // URL에서 chatId 가져오기
     const { currentUser: user } = useCurrentUser();
     const [message, setMessage] = useState("");
     const [messages, setMessages] = useState([]);
     const [selectedChat, setSelectedChat] = useState("전체대화");
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-    const dropdownRef = useRef(null); // 드롭다운 감지를 위한 ref
+    const dropdownRef = useRef(null);
+    const navigate = useNavigate(); // 페이지 이동을 위한 훅
+
+    // 채팅방 클릭 시 해당 채팅방으로 이동
+    const handleChatRoomClick = (id) => {
+        navigate(`/lightningtalk/${id}`);
+    };
 
     const handleSendMessage = async () => {
         if (!message.trim()) return;
@@ -42,7 +51,7 @@ const LightningTalk = ({ chatId }) => {
     };
 
     useEffect(() => {
-        console.log("🚀 chatId 확인 (LightningTalk.js):", chatId);
+        console.log("🚀 현재 chatId:", chatId);
     }, [chatId]);
 
     useEffect(() => {
@@ -89,7 +98,7 @@ const LightningTalk = ({ chatId }) => {
                         <div
                             className="dropdown-btn"
                             onClick={(e) => {
-                                e.stopPropagation(); // 드롭다운 내부 클릭 시 닫히지 않도록 방지
+                                e.stopPropagation();
                                 setIsDropdownOpen((prev) => !prev);
                             }}
                         >
@@ -122,19 +131,12 @@ const LightningTalk = ({ chatId }) => {
                         )}
                     </div>
 
-                    {/* 각 채팅방 리스트 */}
-                    <div className="chat-room">
-                        <img src="/profile1.jpg" alt="User" />
+                    {/* 채팅방 리스트 (클릭 시 개별 채팅방으로 이동) */}
+                    <div className="chat-room" onClick={() => handleChatRoomClick("chat1")}>
+                        <img src="/lightningtalk_logo.jpg" alt="User" />
                         <div className="chat-info">
                             <div className="chat-title">번개장터</div>
                             <div className="chat-preview">상품 등록이 완료되었습니다.</div>
-                        </div>
-                    </div>
-                    <div className="chat-room">
-                        <img src="/profile2.jpg" alt="User" />
-                        <div className="chat-info">
-                            <div className="chat-title">상점84351990호</div>
-                            <div className="chat-preview">안녕하세요!</div>
                         </div>
                     </div>
                 </div>
@@ -153,7 +155,10 @@ const LightningTalk = ({ chatId }) => {
                                 isRead={msg.isRead || false}
                             />
                         ))}
+                        <HiChatBubbleLeftRight className="chat-icon"/>
+                        <h3>대화방을 선택해주세요</h3>
                     </div>
+
                     <div className="chat-input">
                         <input
                             type="text"
