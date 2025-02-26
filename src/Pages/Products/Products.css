@@ -17,6 +17,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    padding-left: 200px;
 }
 
 .products-img {
@@ -28,6 +29,12 @@
 /* 상품 정보 영역 */
 .productsInfo {
     flex: 1.5; /* 정보 영역이 더 넓게 차지 */
+}
+
+.productsInfo h1{
+    border-bottom: 1px solid lightgray;
+    padding-top: 10px;
+    padding-bottom: 15px;
 }
 
 .icons {
@@ -68,6 +75,12 @@
     color: black;
 }
 
+.addition-info h3{
+    border-bottom: 1px solid lightgray;
+    padding-top: 10px;
+    padding-bottom: 15px;
+}
+
 /* 버튼 스타일 */
 .mainbutton {
     display: flex;
@@ -104,4 +117,8 @@
 .btn3 {
     background-color: #f50000;
     color: white;
+}
+
+.addition-info{
+    padding-left: 200px;
 }

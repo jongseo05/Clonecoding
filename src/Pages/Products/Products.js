@@ -20,7 +20,6 @@ const Products = () => {
                 <div className="productsInfo">
                     <h2>아디다스 스탠스미스</h2>
                     <h1>70,000원</h1>
-                    <hr style={{color: "#cacaca"}}/>
                     <div className="icons">
                         <IoHeartSharp/>
                         <p>15</p>
@@ -60,10 +59,11 @@ const Products = () => {
                     </div>
                 </div>
             </div>
+            <div className="addition-info">
             <h3>이 상품과 비슷해요</h3>
-            <hr style={{color: "black"}}/>
             <p>상품정보</p>
             <p>비슷한 새 상품 보기</p>
+            </div>
         </div>
     );
 };
