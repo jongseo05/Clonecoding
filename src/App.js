@@ -17,7 +17,7 @@ function App() {
             <Route path="/sign_up/number" element={<Number />} />
             <Route path="/sell_page" element={<Sell_page />} />
             <Route path="/lightning_talk" element={<Lightning_talk />} />
-            <Route path="/item_page" element={<Item_page/>} />
+            <Route path="/item/*" element={<Item_page />} />
         </Routes>
       </div>
     </Router>
