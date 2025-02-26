@@ -100,7 +100,7 @@ const LightningTalk = () => {
                         <img src="/lightningtalk_logo.jpg" alt="User" className="chat-room-img" />
                         <div className="chat-info">
                             <div className="chat-title">번개장터_알림</div>
-                            <div className="chat-preview">(광고)오늘특가 탭이 새로 생겼어요!</div>
+                            <div className="chat-preview">(광고)오늘특가 탭이 새로 생겼어요!&nbsp;&nbsp;•2월 26일</div>
                         </div>
                     </div>
 
@@ -108,7 +108,7 @@ const LightningTalk = () => {
                         <img src="/lightningtalk_logo.jpg" alt="User" className="chat-room-img" />
                         <div className="chat-info">
                             <div className="chat-title">번개장터_광고</div>
-                            <div className="chat-preview">(광고)번개포인트 가장 쉽게 받을 수 있는 방법, 몰래 알려..</div>
+                            <div className="chat-preview">(광고)번개포인트 가장 쉽게 받을 수 있는 방..&nbsp;&nbsp;•2월 26일</div>
                         </div>
                     </div>
                 </div>

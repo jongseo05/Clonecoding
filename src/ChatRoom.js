@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { useCurrentUser } from "./frontend";
 import Message from "./Message";
 import { sendMessage, listenForMessages } from "./useFirestoreQuery";
-
+import "./ChatRoom.css";
 
 const ChatRoom = () => {
     const { chatId } = useParams(); // URL에서 chatId 가져오기
@@ -41,14 +41,13 @@ const ChatRoom = () => {
 
     return (
         <div className="chat-room-container">
-            <h2>채팅방: {chatId}</h2>
+            <h3>&nbsp;&nbsp;&nbsp;채팅방: {chatId}</h3>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;번개장터 공식상점</p>
             <div className="message-list">
                 {messages.map((msg) => (
                     <Message key={msg.id} {...msg} />
                 ))}
             </div>
-            <input value={message} onChange={(e) => setMessage(e.target.value)} placeholder="메시지를 입력하세요..." />
-            <button onClick={handleSendMessage}>전송</button>
         </div>
     );
 };
