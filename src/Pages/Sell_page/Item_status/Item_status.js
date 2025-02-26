@@ -43,7 +43,7 @@ function Item_status({ onStatusChange , formDataStatus}) {
                         onChange={handleStatusChange}
                     >
                         <FormControlLabel
-                            value="new"
+                            value="새 상품(미사용)"
                             control={<CustomRadio />}
                             label={
                                 <div className="Item_status_label_horizontal">
@@ -53,7 +53,7 @@ function Item_status({ onStatusChange , formDataStatus}) {
                             }
                         />
                         <FormControlLabel
-                            value="no_use"
+                            value="사용감 없음"
                             control={<CustomRadio />}
                             label={
                                 <div className="Item_status_label_horizontal">
@@ -63,7 +63,7 @@ function Item_status({ onStatusChange , formDataStatus}) {
                             }
                         />
                         <FormControlLabel
-                            value="slight_use"
+                            value="사용감 적음"
                             control={<CustomRadio />}
                             label={
                                 <div className="Item_status_label_horizontal">
@@ -73,7 +73,7 @@ function Item_status({ onStatusChange , formDataStatus}) {
                             }
                         />
                         <FormControlLabel
-                            value="much_use"
+                            value="사용감 많음"
                             control={<CustomRadio />}
                             label={
                                 <div className="Item_status_label_horizontal">
@@ -83,7 +83,7 @@ function Item_status({ onStatusChange , formDataStatus}) {
                             }
                         />
                         <FormControlLabel
-                            value="damaged"
+                            value="고장/파손 상품"
                             control={<CustomRadio />}
                             label={
                                 <div className="Item_status_label_horizontal">

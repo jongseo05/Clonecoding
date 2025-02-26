@@ -2,7 +2,7 @@ import './Item_page.css';
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { db } from "../../firebase";
-import { ref, get, query, orderByKey, equalTo } from "firebase/database";
+import { ref, get, runTransaction } from "firebase/database";
 import Top_navbar from "../../Components/Top_navbar/Top_navbar";
 import Context from '../../Components/Context/Context';
 import Category_select from "./Category_select/Category_select";
@@ -15,6 +15,44 @@ function Item_page() {
     const [item, setItem] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [itemPath, setItemPath] = useState("");
+
+    // 조회수 증가 함수
+    const incrementViewCount = async (path) => {
+        try {
+            // 로컬 스토리지에서 조회 이력 확인
+            const viewedItems = JSON.parse(localStorage.getItem('viewedItems') || '{}');
+            const twentyFourHoursAgo = Date.now() - 24 * 60 * 60 * 1000; // 24시간 전
+
+            // 이미 최근 24시간 내에 조회한 경우 증가하지 않음
+            if (viewedItems[itemUID] && viewedItems[itemUID] > twentyFourHoursAgo) {
+                console.log("최근 24시간 내에 이미 조회한 상품입니다.");
+                return;
+            }
+
+            // 조회 이력 기록
+            viewedItems[itemUID] = Date.now();
+            localStorage.setItem('viewedItems', JSON.stringify(viewedItems));
+
+            // 조회수 증가 (트랜잭션 사용)
+            const itemRef = ref(db, path);
+
+            await runTransaction(itemRef, (currentData) => {
+                if (currentData === null) {
+                    return null;
+                }
+
+                // 조회수 필드가 없으면 생성
+                const viewCount = currentData.viewCount || 0;
+                return { ...currentData, viewCount: viewCount + 1 };
+            });
+
+            console.log("조회수 증가 완료");
+
+        } catch (error) {
+            console.error("조회수 증가 오류:", error);
+        }
+    };
 
     useEffect(() => {
         const fetchItemData = async () => {
@@ -91,6 +129,7 @@ function Item_page() {
                             data = trySnapshot.val();
                             path = tryPath;
                             console.log("성공한 경로:", tryPath);
+                            setItemPath(tryPath); // 상품 경로 저장
                             break;
                         }
                     }
@@ -101,10 +140,14 @@ function Item_page() {
                         const searchResult = await findItemInDatabase();
                         data = searchResult.data;
                         path = searchResult.path;
+                        setItemPath(searchResult.path); // 상품 경로 저장
                     }
 
                     console.log("찾은 상품 데이터:", data);
                     console.log("상품 경로:", path);
+
+                    // 조회수 증가
+                    await incrementViewCount(path);
 
                     // 가격 정보 처리
                     let price = "0";
@@ -142,7 +185,9 @@ function Item_page() {
                         tags: data.tags || [],
                         seller: {
                             uid: data.uid || ""
-                        }
+                        },
+                        likeCount: data.likeCount || 0,
+                        viewCount: data.viewCount || 0
                     };
 
                     setItem(itemData);
@@ -226,7 +271,7 @@ function Item_page() {
                 {/* 상품 정보를 각 컴포넌트에 전달 */}
                 {item && (
                     <>
-                        <Item_info item={item} />
+                        <Item_info item={item} itemPath={itemPath} />
                         <Item_explanation item={item} />
                     </>
                 )}

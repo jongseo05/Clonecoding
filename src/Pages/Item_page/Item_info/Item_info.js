@@ -9,7 +9,7 @@ import Dibs_button from "../Button/Dibs_button/Dibs_button";
 import Lightning_talk_button from "../Button/Lightning_talk_button/Lightning_talk_button";
 import Purchase_button from "../Button/Purchase_button/Purchase_button";
 
-function Item_info({ item }) {
+function Item_info({ item, itemPath }) {
     // 가격 포맷팅 함수
     const formatPrice = (price) => {
         if (!price) return "0";
@@ -38,6 +38,11 @@ function Item_info({ item }) {
     const isValidBase64Image = (url) => {
         if (!url) return false;
         return url.startsWith('data:image/');
+    };
+
+    // 신고하기 버튼 클릭 핸들러
+    const handleReport = () => {
+        alert("신고가 접수되었습니다. 관리자가 검토 후 조치하겠습니다.");
     };
 
     return (
@@ -83,11 +88,11 @@ function Item_info({ item }) {
                         <div className="Page_info_box">
                             {/* 게시글 좋아요 */}
                             <img src={Heart_icon} className="Page_info_icon" alt="좋아요"/>
-                            <span className="Page_info_text">0</span>
+                            <span className="Page_info_text">{item.likeCount || 0}</span>
 
                             {/* 게시글 조회수 */}
                             <img src={Eye_icon} style={{width: "21px", height: "13px"}} alt="조회수"/>
-                            <span className="Page_info_text">0</span>
+                            <span className="Page_info_text">{item.viewCount || 0}</span>
 
                             {/* 게시글 업로드 시간 */}
                             <img src={Time_icon} className="Page_info_icon" alt="시간"/>
@@ -96,7 +101,7 @@ function Item_info({ item }) {
                     </div>
 
                     {/* 상품 신고버튼 */}
-                    <div className="Page_info_report_section">
+                    <div className="Page_info_report_section" onClick={handleReport} style={{ cursor: 'pointer' }}>
                         <img src={Call_icon} className="Page_info_icon" alt="신고하기"/>
                         <span className="Page_info_text">신고하기</span>
                     </div>
@@ -135,7 +140,7 @@ function Item_info({ item }) {
 
                 {/* 찜 , 번개톡 , 바로구매 버튼 */}
                 <div className="Item_button_section">
-                    <Dibs_button />
+                    <Dibs_button itemId={item.id} itemPath={itemPath} />
                     <Lightning_talk_button />
                     <Purchase_button />
                 </div>
