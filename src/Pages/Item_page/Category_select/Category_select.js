@@ -24,7 +24,7 @@ function Category_select() {
             }
 
             try {
-                // Item_page.js에서 사용한 동일한 방식으로 아이템 데이터 검색
+
                 const pathsToTry = [
                     `items/여성의류/아우터/패딩/u8OSJtpEEFTe4QyTCcAvBZYjpdE3/${itemUID}`,
                     `items/여성의류/아우터/패딩/u80SJtpEEFTe4QyTCcAvBZYjpdE3/${itemUID}`,
