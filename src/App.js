@@ -10,19 +10,22 @@ import Search_page from "./Pages/Search_page/Search_page";
 
 function App() {
   return (
-    <Router>
-      <div className="App">
-        <Routes>
-          <Route path="/" element={<Homepage />} />
+      <Router>
+        <div className="App">
+          <Routes>
+            <Route path="/" element={<Homepage />} />
             <Route path="/sign_up" element={<Sign_up />} />
             <Route path="/sign_up/number" element={<Number />} />
             <Route path="/sell_page" element={<Sell_page />} />
             <Route path="/lightning_talk" element={<Lightning_talk />} />
             <Route path="/item/*" element={<Item_page />} />
+
+            {/* 검색 페이지 라우트 수정 - search_page와 search 둘 다 지원 */}
             <Route path="/search_page" element={<Search_page />} />
-        </Routes>
-      </div>
-    </Router>
+            <Route path="/search" element={<Search_page />} />
+          </Routes>
+        </div>
+      </Router>
   );
 }
 
