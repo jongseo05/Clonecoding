@@ -1,0 +1,50 @@
+.Major_category_button{
+    display: flex;
+    height: 34px;
+    padding: 11px 15px;
+    align-items: center;
+    justify-content: flex-start;
+    flex-shrink: 0;
+    border-radius: 15px;
+    border: 2px solid #EEEEEE;
+    background-color: white;
+    cursor: pointer;
+}
+.Major_category_button_section{
+    display: flex;
+    height: 34px;
+    padding-right: 13px;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.Major_category_button_icon{
+    display: flex;
+    padding-right: 7px;
+    align-items: center;
+}
+
+.Major_category_button_img{
+    width: 6px;
+    height: 10px;
+}
+
+.Major_category_button_text{
+    color: #212121;
+    font-family: Pretendard-Light;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 350;
+    line-height: 12px;
+    letter-spacing: -0.5px;
+    padding-right: 5px;
+}
+
+.Major_category_button_num{
+    color: #cccccc;
+    font-family: Pretendard-Light;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 350;
+    line-height: 12px;
+    letter-spacing: -0.5px;
+}
