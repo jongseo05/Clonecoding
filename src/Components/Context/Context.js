@@ -34,11 +34,11 @@ function Context() {
         setSearchQuery(e.target.value);
     };
 
-    // 검색 폼 제출 처리
+    // 검색 폼 제출 처리 - 최근 검색어에 추가하고 검색 페이지로 이동
     const handleSearchSubmit = (e) => {
         e.preventDefault();
         if (searchQuery.trim()) {
-            // 검색어 로컬 스토리지에 저장 (실제 구현 시)
+            // 검색어 로컬 스토리지에 저장
             saveRecentSearch(searchQuery.trim());
 
             // 검색 페이지로 이동하면서 쿼리 파라미터 전달
@@ -52,21 +52,25 @@ function Context() {
         setIsSearchFocused(true);
     };
 
-    // 최근 검색어 저장 (로컬 스토리지 활용 - 실제 구현 시)
+    // 최근 검색어 저장 - 로컬 스토리지 활용
     const saveRecentSearch = (query) => {
-        // 실제 구현 시 아래 코드 사용
-        // const recentSearches = JSON.parse(localStorage.getItem('recentSearches') || '[]');
-        // // 중복 제거
-        // const filteredSearches = recentSearches.filter(item => item !== query);
-        // // 최근 검색어를 앞에 추가
-        // const updatedSearches = [query, ...filteredSearches].slice(0, 10); // 최대 10개 유지
-        // localStorage.setItem('recentSearches', JSON.stringify(updatedSearches));
+        // 로컬 스토리지에서 기존 검색어 불러오기
+        const recentSearches = JSON.parse(localStorage.getItem('recentSearches') || '[]');
+
+        // 중복 제거
+        const filteredSearches = recentSearches.filter(item => item !== query);
+
+        // 최근 검색어를 앞에 추가
+        const updatedSearches = [query, ...filteredSearches].slice(0, 20); // 최대 20개 유지
+
+        // 로컬 스토리지에 저장
+        localStorage.setItem('recentSearches', JSON.stringify(updatedSearches));
     };
 
-    // 검색어 선택 처리
+    // 검색어 선택 처리 - 자동완성이나 최근/인기 검색어 선택 시
     const handleSelectQuery = (query) => {
         setSearchQuery(query);
-        // 바로 검색 실행
+        // 검색어 저장 및 검색 실행
         saveRecentSearch(query);
         navigate(`/search?query=${encodeURIComponent(query)}`);
         setIsSearchFocused(false);
@@ -96,11 +100,17 @@ function Context() {
                                 onChange={handleSearchChange}
                                 onFocus={handleSearchFocus}
                             />
+                            <button type="submit" className="Search_button">
+                                <img src={Search} alt="Search_icon" className="Search_Icon" />
+                            </button>
                         </form>
 
-                        {/* 검색창 포커스 시 최근/인기 검색어 표시 */}
+                        {/* 검색창 포커스 시 최근/인기 검색어 또는 검색 제안 표시 */}
                         {isSearchFocused && (
-                            <SearchHistory onSelectQuery={handleSelectQuery} />
+                            <SearchHistory
+                                onSelectQuery={handleSelectQuery}
+                                searchInput={searchQuery}
+                            />
                         )}
                     </div>
 
