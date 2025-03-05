@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import categoriesData from '../../../Data/categories.json'; // 카테고리 데이터
+import relatedKeywordsData from '../../../Data/related_items.json'; // 관련 검색어 데이터
 import './SearchHistory.css';
 
 function SearchHistory({ onSelectQuery, searchInput }) {
-    // 최근 검색어 상태 관리 (빈 배열로 시작)
+
     const [recentSearches, setRecentSearches] = useState([]);
 
-    // 인기 검색어 상태 관리
+
     const [popularSearches, setPopularSearches] = useState([
         '패딩', '롱패딩', '몽클레어', '노스페이스', '롱코트', '가방', '에어팟', '아이폰'
     ]);
@@ -19,43 +21,17 @@ function SearchHistory({ onSelectQuery, searchInput }) {
     // 연관 검색어 결과
     const [relatedKeywords, setRelatedKeywords] = useState([]);
 
-    // 카테고리 데이터 구조 (main > middle > small)
-    const categoryData = {
-        "여성의류": {
-            "아우터": {
-                "패딩": true,
-                "코트": true,
-                "자켓": true,
-                "패딩조끼": true
-            }
-        },
-        "남성의류": {
-            "아우터": {
-                "패딩": true,
-                "코트": true,
-                "자켓": true
-            }
-        },
-        "스포츠/레저": {
-            "등산": {
-                "패딩": true
-            },
-            "골프": {
-                "패딩": true
-            }
-        }
-    };
-
-    // 브랜드/관련 검색어 데이터
-    const relatedKeywordData = [
-        { text: "경량패딩", type: "keyword" },
-        { text: "몽클레어 패딩", type: "brand" },
-        { text: "패딩조끼", type: "keyword" },
-        { text: "노스페이스 패딩", type: "brand" },
-        { text: "스톤아일랜드 패딩", type: "brand" },
-        { text: "프라다 패딩", type: "brand" },
-        { text: "롱패딩", type: "keyword" }
-    ];
+    // 카테고리 데이터 구조를 JSON에서 동적으로 변환
+    const categoryData = {};
+    Object.entries(categoriesData).forEach(([mainCategory, subCategories]) => {
+        categoryData[mainCategory] = {};
+        Object.entries(subCategories).forEach(([subCategory, smallCategories]) => {
+            categoryData[mainCategory][subCategory] = {};
+            smallCategories.forEach(smallCategory => {
+                categoryData[mainCategory][subCategory][smallCategory] = true;
+            });
+        });
+    });
 
     // 컴포넌트 마운트 시와 검색창 포커스시 로컬 스토리지에서 최근 검색어 로드
     useEffect(() => {
@@ -77,12 +53,12 @@ function SearchHistory({ onSelectQuery, searchInput }) {
 
             // 1. 카테고리 경로 찾기
             const paths = [];
-            Object.keys(categoryData).forEach(main => {
-                Object.keys(categoryData[main]).forEach(middle => {
-                    Object.keys(categoryData[main][middle]).forEach(small => {
-                        if (small.toLowerCase().includes(keyword)) {
+            Object.entries(categoriesData).forEach(([mainCategory, subCategories]) => {
+                Object.entries(subCategories).forEach(([subCategory, smallCategories]) => {
+                    smallCategories.forEach(smallCategory => {
+                        if (smallCategory.toLowerCase().includes(keyword)) {
                             paths.push({
-                                path: `${main} > ${middle} > ${small}`,
+                                path: `${mainCategory} > ${subCategory} > ${smallCategory}`,
                                 icon: 'category'
                             });
                         }
@@ -99,9 +75,23 @@ function SearchHistory({ onSelectQuery, searchInput }) {
             setCategoryPaths(paths);
 
             // 2. 연관 검색어 찾기
-            const related = relatedKeywordData.filter(item =>
-                item.text.toLowerCase().includes(keyword)
-            );
+            const related = [];
+
+            // 모든 메인 카테고리 순회
+            Object.entries(relatedKeywordsData).forEach(([mainCategory, subCategories]) => {
+                // 모든 중간 카테고리 순회
+                Object.entries(subCategories).forEach(([subCategory, smallCategories]) => {
+                    // 모든 소분류 카테고리 순회
+                    Object.entries(smallCategories).forEach(([smallCategory, keywords]) => {
+                        // 해당 소분류 카테고리의 관련 검색어 중 입력된 키워드와 일치하는 것 찾기
+                        keywords.forEach(keywordObj => {
+                            if (keywordObj.text.toLowerCase().includes(keyword)) {
+                                related.push(keywordObj);
+                            }
+                        });
+                    });
+                });
+            });
 
             setRelatedKeywords(related);
         } else {
@@ -154,7 +144,7 @@ function SearchHistory({ onSelectQuery, searchInput }) {
         localStorage.removeItem('recentSearches');
     };
 
-    // 카테고리 아이콘 렌더링
+    // 카테고리 아이콘
     const renderIcon = (iconType) => {
         if (iconType === 'shop') {
             return (
@@ -258,7 +248,6 @@ function SearchHistory({ onSelectQuery, searchInput }) {
                     )}
                 </>
             ) : (
-                // 검색어가 있는 경우: 카테고리 경로 + 관련 검색어 표시
                 <div className="SearchSuggestions_container">
                     {/* 카테고리 경로 섹션 */}
                     {categoryPaths.length > 0 && (

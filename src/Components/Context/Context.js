@@ -70,7 +70,6 @@ function Context() {
     // 검색어 선택 처리 - 자동완성이나 최근/인기 검색어 선택 시
     const handleSelectQuery = (query) => {
         setSearchQuery(query);
-        // 검색어 저장 및 검색 실행
         saveRecentSearch(query);
         navigate(`/search?query=${encodeURIComponent(query)}`);
         setIsSearchFocused(false);
