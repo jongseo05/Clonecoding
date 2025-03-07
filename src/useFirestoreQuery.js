@@ -1,15 +1,34 @@
-import { db } from "./firebase";
+import { db, storage } from "./firebase";
 import { collection, addDoc, query, orderBy, onSnapshot, doc, updateDoc } from "firebase/firestore";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import React, { useState, useEffect, useRef } from "react";
 
+// 🔥 이미지 업로드 함수
+export const uploadImage = async (file) => {
+    if (!file) return null;
+
+    const storageRef = ref(storage, `chatImages/${Date.now()}-${file.name}`);
+    await uploadBytes(storageRef, file);
+    const downloadURL = await getDownloadURL(storageRef);
+
+    return downloadURL;
+};
+
 // Firestore에 메시지 전송
-export const sendMessage = async (chatId, userId, message, photoURL) => {
+export const sendMessage = async (chatId, userId, message, photoURL, imageFile) => {
     const messagesRef = collection(db, `messages-${chatId}`);
+
+    let imageUrl = null;
+    if (imageFile) {
+        imageUrl = await uploadImage(imageFile); // 이미지 업로드 후 URL 가져오기
+    }
+
     await addDoc(messagesRef, {
         text: message,
         uid: userId,
         createdAt: new Date(),
         photoURL,
+        imageUrl,  // 🔥 이미지 URL 추가
         isRead: false
     });
 };

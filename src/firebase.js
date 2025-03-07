@@ -2,6 +2,7 @@ import { initializeApp, getApps, getApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getAnalytics } from "firebase/analytics";
+import { getStorage } from "firebase/storage";
 
 // Firebase 설정
 const firebaseConfig = {
@@ -22,5 +23,6 @@ const db = getFirestore(app); // Firestore Database
 const analytics = typeof window !== "undefined" ? getAnalytics(app) : null; // 브라우저 환경에서만 실행
 const firebase = initializeApp(firebaseConfig);
 const fireStore = getFirestore(firebase);
+export const storage = getStorage(app);
 
 export { app, auth, db, analytics, fireStore};

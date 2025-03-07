@@ -16,7 +16,8 @@
     width: 100%;
     max-width: 80%;
     background-color: #fdfdfd;
-    gap: 10px; /* 메시지 간 간격 */
+    gap: 10px;
+    flex-wrap: wrap;
 }
 
 /* 내가 보낸 메시지 (오른쪽 하단 정렬) */
@@ -25,16 +26,20 @@
     justify-content: right; /* 우측 정렬 */
     align-items: flex-end; /* 하단 정렬 */
     padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 /* 메시지 내용 */
 .message-content {
     max-width: 60%;
+    width: auto;
     padding: 10px;
     border-radius: 10px;
     word-wrap: break-word;
     text-align: left;
     align-self: flex-start;
+    word-break: break-word;
+    overflow-wrap: break-word;
 }
 
 /* 내가 보낸 메시지 스타일 */
@@ -102,3 +107,11 @@
     padding-right: 5px;
     margin-top: 25px;
 }
+
+.message-image {
+    max-width: 200px;
+    max-height: 200px;
+    border-radius: 10px;
+    margin-top: 5px;
+}
+

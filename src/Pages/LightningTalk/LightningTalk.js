@@ -190,15 +190,6 @@ const LightningTalk = () => {
                     {chatId ? (
                         <>
                             <ChatRoom chatTitle={chatRooms[chatId] || "알 수 없는 채팅방"} />
-                            <div className="chat-input">
-                                <input
-                                    type="text"
-                                    value={message}
-                                    onChange={(e) => setMessage(e.target.value)}
-                                    placeholder="메시지를 입력하세요..."
-                                />
-                                <button onClick={handleSendMessage}>전송</button>
-                            </div>
                         </>
                     ) : (
                         <div className="message-list">

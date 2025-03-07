@@ -10,6 +10,7 @@ const ChatRoom = ({ chatTitle }) => {
     const { currentUser: user } = useCurrentUser();
     const [message, setMessage] = useState("");
     const [messages, setMessages] = useState([]);
+    const [image, setImage] = useState(null); // 🔥 이미지 상태 추가
 
     useEffect(() => {
         if (!chatId) return;
@@ -29,34 +30,40 @@ const ChatRoom = ({ chatTitle }) => {
     }, [chatId, user]);
 
     const handleSendMessage = async () => {
-        if (!message.trim()) return;
+        if (!message.trim() && !image) return; // 🔥 메시지나 이미지가 없으면 전송 안 함
 
-        const newMessage = {
-            id: Date.now().toString(),
-            uid: user.id,
-            text: message,
-            createdAt: { seconds: Math.floor(Date.now() / 1000) },
-            displayName: user.name,
-            photoURL: user.image,
-            isRead: false
-        };
-
-        setMessages([...messages, newMessage]);
-        await sendMessage(chatId, user.id, message, user.image);
+        await sendMessage(chatId, user.id, message, user.image, image);
         setMessage("");
+        setImage(null); // 🔥 전송 후 이미지 초기화
+    };
+
+    const handleImageChange = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            setImage(file); // 🔥 선택한 이미지 저장
+        }
     };
 
     return (
         <div className="chat-room-container">
-            <h3>&nbsp;&nbsp;&nbsp;{chatTitle}</h3> {/* ✅ 채팅방 이름 표시 */}
-            <p>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                {chatId === "chat3" ? "2시간 전 접속" : "번개장터 공식상점"}
-            </p>
+            <h3>&nbsp;&nbsp;&nbsp;{chatTitle}</h3>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;번개장터 공식상점</p>
+
             <div className="message-list">
                 {messages.map((msg) => (
                     <Message key={msg.id} {...msg} />
                 ))}
+            </div>
+
+            <div className="chat-input">
+                <input
+                    type="text"
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    placeholder="메시지를 입력하세요..."
+                />
+                <input type="file" accept="image/*" onChange={handleImageChange}/>
+                <button onClick={handleSendMessage}>전송</button>
             </div>
         </div>
     );

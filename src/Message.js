@@ -10,9 +10,10 @@ const Message = ({
                      displayName = "",
                      photoURL = "",
                      isRead = false,
+                     imageUrl = null
                  }) => {
     const { currentUser } = useCurrentUser();
-    if (!text) return null;
+    if (!text && !imageUrl) return null; // 텍스트와 이미지 둘 다 없으면 메시지를 렌더링하지 않음
 
     const isCurrentUser = uid === currentUser?.id;
 
@@ -22,7 +23,12 @@ const Message = ({
                 {/* 메시지 내용 */}
                 <div className={`message-content ${isCurrentUser ? "current-user" : "other-user"}`}>
                     <span className="message-name">{displayName}</span>
-                    <span className="message-text">{text}</span>
+
+                    {/* 텍스트 메시지 */}
+                    {text && <span className="message-text">{text}</span>}
+
+                    {/* 이미지 메시지 */}
+                    {imageUrl && <img src={imageUrl} alt="Sent" className="message-image" />}
                 </div>
 
                 {/* 읽음 여부 & 시간 */}
@@ -54,6 +60,7 @@ Message.propTypes = {
     photoURL: PropTypes.string,
     uid: PropTypes.string,
     isRead: PropTypes.bool,
+    imageUrl: PropTypes.string,
 };
 
 export default Message;
