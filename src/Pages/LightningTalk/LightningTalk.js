@@ -167,7 +167,7 @@ const LightningTalk = () => {
                         onMouseDown={() => handleLongPressStart("chat3")}
                         onMouseUp={handleLongPressEnd}
                     >
-                        <img src="/lightningtalk_logo.jpg" alt="User" className="chat-room-img"/>
+                        <img src="/lightningTalk_storeImage.jpg" alt="User" className="chat-room-img"/>
                         <div className="chat-info">
                             <div className="chat-title">번개톡</div>
                             <div className="chat-preview">(광고)번개포인트 가장 쉽게 받을 수 있는 방..&nbsp;&nbsp;•2월 26일</div>

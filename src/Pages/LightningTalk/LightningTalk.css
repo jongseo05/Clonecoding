@@ -51,6 +51,7 @@
     height: 45px;
     border-radius: 50%;
     margin-right: 12px;
+    border: none;
 }
 
 .chat-room .chat-info {

@@ -49,7 +49,10 @@ const ChatRoom = ({ chatTitle }) => {
     return (
         <div className="chat-room-container">
             <h3>&nbsp;&nbsp;&nbsp;{chatTitle}</h3> {/* ✅ 채팅방 이름 표시 */}
-            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;번개장터 공식상점</p>
+            <p>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                {chatId === "chat3" ? "2시간 전 접속" : "번개장터 공식상점"}
+            </p>
             <div className="message-list">
                 {messages.map((msg) => (
                     <Message key={msg.id} {...msg} />
