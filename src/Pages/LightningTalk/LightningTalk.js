@@ -65,6 +65,12 @@ const LightningTalk = () => {
         clearTimeout(pressTimer.current);
     };
 
+    const chatRooms = {
+        chat1: "번개장터_알림",
+        chat2: "번개장터_광고",
+        chat3: "번개톡",
+    };
+
     return (
         <div className="container">
             <div className="bar">
@@ -183,7 +189,7 @@ const LightningTalk = () => {
                 <div className="chat-window">
                     {chatId ? (
                         <>
-                            <ChatRoom/>
+                            <ChatRoom chatTitle={chatRooms[chatId] || "알 수 없는 채팅방"} />
                             <div className="chat-input">
                                 <input
                                     type="text"

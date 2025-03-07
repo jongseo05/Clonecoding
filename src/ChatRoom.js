@@ -5,7 +5,7 @@ import Message from "./Message";
 import { sendMessage, listenForMessages, markMessageAsRead } from "./useFirestoreQuery";
 import "./ChatRoom.css";
 
-const ChatRoom = () => {
+const ChatRoom = ({ chatTitle }) => {
     const { chatId } = useParams(); // URL에서 chatId 가져오기
     const { currentUser: user } = useCurrentUser();
     const [message, setMessage] = useState("");
@@ -48,7 +48,7 @@ const ChatRoom = () => {
 
     return (
         <div className="chat-room-container">
-            <h3>&nbsp;&nbsp;&nbsp;채팅방: {chatId}</h3>
+            <h3>&nbsp;&nbsp;&nbsp;{chatTitle}</h3> {/* ✅ 채팅방 이름 표시 */}
             <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;번개장터 공식상점</p>
             <div className="message-list">
                 {messages.map((msg) => (
