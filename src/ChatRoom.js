@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useCurrentUser } from "./frontend";
 import Message from "./Message";
-import { sendMessage, listenForMessages } from "./useFirestoreQuery";
+import { sendMessage, listenForMessages, markMessageAsRead } from "./useFirestoreQuery";
 import "./ChatRoom.css";
 
 const ChatRoom = () => {
@@ -16,17 +16,24 @@ const ChatRoom = () => {
 
         const unsubscribe = listenForMessages(chatId, (newMessages) => {
             setMessages(newMessages);
+
+            // 🔥 내가 보낸 메시지가 아니라면 읽음 상태 업데이트
+            newMessages.forEach((msg) => {
+                if (msg.uid !== user.id && !msg.isRead) {
+                    markMessageAsRead(chatId, msg.id);
+                }
+            });
         });
 
         return () => unsubscribe();
-    }, [chatId]);
+    }, [chatId, user]);
 
     const handleSendMessage = async () => {
         if (!message.trim()) return;
 
         const newMessage = {
             id: Date.now().toString(),
-            senderId: user.id,
+            uid: user.id,
             text: message,
             createdAt: { seconds: Math.floor(Date.now() / 1000) },
             displayName: user.name,

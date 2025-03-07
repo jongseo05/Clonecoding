@@ -1,14 +1,16 @@
 import { db } from "./firebase";
-import { collection, addDoc, query, orderBy, onSnapshot, Query } from "firebase/firestore";
+import { collection, addDoc, query, orderBy, onSnapshot, doc, updateDoc } from "firebase/firestore";
 import React, { useState, useEffect, useRef } from "react";
 
 // Firestore에 메시지 전송
-export const sendMessage = async (chatId, userId, message) => {
+export const sendMessage = async (chatId, userId, message, photoURL) => {
     const messagesRef = collection(db, `messages-${chatId}`);
     await addDoc(messagesRef, {
         text: message,
         uid: userId,
         createdAt: new Date(),
+        photoURL,
+        isRead: false
     });
 };
 
@@ -28,13 +30,23 @@ export const listenForMessages = (chatId, callback) => {
     return unsubscribe;
 };
 
+// 🔥 메시지 읽음 상태 업데이트
+export const markMessageAsRead = async (chatId, messageId) => {
+    const messageRef = doc(db, `messages-${chatId}`, messageId);
+    try {
+        await updateDoc(messageRef, { isRead: true });
+    } catch (error) {
+        console.error("메시지 읽음 상태 업데이트 실패:", error);
+    }
+};
+
 // Firestore 쿼리 Hook
 export function useFirestoreQuery(query) {
     const [docs, setDocs] = useState([]);
     const queryRef = useRef(query); // ✅ useRef로 Firestore 쿼리 관리
 
     useEffect(() => {
-        if (queryRef.current && queryRef.current instanceof Query && typeof queryRef.current.isEqual === "function") {
+        if (queryRef.current && queryRef.current instanceof query.constructor && typeof queryRef.current.isEqual === "function") {
             if (!queryRef.current.isEqual(query)) {
                 queryRef.current = query;
             }
