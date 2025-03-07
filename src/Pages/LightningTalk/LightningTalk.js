@@ -5,39 +5,39 @@ import { useNavigate, useParams } from "react-router-dom";
 import Top_navbar from "../../Components/Top_navbar/Top_navbar";
 import Context from "../../Components/Context/Context";
 import { useCurrentUser } from "../../frontend";
-import ChatRoom from "../../ChatRoom"; // ✅ ChatRoom 컴포넌트 import
-import { sendMessage } from "../../useFirestoreQuery"; // ✅ 메시지 전송 함수 import
+import ChatRoom from "../../ChatRoom";
+import { sendMessage } from "../../useFirestoreQuery";
 import "../../Message.css";
 import "./LightningTalk.css";
 
 const LightningTalk = () => {
-    const { chatId } = useParams(); // ✅ URL에서 chatId를 가져옴 (선택된 채팅방)
+    const { chatId } = useParams();
     const { currentUser: user } = useCurrentUser();
     const [selectedChat, setSelectedChat] = useState("전체대화");
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const [message, setMessage] = useState(""); // ✅ 입력 메시지 상태 추가
+    const [isChatOptionsOpen, setIsChatOptionsOpen] = useState(null);
+    const [message, setMessage] = useState("");
 
     const dropdownRef = useRef(null);
-    const navigate = useNavigate(); // ✅ 페이지 이동을 위한 훅
+    const navigate = useNavigate();
+    const pressTimer = useRef(null);
+    const isMouseDown = useRef(false);
 
-    // ✅ 채팅방 클릭 시 해당 채팅방으로 이동 (URL 변경)
     const handleChatRoomClick = (chatId) => {
         navigate(`/lightningtalk/${chatId}`);
     };
 
-    // ✅ 메시지 전송 함수
     const handleSendMessage = async () => {
-        if (!message.trim() || !chatId) return; // 빈 메시지 또는 채팅방 미선택 시 전송 불가
+        if (!message.trim() || !chatId) return;
 
         try {
             await sendMessage(chatId, user.id, message, user.image);
-            setMessage(""); // 메시지 전송 후 입력창 초기화
+            setMessage("");
         } catch (error) {
             console.error("메시지 전송 실패:", error);
         }
     };
 
-    // ✅ 드롭다운 바깥을 클릭하면 닫히도록 설정
     useEffect(() => {
         function handleClickOutside(event) {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -50,6 +50,21 @@ const LightningTalk = () => {
         };
     }, []);
 
+    // 길게 누르면 드롭다운 표시
+    const handleLongPressStart = (chatId) => {
+        isMouseDown.current = true;
+        pressTimer.current = setTimeout(() => {
+            if (isMouseDown.current) {
+                setIsChatOptionsOpen(chatId);
+            }
+        }, 700);  // 700ms 이상 길게 누르면 드롭다운 표시
+    };
+
+    const handleLongPressEnd = () => {
+        isMouseDown.current = false;
+        clearTimeout(pressTimer.current);
+    };
+
     return (
         <div className="container">
             <div className="bar">
@@ -58,7 +73,6 @@ const LightningTalk = () => {
             </div>
 
             <div className={`chat-container ${isDropdownOpen ? "dark-overlay" : ""}`}>
-                {/* ✅ 왼쪽 채팅방 목록 */}
                 <div className="chat-list">
                     <div className="dropdown" ref={dropdownRef}>
                         <div
@@ -69,7 +83,7 @@ const LightningTalk = () => {
                             }}
                         >
                             <h2>{selectedChat}</h2>
-                            <IoIosArrowDropdown size={24} style={{ color: "gray" }} />
+                            <IoIosArrowDropdown size={24} style={{color: "gray"}}/>
                         </div>
                         {isDropdownOpen && (
                             <div className="dropdown-content">
@@ -95,32 +109,81 @@ const LightningTalk = () => {
                         )}
                     </div>
 
-                    {/* ✅ 채팅방 리스트 (클릭 시 오른쪽 화면에 해당 채팅방 내용 표시) */}
-                    <div className="chat-room" onClick={() => handleChatRoomClick("chat1")}>
-                        <img src="/lightningtalk_logo.jpg" alt="User" className="chat-room-img" />
+                    {/* 채팅방 목록 */}
+                    <div
+                        className="chat-room"
+                        onClick={() => handleChatRoomClick("chat1")}
+                        onMouseDown={() => handleLongPressStart("chat1")}
+                        onMouseUp={handleLongPressEnd}
+                    >
+                        <img src="/lightningtalk_logo.jpg" alt="User" className="chat-room-img"/>
                         <div className="chat-info">
                             <div className="chat-title">번개장터_알림</div>
                             <div className="chat-preview">(광고)오늘특가 탭이 새로 생겼어요!&nbsp;&nbsp;•2월 26일</div>
                         </div>
                     </div>
 
-                    <div className="chat-room" onClick={() => handleChatRoomClick("chat2")}>
-                        <img src="/lightningtalk_logo.jpg" alt="User" className="chat-room-img" />
+                    <>
+                        {isChatOptionsOpen === "chat1" && (
+                            <>
+                                <div className="chat-options-dropdown">
+                                    <button>알림끄기</button>
+                                    <button>대화방 나가기</button>
+                                </div>
+                            </>
+                        )}
+                    </>
+
+
+                    <div
+                        className="chat-room"
+                        onClick={() => handleChatRoomClick("chat2")}
+                        onMouseDown={() => handleLongPressStart("chat2")}
+                        onMouseUp={handleLongPressEnd}
+                    >
+                        <img src="/lightningtalk_logo.jpg" alt="User" className="chat-room-img"/>
                         <div className="chat-info">
                             <div className="chat-title">번개장터_광고</div>
                             <div className="chat-preview">(광고)번개포인트 가장 쉽게 받을 수 있는 방..&nbsp;&nbsp;•2월 26일</div>
                         </div>
                     </div>
+
+                    {isChatOptionsOpen === "chat2" && (
+                        <div className="chat-options-dropdown">
+                            <button>알림끄기</button>
+                            <button>대화방 나가기</button>
+                        </div>
+                    )}
+
+                    <div
+                        className="chat-room"
+                        onClick={() => handleChatRoomClick("chat3")}
+                        onMouseDown={() => handleLongPressStart("chat3")}
+                        onMouseUp={handleLongPressEnd}
+                    >
+                        <img src="/lightningtalk_logo.jpg" alt="User" className="chat-room-img"/>
+                        <div className="chat-info">
+                            <div className="chat-title">번개톡</div>
+                            <div className="chat-preview">(광고)번개포인트 가장 쉽게 받을 수 있는 방..&nbsp;&nbsp;•2월 26일</div>
+                        </div>
+                    </div>
+
+                    {isChatOptionsOpen === "chat3" && (
+                        <div className="chat-options-dropdown">
+                            <button>알림끄기</button>
+                            <button>대화방 나가기</button>
+                        </div>
+                    )}
+
                 </div>
 
-                {/* ✅ 오른쪽 채팅 화면 */}
+
+
+
                 <div className="chat-window">
                     {chatId ? (
                         <>
-                            {/* ✅ 선택된 채팅방이 있으면 ChatRoom 컴포넌트 렌더링 */}
-                            <ChatRoom />
-
-                            {/* ✅ 메시지 입력창 */}
+                            <ChatRoom/>
                             <div className="chat-input">
                                 <input
                                     type="text"
@@ -132,9 +195,8 @@ const LightningTalk = () => {
                             </div>
                         </>
                     ) : (
-                        // ✅ 채팅방이 선택되지 않은 경우 안내 메시지 표시
                         <div className="message-list">
-                            <HiChatBubbleLeftRight className="chat-icon" />
+                            <HiChatBubbleLeftRight className="chat-icon"/>
                             <h3>대화방을 선택해주세요</h3>
                         </div>
                     )}

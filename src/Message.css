@@ -34,6 +34,7 @@
     border-radius: 10px;
     word-wrap: break-word;
     text-align: left;
+    align-self: flex-start;
 }
 
 /* 내가 보낸 메시지 스타일 */
@@ -50,6 +51,9 @@
     background-color: #fdfdfd;
     border: 1px solid #f4f4f4;
     padding: 10px 15px;
+    align-self: flex-start;
+    border-radius: 30px;
+    margin-left: -120px;
 }
 
 /* 메시지 이름 */
@@ -94,6 +98,7 @@
     display: flex;
     flex-direction: column;
     align-items: flex-end; /* 시간과 읽음 여부를 우측 정렬 */
-    margin-left: 8px;
+    margin-left: 5px;
     padding-right: 5px;
+    margin-top: 25px;
 }
