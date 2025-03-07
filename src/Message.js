@@ -24,11 +24,11 @@ const Message = ({
                 <div className={`message-content ${isCurrentUser ? "current-user" : "other-user"}`}>
                     <span className="message-name">{displayName}</span>
 
-                    {/* 텍스트 메시지 */}
-                    {text && <span className="message-text">{text}</span>}
-
                     {/* 이미지 메시지 */}
                     {imageUrl && <img src={imageUrl} alt="Sent" className="message-image" />}
+                    <br/>
+                    {/* 텍스트 메시지 */}
+                    {text && <span className="message-text">{text}</span>}
                 </div>
 
                 {/* 읽음 여부 & 시간 */}

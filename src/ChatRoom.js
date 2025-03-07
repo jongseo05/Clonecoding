@@ -62,7 +62,7 @@ const ChatRoom = ({ chatTitle }) => {
                     onChange={(e) => setMessage(e.target.value)}
                     placeholder="메시지를 입력하세요..."
                 />
-                <input type="file" accept="image/*" onChange={handleImageChange}/>
+                <input className={"file-input"} type="file" accept="image/*" onChange={handleImageChange}/>
                 <button onClick={handleSendMessage}>전송</button>
             </div>
         </div>
