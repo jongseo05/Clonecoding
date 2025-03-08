@@ -158,3 +158,87 @@
     width: 136px;
     height: 40px;
 }
+
+
+@media screen and (max-width: 1200px) {
+    .Context_section {
+        padding: 35px 100px 1px 100px;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .Context_section {
+        padding: 35px 50px 1px 50px;
+    }
+
+    .Context_main_container {
+        width: 100%;
+    }
+
+    .Info1_section {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .Title_section,
+    .Search_section,
+    .User_section {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .Search_input {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .Context_section {
+        padding: 20px 20px 1px 20px;
+    }
+
+    .Info1_section {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .Homelogo {
+        width: 100px;
+        height: auto;
+    }
+
+    .User_section {
+        flex-direction: column;
+        align-items: center;
+        padding: 0;
+        gap: 10px;
+    }
+
+    .User_container {
+        padding-left: 0;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .Search_form {
+        flex-direction: column;
+    }
+
+    .Search_input {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .Search_button {
+        width: 100%;
+    }
+
+    .Info2_section {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .Context_dropdown_img_section {
+        margin-bottom: 10px;
+    }
+}

@@ -161,3 +161,140 @@
     font-size: 14px;
     color: #333;
 }
+
+
+@media screen and (max-width: 1024px) {
+    .SearchHistory_container {
+        max-width: 100%;
+        width: 100%;
+        position: fixed;
+        top: 100%;
+        left: 0;
+        z-index: 1000;
+        max-height: 70vh;
+        overflow-y: auto;
+    }
+
+    .SearchHistory_tabs {
+        margin-right: 10px;
+        margin-left: 10px;
+    }
+
+    .SearchHistory_tab {
+        padding: 10px;
+        font-size: 13px;
+    }
+
+    .SearchHistory_scrollable_list {
+        max-height: 300px;
+    }
+
+    .SearchHistory_item {
+        padding: 10px 10px 10px 15px;
+    }
+
+    .SearchHistory_query {
+        font-size: 13px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .SearchHistory_container {
+        top: 100%;
+        max-height: 60vh;
+    }
+
+    .SearchHistory_tabs {
+        margin-right: 5px;
+        margin-left: 5px;
+    }
+
+    .SearchHistory_tab {
+        padding: 8px;
+        font-size: 12px;
+    }
+
+    .SearchHistory_scrollable_list {
+        max-height: 250px;
+    }
+
+    .SearchHistory_item {
+        padding: 8px 8px 8px 12px;
+    }
+
+    .SearchHistory_query {
+        font-size: 12px;
+    }
+
+    .SearchHistory_delete {
+        font-size: 16px;
+    }
+
+    .SearchHistory_footer {
+        padding: 10px;
+    }
+
+    .SearchHistory_clear,
+    .SearchHistory_close {
+        font-size: 12px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .SearchHistory_container {
+        max-height: 50vh;
+    }
+
+    .SearchHistory_tabs {
+        margin-right: 0;
+        margin-left: 0;
+    }
+
+    .SearchHistory_tab {
+        padding: 6px;
+        font-size: 11px;
+    }
+
+    .SearchHistory_scrollable_list {
+        max-height: 200px;
+    }
+
+    .SearchHistory_item {
+        padding: 6px 6px 6px 10px;
+    }
+
+    .SearchHistory_query {
+        font-size: 11px;
+    }
+
+    .SearchSuggestions_item {
+        padding: 8px 15px;
+    }
+
+    .SearchSuggestions_text {
+        font-size: 12px;
+    }
+
+    .SearchSuggestions_item svg {
+        width: 14px;
+        height: 14px;
+        margin-right: 6px;
+    }
+}
+
+
+@media screen and (max-width: 480px) {
+    .SearchHistory_container {
+        position: fixed;
+        left: 0;
+        right: 0;
+        width: 100%;
+        margin: 0;
+        border-radius: 0;
+    }
+
+    .SearchSuggestions_container {
+        max-height: 50vh;
+        overflow-y: auto;
+    }
+}
