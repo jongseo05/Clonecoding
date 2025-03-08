@@ -51,9 +51,13 @@ const ChatRoom = ({ chatTitle }) => {
     };
 
     return (
-        <div className="chat-room-container">
+        <div className={`chat-room-container ${isReadOnlyChat ? "read-only" : ""}`}>
             <h3>&nbsp;&nbsp;&nbsp;{chatTitle}</h3>
-            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;번개장터 공식상점</p>
+            {isReadOnlyChat ? (
+                <p className={'plus-info'}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;번개장터 공식상점</p>
+            ) : (
+                <p className={'plus-info'}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2시간 전 접속</p>
+            )}
 
             <div className="message-list">
                 {messages.map((msg) => (
@@ -65,9 +69,9 @@ const ChatRoom = ({ chatTitle }) => {
                 ))}
             </div>
 
-            <div className="chat-input">
+            <div className={`chat-input ${isReadOnlyChat ? "read-only" : ""}`}>
                 {isReadOnlyChat ? (
-                    <p className="disabled-message">메시지를 보낼 수 없습니다.</p>
+                    <p className="disabled-message">메시지를 보낼 수 없는 채팅방이에요.</p>
                 ) : (
                     <>
                         <input

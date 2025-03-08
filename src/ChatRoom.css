@@ -1,10 +1,29 @@
-.chat-room-container p{
+.plus-info{
     font-size: 12px;
     color: gray;
     border-bottom: 1px solid lightgray;
     padding-bottom: 8px;
 }
 
-.file-input{
-
+.chat-input.read-only {
+    pointer-events: none; /* ✅ 클릭 방지 */
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 800px;
+    padding: 0 15px 0 10px;
+    border-radius: 0;
+    color: #888; /* 글자색 */
+    font-size: 14px;
+    margin: 10px auto; /* 가운데 정렬 */
+    background-color: transparent; /* ✅ 배경을 완전히 투명하게 */
 }
+
+.disabled-message {
+    border-radius: 20px; /* ✅ 동그란 테두리 */
+    color: #888; /* 글자색 */
+    border: 1px solid lightgray;
+    font-size: 13px;
+    padding: 12px 380px 12px 12px;
+}
+
