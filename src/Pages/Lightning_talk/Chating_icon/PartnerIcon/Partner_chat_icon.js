@@ -1,16 +1,31 @@
 import './Partner_chat_icon.css';
 
-function PartnerChatIcon({ text, time }) {
-    return(
-        <div className="Partner_chatIcon_section">
-            <div className="Partner_chatIcon_container">
-                {text || "ㅎㅇ"}
+function PartnerChatIcon({ text, imageUrl, time, isImage }) {
+    return (
+        <div className="PartnerChatIcon_section">
+            <div className="PartnerChatIcon_profile">
+                {/* 프로필 이미지 */}
             </div>
-            <div className='Partner_chatIcon_time_container'>
-                {time || "오후 1:43"}
+            <div className="PartnerChatIcon_chat">
+                {isImage ? (
+                    <img
+                        src={imageUrl}
+                        alt="받은 이미지"
+                        className="PartnerChatIcon_image"
+                        style={{
+                            maxWidth: '265px',
+                            maxHeight: '265px',
+                            borderRadius: '8px',
+                            objectFit: 'contain'
+                        }}
+                    />
+                ) : (
+                    <p>{text}</p>
+                )}
             </div>
+            <div className="PartnerChatIcon_time_container">{time}</div>
         </div>
-    )
+    );
 }
 
 export default PartnerChatIcon;

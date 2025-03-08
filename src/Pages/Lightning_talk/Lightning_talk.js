@@ -23,6 +23,9 @@ function Lightning_talk() {
     const [partnerInfo, setPartnerInfo] = useState(null);
     const [loading, setLoading] = useState(true);
 
+
+
+
     // URL에서 또는 location state에서 선택된 채팅방 ID 확인
     useEffect(() => {
         // Lightning_talk_button에서 전달된 state 확인

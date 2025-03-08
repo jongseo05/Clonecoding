@@ -1,6 +1,6 @@
 .User_chatIcon_section{
     display: flex;
-    width: 480px;
+    width: 440px;
     -webkit-box-align: end;
     align-items: end;
     justify-content : flex-end;
@@ -33,4 +33,9 @@
     margin-top: 6px;
     text-align: left;
     margin-right: 8px;
+}
+.UserChatIcon_chat {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
 }

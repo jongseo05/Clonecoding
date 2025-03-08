@@ -1,9 +1,11 @@
-// src/firebase.js - 순환 의존성 방지 버전
+// src/firebase.js - 순환 참조 방지 버전
 import { initializeApp } from "firebase/app";
 import { getAuth, setPersistence, browserLocalPersistence } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getDatabase } from "firebase/database";
+import { getStorage } from "firebase/storage";
 
+// Firebase 설정 객체
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY || "AIzaSyAhZUWLX-MwcZZ7ExiyYSCZL-gUrorxaDk",
     authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
@@ -22,15 +24,13 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const firestore = getFirestore(app);
 const db = getDatabase(app);
+const storage = getStorage(app);
 
 // 인증 상태 지속성 설정
 setPersistence(auth, browserLocalPersistence)
-    .then(() => {
-        console.log("Firebase 인증 지속성 설정 완료: localStorage");
-    })
     .catch((error) => {
         console.error("인증 지속성 설정 오류:", error);
     });
 
-// 모듈 내보내기
-export { auth, firestore, db };
+// 명시적으로 객체를 export
+export { auth, firestore, db, storage };

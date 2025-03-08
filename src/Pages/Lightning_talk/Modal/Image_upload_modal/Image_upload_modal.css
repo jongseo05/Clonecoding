@@ -1,0 +1,146 @@
+/* src/Pages/Lightning_talk/Modal/Image_upload_modal/Image_upload_modal.css */
+.image_modal_overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+/* 모달 컨테이너 */
+.image_modal_container {
+    background-color: white;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 모달 헤더 */
+.image_modal_header {
+    padding: 16px;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.image_modal_header h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #333;
+}
+
+.image_modal_close_button {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #999;
+    cursor: pointer;
+}
+
+.image_modal_close_button:hover {
+    color: #666;
+}
+
+/* 모달 내용 */
+.image_modal_content {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* 이미지 미리보기 */
+.image_preview_container {
+    width: 265px;
+    height: 265px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    overflow: hidden;
+    border: 1px solid #eaeaea;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+}
+
+.image_preview {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+/* 이미지 선택 영역 플레이스홀더 */
+.image_placeholder {
+    width: 265px;
+    height: 265px;
+    border: 2px dashed #ddd;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background-color: #f9f9f9;
+    color: #757575;
+    margin-bottom: 16px;
+}
+
+.image_placeholder:hover {
+    border-color: #aaa;
+    background-color: #f0f0f0;
+}
+
+.image_icon {
+    margin-bottom: 8px;
+}
+
+.image_placeholder p {
+    margin: 0;
+    text-align: center;
+    font-size: 14px;
+}
+
+/* 파일 입력 숨기기 */
+.file_input {
+    display: none;
+}
+
+/* 모달 푸터 */
+.image_modal_footer {
+    padding: 16px;
+    border-top: 1px solid #f0f0f0;
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* 사진 보내기 버튼 */
+.image_send_button {
+    background-color: #4e4edd;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.image_send_button:hover {
+    background-color: #3e3ebf;
+}
+
+.image_send_button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
