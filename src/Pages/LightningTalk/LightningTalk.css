@@ -259,3 +259,22 @@
     background-color: #f1f1f1;
 }
 
+.chat-preview {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    white-space: nowrap; /* 텍스트가 한 줄로 표시되도록 */
+    overflow: auto; /* 내용이 넘치면 숨김 */
+    text-overflow: ellipsis; /* 내용이 길면 '...'으로 표시 */
+    max-width: 300px; /* 필요한 경우 크기를 조정 */
+}
+
+.chat-preview::after {
+    content: " • " attr(data-date); /* 날짜를 별도로 삽입할 수 있도록 */
+    white-space: nowrap; /* 날짜는 줄 바꿈 없이 한 줄로 표시 */
+    color: gray;
+    font-size: 12px;
+    margin-left: 5px;
+}
+
+

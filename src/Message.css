@@ -22,6 +22,7 @@
     flex-wrap: wrap;
     padding-bottom: 10px;
     padding-top: 10px;
+    margin-bottom: 10px;
 }
 
 /* 내가 보낸 메시지 (오른쪽 하단 정렬) */
@@ -29,36 +30,46 @@
     flex-direction: row-reverse;
     justify-content: right; /* 우측 정렬 */
     align-items: flex-end; /* 하단 정렬 */
-    padding-top: 10px;
+    padding-top: 5px;
     padding-bottom: 10px;
 }
 
 .message-content {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
     width: auto;
-    max-width: 80%; /* 메시지가 너무 좁지 않도록 조정 */
+    max-width: 80%;
     padding: 10px;
     border-radius: 10px;
     word-wrap: break-word;
     word-break: break-word;
     overflow-wrap: break-word;
     text-align: left;
-    align-self: flex-start;
+    align-self: center;
 }
 
+.message-image {
+    max-width: 200px;
+    max-height: 200px;
+    border-radius: 10px;
+    align-items: flex-start;
+    flex-direction: column; /* 세로 정렬 */
+}
 
 /* 내가 보낸 메시지 스타일 */
 .message-content.current-user {
     background-color: #f4f4f4;
     border: 1px solid #f4f4f4;
     border-radius: 30px;
-    padding: 15px 15px;
+    padding: 10px 15px;
     margin-right: 10px;
 }
 
 /* 다른 사용자의 메시지 스타일 */
 .message-content.other-user {
     background-color: #fdfdfd;
-    border: 1px solid #f4f4f4;
+    border: 1px solid #eceaea;
     padding: 10px 15px;
     align-self: flex-start;
     border-radius: 30px;
@@ -108,7 +119,7 @@
     align-items: flex-end; /* 시간과 읽음 여부를 우측 정렬 */
     margin-left: 5px;
     padding-right: 5px;
-    margin-top: 25px;
+    margin-top: 20px;
 }
 
 .message-image {

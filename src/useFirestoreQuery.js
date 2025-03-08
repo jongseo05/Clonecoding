@@ -1,7 +1,18 @@
 import { db, storage } from "./firebase";
-import { collection, addDoc, query, orderBy, onSnapshot, doc, updateDoc } from "firebase/firestore";
+import {
+    collection,
+    addDoc,
+    query,
+    orderBy,
+    onSnapshot,
+    doc,
+    updateDoc,
+    limit,
+    getDocs
+} from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import React, { useState, useEffect, useRef } from "react";
+import { Timestamp } from "firebase/firestore"; // Timestamp import 추가
 
 // 🔥 이미지 업로드 함수
 export const uploadImage = async (file) => {
@@ -60,20 +71,24 @@ export const markMessageAsRead = async (chatId, messageId) => {
 };
 
 // Firestore 쿼리 Hook
-export function useFirestoreQuery(query) {
+export function useFirestoreQuery(firestoreQuery) {
     const [docs, setDocs] = useState([]);
-    const queryRef = useRef(query); // ✅ useRef로 Firestore 쿼리 관리
+    const queryRef = useRef(firestoreQuery); // ✅ useRef로 Firestore 쿼리 관리
 
     useEffect(() => {
-        if (queryRef.current && queryRef.current instanceof query.constructor && typeof queryRef.current.isEqual === "function") {
-            if (!queryRef.current.isEqual(query)) {
-                queryRef.current = query;
+        if (
+            queryRef.current &&
+            queryRef.current instanceof firestoreQuery.constructor &&
+            typeof queryRef.current.isEqual === "function"
+        ) {
+            if (!queryRef.current.isEqual(firestoreQuery)) {
+                queryRef.current = firestoreQuery;
             }
         } else {
             console.error("🚨 Firestore Query 객체가 올바르지 않습니다:", queryRef.current);
-            queryRef.current = query;
+            queryRef.current = firestoreQuery;
         }
-    }, [query]);
+    }, [firestoreQuery]);
 
     useEffect(() => {
         if (!queryRef.current) return;
@@ -91,3 +106,29 @@ export function useFirestoreQuery(query) {
 
     return docs;
 }
+
+// 🔥 Firestore에서 마지막 메시지 가져오기 함수
+export const getLastMessage = async (chatId) => {
+    try {
+        const messagesRef = collection(db, `messages-${chatId}`);
+        const q = query(messagesRef, orderBy("createdAt", "desc"), limit(1));
+        const querySnapshot = await getDocs(q);
+
+        if (!querySnapshot.empty) {
+            const lastMessage = querySnapshot.docs[0].data();
+
+            // createdAt이 Timestamp일 경우 Date 객체로 변환
+            const createdAt = lastMessage.createdAt instanceof Timestamp ? lastMessage.createdAt.toDate() : new Date();
+
+            return {
+                ...lastMessage,
+                createdAt
+            }; // 마지막 메시지를 반환
+        } else {
+            return null;  // 메시지가 없으면 null 반환
+        }
+    } catch (error) {
+        console.error("Error getting last message:", error);
+        return null;
+    }
+};

@@ -6,7 +6,7 @@ import Top_navbar from "../../Components/Top_navbar/Top_navbar";
 import Context from "../../Components/Context/Context";
 import { useCurrentUser } from "../../frontend";
 import ChatRoom from "../../ChatRoom";
-import { sendMessage } from "../../useFirestoreQuery";
+import { sendMessage, getLastMessage } from "../../useFirestoreQuery"; // import 수정 필요
 import "../../Message.css";
 import "./LightningTalk.css";
 
@@ -17,11 +17,36 @@ const LightningTalk = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [isChatOptionsOpen, setIsChatOptionsOpen] = useState(null);
     const [message, setMessage] = useState("");
+    const [lastMessages, setLastMessages] = useState({});
 
     const dropdownRef = useRef(null);
     const navigate = useNavigate();
     const pressTimer = useRef(null);
     const isMouseDown = useRef(false);
+
+    const chatRooms = {
+        chat1: "번개장터_알림",
+        chat2: "번개장터_광고",
+        chat3: "번개톡",
+    };
+
+    // Firestore에서 마지막 메시지를 가져오는 쿼리
+    const fetchLastMessages = async () => {
+        const updatedMessages = {};
+        for (const chatId in chatRooms) {
+            try {
+                const lastMessage = await getLastMessage(chatId); // 여기서 getLastMessage 사용
+                updatedMessages[chatId] = lastMessage;
+            } catch (error) {
+                console.error("Error fetching last messages:", error);
+            }
+        }
+        setLastMessages(updatedMessages);
+    };
+
+    useEffect(() => {
+        fetchLastMessages();
+    }, []);
 
     const handleChatRoomClick = (chatId) => {
         navigate(`/lightningtalk/${chatId}`);
@@ -65,12 +90,6 @@ const LightningTalk = () => {
         clearTimeout(pressTimer.current);
     };
 
-    const chatRooms = {
-        chat1: "번개장터_알림",
-        chat2: "번개장터_광고",
-        chat3: "번개톡",
-    };
-
     return (
         <div className="container">
             <div className="bar">
@@ -89,7 +108,7 @@ const LightningTalk = () => {
                             }}
                         >
                             <h2>{selectedChat}</h2>
-                            <IoIosArrowDropdown size={24} style={{color: "gray"}}/>
+                            <IoIosArrowDropdown size={24} style={{ color: "gray" }} />
                         </div>
                         {isDropdownOpen && (
                             <div className="dropdown-content">
@@ -116,85 +135,66 @@ const LightningTalk = () => {
                     </div>
 
                     {/* 채팅방 목록 */}
-                    <div
-                        className="chat-room"
-                        onClick={() => handleChatRoomClick("chat1")}
-                        onMouseDown={() => handleLongPressStart("chat1")}
-                        onMouseUp={handleLongPressEnd}
-                    >
-                        <img src="/lightningtalk_logo.jpg" alt="User" className="chat-room-img"/>
-                        <div className="chat-info">
-                            <div className="chat-title">번개장터_알림</div>
-                            <div className="chat-preview">(광고)오늘특가 탭이 새로 생겼어요!&nbsp;&nbsp;•2월 26일</div>
-                        </div>
-                    </div>
-
-                    <>
-                        {isChatOptionsOpen === "chat1" && (
-                            <>
-                                <div className="chat-options-dropdown">
-                                    <button>알림끄기</button>
-                                    <button>대화방 나가기</button>
+                    {Object.keys(chatRooms).map((chatKey) => {
+                        const lastMessage = lastMessages[chatKey];
+                        const maxMessageLength = 20; // 최대 표시할 문자 수 (필요에 따라 조정 가능)
+                        const truncatedMessage = lastMessage
+                            ? lastMessage.text.length > maxMessageLength
+                                ? `${lastMessage.text.slice(0, maxMessageLength)}...`
+                                : lastMessage.text
+                            : "새로운 메시지가 없습니다.";
+                        return (
+                            <div
+                                key={chatKey}
+                                className="chat-room"
+                                onClick={() => handleChatRoomClick(chatKey)}
+                                onMouseDown={() => handleLongPressStart(chatKey)}
+                                onMouseUp={handleLongPressEnd}
+                            >
+                                <img
+                                    src={chatKey === 'chat3' ? '/lightningTalk_storeImage.jpg' : '/lightningtalk_logo.jpg'}
+                                    alt="User"
+                                    className="chat-room-img"
+                                />
+                                <div className="chat-info">
+                                    <div className="chat-title">{chatRooms[chatKey]}</div>
+                                    <div
+                                        className="chat-preview"
+                                        data-date={lastMessage ? lastMessage.createdAt?.toLocaleDateString() : ""}
+                                    >
+                                        {truncatedMessage}
+                                    </div>
                                 </div>
-                            </>
-                        )}
-                    </>
 
-
-                    <div
-                        className="chat-room"
-                        onClick={() => handleChatRoomClick("chat2")}
-                        onMouseDown={() => handleLongPressStart("chat2")}
-                        onMouseUp={handleLongPressEnd}
-                    >
-                        <img src="/lightningtalk_logo.jpg" alt="User" className="chat-room-img"/>
-                        <div className="chat-info">
-                            <div className="chat-title">번개장터_광고</div>
-                            <div className="chat-preview">(광고)번개포인트 가장 쉽게 받을 수 있는 방..&nbsp;&nbsp;•2월 26일</div>
-                        </div>
-                    </div>
-
-                    {isChatOptionsOpen === "chat2" && (
-                        <div className="chat-options-dropdown">
-                            <button>알림끄기</button>
-                            <button>대화방 나가기</button>
-                        </div>
-                    )}
-
-                    <div
-                        className="chat-room"
-                        onClick={() => handleChatRoomClick("chat3")}
-                        onMouseDown={() => handleLongPressStart("chat3")}
-                        onMouseUp={handleLongPressEnd}
-                    >
-                        <img src="/lightningTalk_storeImage.jpg" alt="User" className="chat-room-img"/>
-                        <div className="chat-info">
-                            <div className="chat-title">번개톡</div>
-                            <div className="chat-preview">(광고)번개포인트 가장 쉽게 받을 수 있는 방..&nbsp;&nbsp;•2월 26일</div>
-                        </div>
-                    </div>
-
-                    {isChatOptionsOpen === "chat3" && (
-                        <div className="chat-options-dropdown">
-                            <button>알림끄기</button>
-                            <button>대화방 나가기</button>
-                        </div>
-                    )}
-
+                                {isChatOptionsOpen === chatKey && (
+                                    <div className="chat-options-dropdown">
+                                        <button>알림끄기</button>
+                                        <button>대화방 나가기</button>
+                                    </div>
+                                )}
+                            </div>
+                        );
+                    })}
                 </div>
-
-
-
 
                 <div className="chat-window">
                     {chatId ? (
-                        <>
-                            <ChatRoom chatTitle={chatRooms[chatId] || "알 수 없는 채팅방"} />
-                        </>
+                        <ChatRoom chatTitle={chatRooms[chatId] || "알 수 없는 채팅방"} />
                     ) : (
                         <div className="message-list">
-                            <HiChatBubbleLeftRight className="chat-icon"/>
+                            <HiChatBubbleLeftRight className="chat-icon" />
                             <h3>대화방을 선택해주세요</h3>
+                        </div>
+                    )}
+
+                    {chatId && (
+                        <div className="message-input">
+                            <textarea
+                                value={message}
+                                onChange={(e) => setMessage(e.target.value)}
+                                placeholder="메시지를 입력하세요"
+                            />
+                            <button onClick={handleSendMessage}>보내기</button>
                         </div>
                     )}
                 </div>
