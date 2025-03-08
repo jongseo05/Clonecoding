@@ -5,7 +5,7 @@ import { useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { ref, get } from 'firebase/database';
 import { db } from '../../../firebase';
-import categoriesData from '../../../Data/categories.json'; // 카테고리 데이터 import
+import categoriesData from '../../../Data/categories.json';
 
 function Multi_category() {
     const location = useLocation();

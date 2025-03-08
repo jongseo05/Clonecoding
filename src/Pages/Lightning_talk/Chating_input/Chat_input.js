@@ -1,10 +1,38 @@
+// src/Pages/Lightning_talk/Chating_input/Chat_input.js
+import { useState } from 'react';
 import './Chat_input.css';
 
-function ChatInput(props) {
-    return(
-        <div className = "Chat_input_section">
-            <div className = "Chat_input_container">
+function ChatInput({ onSendMessage }) {
+    const [message, setMessage] = useState('');
+    const [isSending, setIsSending] = useState(false);
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (!message.trim() || isSending) return;
+
+        setIsSending(true);
+        try {
+            await onSendMessage(message);
+            setMessage('');
+        } catch (error) {
+            console.error("메시지 전송 오류:", error);
+            alert("메시지 전송에 실패했습니다. 다시 시도해주세요.");
+        } finally {
+            setIsSending(false);
+        }
+    };
+
+    // Enter 키로 메시지 전송 (Shift+Enter는 줄바꿈)
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            handleSubmit(e);
+        }
+    };
+
+    return (
+        <div className="Chat_input_section">
+            <div className="Chat_input_container">
                 {/* + 아이콘 */}
                 <div className="Chat_input_img_section">
                     <svg width="22" height="22"
@@ -12,16 +40,23 @@ function ChatInput(props) {
                          viewBox="0 0 20 20" role="img">
                         <path
                             d="M10 0a9.947 9.947 0 0 1 7.094 2.945c3.874 3.889 3.874 10.218 0 14.108A9.944 9.944 0 0 1 10 20a9.946 9.946 0 0 1-7.095-2.946c-3.874-3.89-3.874-10.219 0-14.108A9.949 9.949 0 0 1 10 0zm0 1.73a8.096 8.096 0 0 0-5.774 2.406c-3.22 3.233-3.22 8.494 0 11.727A8.1 8.1 0 0 0 10 18.269a8.1 8.1 0 0 0 5.773-2.406c3.22-3.233 3.22-8.494 0-11.727A8.095 8.095 0 0 0 10 1.731zm0 3.558c.503 0 .91.387.91.865v2.98h3.134c.502 0 .91.388.91.866s-.408.866-.91.866H10.91v2.98c0 .478-.407.866-.91.866-.502 0-.91-.388-.91-.866v-2.98H5.956c-.502 0-.91-.388-.91-.866s.408-.865.91-.865H9.09v-2.98c0-.479.408-.866.91-.866z"
-                            fill="#7f7f7f" fill-rule="evenodd"></path>
+                            fill="#7f7f7f" fillRule="evenodd"></path>
                     </svg>
                 </div>
 
-                {/* 메시지 입력 칸*/}
-                <div className = "Chat_input_input_section">
-                    <div className = "Chat_input_text_section">
-                        <textarea className = "Chat_input_textarea"
-                                  placeholder="메세지를 입력하세요"/>
+                {/* 메시지 입력 폼 */}
+                <form onSubmit={handleSubmit} className="Chat_input_input_section">
+                    <div className="Chat_input_text_section">
+                        <textarea
+                            className="Chat_input_textarea"
+                            placeholder="메세지를 입력하세요"
+                            value={message}
+                            onChange={(e) => setMessage(e.target.value)}
+                            onKeyDown={handleKeyDown}
+                            disabled={isSending}
+                        />
                     </div>
+
                     <div className="emoticon_section">
                         <svg width="18"
                              height="18"
@@ -29,10 +64,15 @@ function ChatInput(props) {
                              viewBox="0 0 20 20" role="img">
                             <path
                                 d="M10 0c5.514 0 10 4.486 10 10s-4.486 10-10 10S0 15.514 0 10 4.486 0 10 0zm0 1.818c-4.512 0-8.182 3.67-8.182 8.182 0 4.511 3.67 8.182 8.182 8.182 4.512 0 8.182-3.67 8.182-8.182 0-4.511-3.67-8.182-8.182-8.182zm-4.301 9.394a.91.91 0 0 1 1.28.03c.055.055 1.096 1.075 3.021 1.075 1.937 0 2.978-1.033 3.021-1.076a.915.915 0 0 1 1.284-.018.906.906 0 0 1 .03 1.275l-.034.035c-.245.241-1.741 1.603-4.301 1.603s-4.056-1.362-4.3-1.603l-.034-.035a.909.909 0 0 1 .033-1.286zm1.302-4.439a1.156 1.156 0 1 1 0 2.312 1.156 1.156 0 0 1 0-2.312zm5.957 0a1.156 1.156 0 1 1 0 2.309 1.156 1.156 0 0 1 0-2.309z"
-                                fill="#7f7f7f" fill-rule="evenodd"></path>
+                                fill="#7f7f7f" fillRule="evenodd"></path>
                         </svg>
                     </div>
-                    <div className="Image_upload_section">
+
+                    <button
+                        type="submit"
+                        className="Image_upload_section"
+                        disabled={!message.trim() || isSending}
+                    >
                         <svg width="18"
                              height="18"
                              xmlns="http://www.w3.org/2000/svg"
@@ -40,15 +80,14 @@ function ChatInput(props) {
                              role="img">
                             <path
                                 d="M12.897.55c.336 0 .643.187.799.484l1.057 2.035H18.1a.9.9 0 0 1 .9.9V18.1a.9.9 0 0 1-.9.9H1.9a.9.9 0 0 1-.9-.9V3.97a.9.9 0 0 1 .9-.9h3.347l1.058-2.036A.902.902 0 0 1 7.104.55h5.793zm-.546 1.8H7.65L6.592 4.385a.9.9 0 0 1-.8.484h-2.99V17.2H17.2V4.87h-2.993a.903.903 0 0 1-.8-.485L12.352 2.35zM10 6.595a4.03 4.03 0 0 1 4.025 4.026A4.03 4.03 0 0 1 10 14.646a4.03 4.03 0 0 1-4.025-4.025A4.03 4.03 0 0 1 10 6.595zm0 1.8a2.228 2.228 0 0 0-2.225 2.226c0 1.227.998 2.226 2.225 2.226a2.227 2.227 0 0 0 2.225-2.226A2.228 2.228 0 0 0 10 8.395z"
-                                fill="#7f7f7f" fill-rule="evenodd"></path>
+                                fill={message.trim() && !isSending ? "#4e4edd" : "#7f7f7f"}
+                                fillRule="evenodd"></path>
                         </svg>
-                    </div>
-                </div>
-
-
+                    </button>
+                </form>
             </div>
         </div>
-    )
+    );
 }
 
 export default ChatInput;

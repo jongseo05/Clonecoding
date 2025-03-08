@@ -1,16 +1,242 @@
+// src/Pages/Lightning_talk/Chatroom/Chatroom.js
+import { useState, useEffect, useRef } from 'react';
 import './Chatroom.css';
-import Partner_chat_icon from '../Chating_icon/PartnerIcon/Partner_chat_icon'
-import User_chat_icon from '../Chating_icon/UserIcon/UserIcon'
-import Chat_input from '../Chating_input/Chat_input'
+import PartnerChatIcon from '../Chating_icon/PartnerIcon/Partner_chat_icon';
+import UserChatIcon from '../Chating_icon/UserIcon/UserIcon';
+import ChatInput from '../Chating_input/Chat_input';
+import { auth, db } from '../../../firebase';
+import { ref, get, onValue, push, set } from 'firebase/database';
 
+function Chatroom({ chatId }) {
+    const [messages, setMessages] = useState([]);
+    const [partnerInfo, setPartnerInfo] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const chatSectionRef = useRef(null);
 
-function Chatroom() {
+    // 메시지를 날짜별로 그룹화
+    const messagesByDate = {};
+    messages.forEach(msg => {
+        const date = new Date(msg.timestamp);
+        const dateStr = `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일`;
+
+        if (!messagesByDate[dateStr]) {
+            messagesByDate[dateStr] = [];
+        }
+        messagesByDate[dateStr].push(msg);
+    });
+
+    // 스크롤을 항상 최신 메시지로 이동
+    useEffect(() => {
+        if (chatSectionRef.current) {
+            chatSectionRef.current.scrollTop = 0;
+        }
+    }, [messages]);
+
+    // 채팅방 데이터 로드
+    useEffect(() => {
+        if (!chatId) return;
+
+        console.log("채팅방 데이터 로드 시작:", chatId);
+
+        // 채팅 메시지 실시간 가져오기
+        const messagesRef = ref(db, `chats/${chatId}/messages`);
+
+        const messageUnsubscribe = onValue(messagesRef, (snapshot) => {
+            try {
+                if (!snapshot.exists()) {
+                    console.log("메시지가 없습니다.");
+                    setMessages([]);
+                    return;
+                }
+
+                const messagesData = snapshot.val();
+                const messagesList = Object.keys(messagesData).map(key => ({
+                    id: key,
+                    ...messagesData[key]
+                }));
+
+                // 타임스탬프 기준 정렬
+                messagesList.sort((a, b) => a.timestamp - b.timestamp);
+
+                setMessages(messagesList);
+            } catch (error) {
+                console.error("메시지 데이터 처리 오류:", error);
+                setError("메시지 처리 중 오류가 발생했습니다.");
+            }
+        }, (error) => {
+            console.error("메시지 가져오기 오류:", error);
+            setError("메시지를 불러오는 중 오류가 발생했습니다.");
+        });
+
+        // 채팅방 정보 가져오기
+        const loadChatInfo = async () => {
+            try {
+                const user = auth.currentUser;
+                if (!user) {
+                    console.error("로그인 필요");
+                    setLoading(false);
+                    return;
+                }
+
+                // 채팅방 info 가져오기
+                const chatInfoRef = ref(db, `chats/${chatId}/info`);
+                const infoSnapshot = await get(chatInfoRef);
+
+                if (!infoSnapshot.exists()) {
+                    console.error("채팅방 정보가 없습니다:", chatId);
+                    setLoading(false);
+                    return;
+                }
+
+                const info = infoSnapshot.val();
+                let partnerId = null;
+
+                // participants 배열에서 파트너 ID 찾기
+                if (info.participants) {
+                    partnerId = info.participants.find(id => id !== user.uid);
+                }
+
+                // participants 없으면 메시지에서 찾기
+                if (!partnerId) {
+                    // messagesRef에서 메시지 데이터 가져오기
+                    const messagesSnapshot = await get(messagesRef);
+
+                    if (messagesSnapshot.exists()) {
+                        const messagesData = messagesSnapshot.val();
+
+                        for (const msgKey in messagesData) {
+                            const msg = messagesData[msgKey];
+                            if (msg.sender && msg.sender !== user.uid) {
+                                partnerId = msg.sender;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if (!partnerId) {
+                    console.warn("채팅방에서 파트너 ID를 찾을 수 없습니다.");
+                    setPartnerInfo({ name: "알 수 없는 사용자" });
+                    setLoading(false);
+                    return;
+                }
+
+                // 파트너 정보 가져오기
+                const partnerRef = ref(db, `users/${partnerId}`);
+                const partnerSnapshot = await get(partnerRef);
+
+                if (partnerSnapshot.exists()) {
+                    setPartnerInfo(partnerSnapshot.val());
+                } else {
+                    console.warn("파트너 정보를 찾을 수 없습니다:", partnerId);
+                    setPartnerInfo({ name: "알 수 없는 사용자" });
+                }
+
+                setLoading(false);
+            } catch (error) {
+                console.error("채팅방 정보 로딩 오류:", error);
+                setError("채팅방 정보를 불러오는 중 오류가 발생했습니다.");
+                setLoading(false);
+            }
+        };
+
+        loadChatInfo();
+
+        return () => {
+            messageUnsubscribe();
+        };
+    }, [chatId]);
+
+    // 메시지 전송 핸들러
+    const handleSendMessage = async (text) => {
+        if (!text.trim() || !chatId) return;
+
+        try {
+            const user = auth.currentUser;
+            if (!user) {
+                console.error("로그인 필요");
+                return;
+            }
+
+            // 메시지 저장
+            const messagesRef = ref(db, `chats/${chatId}/messages`);
+            const newMessageRef = push(messagesRef);
+
+            const messageData = {
+                text: text.trim(),
+                sender: user.uid,
+                timestamp: Date.now()
+            };
+
+            await set(newMessageRef, messageData);
+
+            // 채팅방 info 업데이트
+            const updateChatInfo = async () => {
+                const chatInfoRef = ref(db, `chats/${chatId}/info`);
+                const infoSnapshot = await get(chatInfoRef);
+
+                let updateData = {
+                    lastMessage: text.trim(),
+                    lastMessageTime: messageData.timestamp
+                };
+
+                // 기존 info 데이터 있으면 보존
+                if (infoSnapshot.exists()) {
+                    const existingInfo = infoSnapshot.val();
+
+                    // participants 배열이 없거나 현재 사용자가 없으면 추가
+                    let participants = existingInfo.participants || [];
+                    if (!Array.isArray(participants)) {
+                        participants = []; // 배열이 아니면 초기화
+                    }
+
+                    if (!participants.includes(user.uid)) {
+                        participants.push(user.uid);
+                    }
+
+                    updateData = {
+                        ...existingInfo,
+                        ...updateData,
+                        participants: participants
+                    };
+
+                    // 상품 ID 없으면 추가
+                    if (!updateData.itemId) {
+                        updateData.itemId = `temp_item_${chatId}`;
+                    }
+                } else {
+                    // info가 없는 경우 기본 데이터 생성
+                    updateData = {
+                        ...updateData,
+                        participants: [user.uid],
+                        itemId: `temp_item_${chatId}`
+                    };
+                }
+
+                await set(chatInfoRef, updateData);
+            };
+
+            await updateChatInfo();
+        } catch (error) {
+            console.error("메시지 전송 오류:", error);
+            alert("메시지를 전송할 수 없습니다. 다시 시도해주세요.");
+        }
+    };
+
+    if (loading) {
+        return <div className="Chatroom_section">로딩 중...</div>;
+    }
+
+    if (error) {
+        return <div className="Chatroom_section" style={{ color: 'red' }}>{error}</div>;
+    }
+
     return (
         <div className="Chatroom_section">
             <div className="Chatroom_info_section">
                 <div className="Chatroom_icon_section">
                     <div className="Chatroom_icon">
-                        {/* SVG 코드 삽입 */}
                         <svg
                             width="34"
                             height="34"
@@ -24,27 +250,56 @@ function Chatroom() {
                             ></path>
                         </svg>
                     </div>
-                    <div className="Chatroom_name">상점명0403</div>
+                    <div className="Chatroom_name">
+                        {partnerInfo?.name || "알 수 없는 사용자"}
+                    </div>
                     <div className="Chatroom_rating">
                         <span className="Chatroom_rating_star">⭐</span>
-                        <span>0 (0)</span>
+                        <span>0</span>
                     </div>
                 </div>
 
-                {/* 채팅 날짜 섹션 */}
-                <div className="Chatroom_date_section">
-                    <p className="Chatroom_date_text">2025년 01월 09일</p>
-                    <div className="Chatroom_date_divider"></div>
+                {/* 메시지 표시 */}
+                <div className="Chatroom_chat_section" ref={chatSectionRef}>
+                    <ChatInput onSendMessage={handleSendMessage} />
+
+                    {Object.keys(messagesByDate).reverse().map(dateStr => (
+                        <div key={dateStr}>
+                            {/* 채팅 날짜 섹션 */}
+                            <div className="Chatroom_date_section">
+                                <p className="Chatroom_date_text">{dateStr}</p>
+                                <div className="Chatroom_date_divider"></div>
+                            </div>
+
+                            {/* 해당 날짜의 메시지들 */}
+                            {messagesByDate[dateStr].map(message => {
+                                const isCurrentUser = message.sender === auth.currentUser?.uid;
+                                // 시간 포맷팅
+                                const date = new Date(message.timestamp);
+                                const hours = date.getHours();
+                                const minutes = date.getMinutes();
+                                const ampm = hours >= 12 ? '오후' : '오전';
+                                const formattedHours = hours % 12 || 12;
+                                const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+                                const formattedTime = `${ampm} ${formattedHours}:${formattedMinutes}`;
+
+                                return isCurrentUser ? (
+                                    <UserChatIcon
+                                        key={message.id}
+                                        text={message.text}
+                                        time={formattedTime}
+                                    />
+                                ) : (
+                                    <PartnerChatIcon
+                                        key={message.id}
+                                        text={message.text}
+                                        time={formattedTime}
+                                    />
+                                );
+                            })}
+                        </div>
+                    ))}
                 </div>
-
-
-            </div>
-            <div className="Chatroom_chat_section">
-                <Chat_input/>
-                <User_chat_icon/>
-                <Partner_chat_icon/>
-
-
             </div>
         </div>
     );

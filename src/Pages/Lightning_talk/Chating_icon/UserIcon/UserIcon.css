@@ -4,6 +4,7 @@
     -webkit-box-align: end;
     align-items: end;
     justify-content : flex-end;
+    padding-bottom : 10px;
 }
 
 .User_chatIcon_container{

@@ -135,7 +135,7 @@ function Context() {
                         <div className="User_container">
                             <div className="Link_section">
                                 <img src={talk} alt="Talk_icon" className="User_container_img"/>
-                                <Link to='lightning_talk' className="User_container_text">번개톡</Link>
+                                <Link to='lightning-talk' className="User_container_text">번개톡</Link>
                             </div>
                         </div>
                     </div>

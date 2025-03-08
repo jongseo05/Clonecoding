@@ -114,7 +114,8 @@ function Item_page() {
                     const pathsToTry = [
                         `items/여성의류/아우터/패딩/u8OSJtpEEFTe4QyTCcAvBZYjpdE3/${itemUID}`,
                         `items/여성의류/아우터/패딩/u80SJtpEEFTe4QyTCcAvBZYjpdE3/${itemUID}`,
-                        `items/여성의류/아우터/패딩/ybiaQrIgUlXhaeNarcBg71EvvnL2/${itemUID}`
+                        `items/여성의류/아우터/패딩/ybiaQrIgUlXhaeNarcBg71EvvnL2/${itemUID}`,
+                        `items/여성의류/아우터/패딩/aErykvn45ahtIVxkah3skqL4OE43/${itemUID}`
                     ];
 
                     let data = null;
@@ -166,12 +167,25 @@ function Item_page() {
                         }
                     }
 
+                    // 실제 데이터 구조에 맞게 판매자 정보 처리
+                    let sellerInfo = data.sellerInfo || {};
+
+                    // 판매자 정보가 없거나 판매자 ID가 없는 경우에만 uid를 사용하여 생성
+                    if (!sellerInfo.sellerId && data.uid) {
+                        sellerInfo = {
+                            ...sellerInfo,
+                            sellerId: data.uid,
+                            sellerName: "판매자",
+                            sellerCreatedAt: data.createdAt || Date.now()
+                        };
+                    }
+
                     // 상품 데이터 구성
                     const itemData = {
                         id: itemUID,
                         name: data.name || "상품명 없음",
                         price: price,
-                        timestamp: parseInt(itemUID) || Date.now(),
+                        timestamp: data.createdAt || parseInt(itemUID) || Date.now(),
                         imageUrl: imageUrl,
                         description: data.description || "",
                         allowNegotiation: data.price?.allowNegotiation || false,
@@ -184,16 +198,18 @@ function Item_page() {
                         extraInfo: data.extraInfo || {},
                         tags: data.tags || [],
                         seller: {
-                            uid: data.uid || ""
+                            uid: data.uid || sellerInfo.sellerId || ""
                         },
+                        sellerInfo: sellerInfo,  // 판매자 정보 전체 포함
                         likeCount: data.likeCount || 0,
-                        viewCount: data.viewCount || 0
+                        viewCount: data.viewCount || 0,
+                        package: data.package || {}
                     };
 
                     setItem(itemData);
 
-                    // 판매자 정보 가져오기 (필요한 경우)
-                    if (data.uid) {
+                    // 판매자 정보가 sellerInfo에 없는 경우에만 추가로 가져오기
+                    if (!sellerInfo.sellerName && data.uid) {
                         try {
                             const userRef = ref(db, `users/${data.uid}`);
                             const userSnapshot = await get(userRef);
@@ -205,7 +221,10 @@ function Item_page() {
                                     seller: {
                                         ...prev.seller,
                                         name: userData.name || "판매자",
-                                        // 기타 판매자 정보
+                                    },
+                                    sellerInfo: {
+                                        ...prev.sellerInfo,
+                                        sellerName: userData.name || "판매자",
                                     }
                                 }));
                             }

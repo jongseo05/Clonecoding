@@ -33,16 +33,28 @@ function Buttons({ formData }) {
                 return;
             }
 
-            const db = getDatabase(); // Firebase Realtime Database 초기화
+            const db = getDatabase();
             const itemRef = ref(
                 db,
                 `items/${mainCategory}/${subCategory}/${smallCategory}/${user.uid}/${Date.now()}`
-            ); // 카테고리별로 데이터 저장 경로 설정
+            );
 
-            set(itemRef, { ...formData, uid: user.uid }) // 데이터 저장
+            // 판매자 정보를 명시적으로 추가
+            const itemData = {
+                ...formData,
+                sellerInfo: {
+                    sellerId: user.uid,  // 판매자 UID를 명시적으로 저장
+                    sellerName: user.displayName || "판매자",  // 판매자 이름
+                    sellerCreatedAt: Date.now()  // 판매자 등록 시간
+                },
+                createdAt: Date.now(),  // 상품 등록 시간
+                status: "판매중"  // 상품 상태
+            };
+
+            set(itemRef, itemData)
                 .then(() => {
                     alert("등록이 완료되었습니다!");
-                    navigate('/'); // 등록 후 홈페이지로 리다이렉션
+                    navigate('/');
                 })
                 .catch((error) => {
                     console.error("데이터베이스 저장 오류:", error);

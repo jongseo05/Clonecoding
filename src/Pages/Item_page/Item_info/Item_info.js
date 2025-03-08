@@ -10,6 +10,15 @@ import Lightning_talk_button from "../Button/Lightning_talk_button/Lightning_tal
 import Purchase_button from "../Button/Purchase_button/Purchase_button";
 
 function Item_info({ item, itemPath }) {
+    // 상품 데이터가 없는 경우 로딩 메시지 표시
+    if (!item) {
+        return (
+            <div className="Item_page_info_section" style={{ textAlign: 'center', padding: '20px' }}>
+                <p>상품 정보를 불러오는 중입니다...</p>
+            </div>
+        );
+    }
+
     // 가격 포맷팅 함수
     const formatPrice = (price) => {
         if (!price) return "0";
@@ -44,6 +53,11 @@ function Item_info({ item, itemPath }) {
     const handleReport = () => {
         alert("신고가 접수되었습니다. 관리자가 검토 후 조치하겠습니다.");
     };
+
+    // 안전한 접근을 위한 판매자 ID 추출 - 최적화된 버전
+    const sellerId = item.sellerInfo?.sellerId || // 명시적으로 저장된 sellerId 우선
+        item.seller?.uid ||
+        null;
 
     return (
         <div className="Item_page_info_section">
@@ -141,7 +155,27 @@ function Item_info({ item, itemPath }) {
                 {/* 찜 , 번개톡 , 바로구매 버튼 */}
                 <div className="Item_button_section">
                     <Dibs_button itemId={item.id} itemPath={itemPath} />
-                    <Lightning_talk_button />
+                    {/* 판매자 ID와 상품 ID가 있을 때만 번개톡 버튼 표시 */}
+                    {sellerId && item.id ? (
+                        <Lightning_talk_button
+                            sellerId={sellerId}
+                            itemId={item.id}
+                        />
+                    ) : (
+                        <div className="lightning-talk-placeholder" style={{
+                            flex: 1,
+                            height: '40px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            backgroundColor: '#e0e0e0',
+                            color: '#888',
+                            borderRadius: '4px',
+                            fontSize: '14px'
+                        }}>
+                            판매자 정보 없음
+                        </div>
+                    )}
                     <Purchase_button />
                 </div>
             </div>
