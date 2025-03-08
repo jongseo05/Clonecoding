@@ -10,7 +10,8 @@ const Message = ({
                      displayName = "",
                      photoURL = "",
                      isRead = false,
-                     imageUrl = null
+                     imageUrl = null,
+                     showReadStatus = true // ✅ 읽음 표시 여부를 제어하는 prop 추가
                  }) => {
     const { currentUser } = useCurrentUser();
     if (!text && !imageUrl) return null; // 텍스트와 이미지 둘 다 없으면 메시지를 렌더링하지 않음
@@ -35,8 +36,8 @@ const Message = ({
                 <div className="message-status">
                     {createdAt?.seconds ? (
                         <span className={`message-time ${isCurrentUser ? "text-right" : ""}`}>
-                            {/* 읽음 상태 표시 */}
-                            {isCurrentUser && (
+                            {/* ✅ showReadStatus가 true일 때만 읽음 상태 표시 */}
+                            {isCurrentUser && showReadStatus && (
                                 <div className={`read-status ${isRead ? "read" : "unread"}`}>
                                     {isRead ? "읽음" : "안읽음"}
                                 </div>
@@ -61,6 +62,7 @@ Message.propTypes = {
     uid: PropTypes.string,
     isRead: PropTypes.bool,
     imageUrl: PropTypes.string,
+    showReadStatus: PropTypes.bool, // ✅ prop 추가
 };
 
 export default Message;
