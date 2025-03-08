@@ -6,7 +6,7 @@ import Top_navbar from "../../Components/Top_navbar/Top_navbar";
 import Context from "../../Components/Context/Context";
 import { useCurrentUser } from "../../frontend";
 import ChatRoom from "../../ChatRoom";
-import { sendMessage, getLastMessage } from "../../useFirestoreQuery"; // import 수정 필요
+import { sendMessage, getLastMessage, getUnreadMessageCount } from "../../useFirestoreQuery"; // 새로운 함수 추가
 import "../../Message.css";
 import "./LightningTalk.css";
 
@@ -15,33 +15,37 @@ const LightningTalk = () => {
     const { currentUser: user } = useCurrentUser();
     const [selectedChat, setSelectedChat] = useState("전체대화");
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const [isChatOptionsOpen, setIsChatOptionsOpen] = useState(null);
     const [message, setMessage] = useState("");
     const [lastMessages, setLastMessages] = useState({});
+    const [unreadCounts, setUnreadCounts] = useState({}); // 읽지 않은 메시지 개수를 추적할 상태 추가
 
     const dropdownRef = useRef(null);
     const navigate = useNavigate();
-    const pressTimer = useRef(null);
-    const isMouseDown = useRef(false);
 
     const chatRooms = {
         chat1: "번개장터_알림",
         chat2: "번개장터_광고",
-        chat3: "번개톡",
+        chat3: "상점20040311",
     };
 
-    // Firestore에서 마지막 메시지를 가져오는 쿼리
+    // Firestore에서 마지막 메시지와 읽지 않은 메시지 개수를 가져오는 쿼리
     const fetchLastMessages = async () => {
         const updatedMessages = {};
+        const updatedUnreadCounts = {};
+
         for (const chatId in chatRooms) {
             try {
-                const lastMessage = await getLastMessage(chatId); // 여기서 getLastMessage 사용
+                const lastMessage = await getLastMessage(chatId); // 마지막 메시지
+                const unreadCount = await getUnreadMessageCount(chatId); // 읽지 않은 메시지 개수
+
                 updatedMessages[chatId] = lastMessage;
+                updatedUnreadCounts[chatId] = unreadCount; // 각 채팅방의 읽지 않은 메시지 개수 저장
             } catch (error) {
                 console.error("Error fetching last messages:", error);
             }
         }
         setLastMessages(updatedMessages);
+        setUnreadCounts(updatedUnreadCounts);
     };
 
     useEffect(() => {
@@ -75,23 +79,14 @@ const LightningTalk = () => {
         };
     }, []);
 
-    // 길게 누르면 드롭다운 표시
-    const handleLongPressStart = (chatId) => {
-        isMouseDown.current = true;
-        pressTimer.current = setTimeout(() => {
-            if (isMouseDown.current) {
-                setIsChatOptionsOpen(chatId);
-            }
-        }, 700);  // 700ms 이상 길게 누르면 드롭다운 표시
-    };
-
-    const handleLongPressEnd = () => {
-        isMouseDown.current = false;
-        clearTimeout(pressTimer.current);
+    // 드롭다운 아이콘 클릭 시 드롭다운 열고 닫기
+    const handleDropdownToggle = (e) => {
+        e.stopPropagation(); // 다른 클릭 이벤트로 드롭다운이 닫히지 않도록 막기
+        setIsDropdownOpen((prev) => !prev);
     };
 
     return (
-        <div className="container">
+        <div className={`container`}>
             <div className="bar">
                 <Top_navbar />
                 <Context />
@@ -102,10 +97,7 @@ const LightningTalk = () => {
                     <div className="dropdown" ref={dropdownRef}>
                         <div
                             className="dropdown-btn"
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                setIsDropdownOpen((prev) => !prev);
-                            }}
+                            onClick={handleDropdownToggle} // 드롭다운 아이콘 클릭 시 열리도록
                         >
                             <h2>{selectedChat}</h2>
                             <IoIosArrowDropdown size={24} style={{ color: "gray" }} />
@@ -137,6 +129,7 @@ const LightningTalk = () => {
                     {/* 채팅방 목록 */}
                     {Object.keys(chatRooms).map((chatKey) => {
                         const lastMessage = lastMessages[chatKey];
+                        const unreadCount = unreadCounts[chatKey] || 0; // 읽지 않은 메시지 개수
                         const maxMessageLength = 20; // 최대 표시할 문자 수 (필요에 따라 조정 가능)
                         const truncatedMessage = lastMessage
                             ? lastMessage.text.length > maxMessageLength
@@ -147,9 +140,7 @@ const LightningTalk = () => {
                             <div
                                 key={chatKey}
                                 className="chat-room"
-                                onClick={() => handleChatRoomClick(chatKey)}
-                                onMouseDown={() => handleLongPressStart(chatKey)}
-                                onMouseUp={handleLongPressEnd}
+                                onClick={() => handleChatRoomClick(chatKey)} // 채팅방 클릭 시 드롭다운 열리지 않도록
                             >
                                 <img
                                     src={chatKey === 'chat3' ? '/lightningTalk_storeImage.jpg' : '/lightningtalk_logo.jpg'}
@@ -165,12 +156,9 @@ const LightningTalk = () => {
                                         {truncatedMessage}
                                     </div>
                                 </div>
-
-                                {isChatOptionsOpen === chatKey && (
-                                    <div className="chat-options-dropdown">
-                                        <button>알림끄기</button>
-                                        <button>대화방 나가기</button>
-                                    </div>
+                                {/* 읽지 않은 메시지 개수 표시 */}
+                                {lastMessage && lastMessage.unreadCount > 0 && (
+                                    <div className="unread-count">{lastMessage.unreadCount}</div>
                                 )}
                             </div>
                         );
@@ -184,17 +172,6 @@ const LightningTalk = () => {
                         <div className="message-list">
                             <HiChatBubbleLeftRight className="chat-icon" />
                             <h3>대화방을 선택해주세요</h3>
-                        </div>
-                    )}
-
-                    {chatId && (
-                        <div className="message-input">
-                            <textarea
-                                value={message}
-                                onChange={(e) => setMessage(e.target.value)}
-                                placeholder="메시지를 입력하세요"
-                            />
-                            <button onClick={handleSendMessage}>보내기</button>
                         </div>
                     )}
                 </div>

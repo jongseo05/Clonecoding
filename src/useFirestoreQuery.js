@@ -8,7 +8,8 @@ import {
     doc,
     updateDoc,
     limit,
-    getDocs
+    getDocs,
+    where
 } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import React, { useState, useEffect, useRef } from "react";
@@ -132,3 +133,14 @@ export const getLastMessage = async (chatId) => {
         return null;
     }
 };
+
+export const getUnreadMessageCount = async (chatId) => {
+    const messagesRef = collection(db, `messages-${chatId}`);  // 수정된 부분
+    const q = query(
+        messagesRef,
+        where("isRead", "==", false) // 읽지 않은 메시지
+    );
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.size; // 읽지 않은 메시지 개수 반환
+};
+

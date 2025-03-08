@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import { useCurrentUser } from "./frontend";
 import Message from "./Message";
 import { sendMessage, listenForMessages, markMessageAsRead } from "./useFirestoreQuery";
+import { MdOutlineAttachFile } from "react-icons/md";
+import { FaCircleArrowUp } from "react-icons/fa6";
 import "./ChatRoom.css";
 
 const ChatRoom = ({ chatTitle }) => {
@@ -74,17 +76,28 @@ const ChatRoom = ({ chatTitle }) => {
                     <p className="disabled-message">메시지를 보낼 수 없는 채팅방이에요.</p>
                 ) : (
                     <>
+                        <label htmlFor="file-upload" className="file-input-label">
+                            <MdOutlineAttachFile/>
+                        </label>
                         <input
+                            className={'chat-input'}
                             type="text"
                             value={message}
                             onChange={(e) => setMessage(e.target.value)}
                             placeholder="메시지를 입력하세요..."
                         />
-                        <input className={"file-input"} type="file" accept="image/*" onChange={handleImageChange}/>
-                        <button onClick={handleSendMessage}>전송</button>
+                        <input
+                            id="file-upload"
+                            className={"file-input"}
+                            type="file"
+                            accept="image/*"
+                            onChange={handleImageChange}
+                        />
+                        <label onClick={handleSendMessage}><FaCircleArrowUp className={'Send-button'}/></label>
                     </>
                 )}
             </div>
+
         </div>
     );
 };
