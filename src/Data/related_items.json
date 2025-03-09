@@ -1,0 +1,201 @@
+{
+    "여성의류": {
+        "아우터": {
+            "패딩": [
+                {"text": "경량패딩", "type": "keyword"},
+                {"text": "몽클레어 패딩", "type": "brand"},
+                {"text": "패딩조끼", "type": "keyword"},
+                {"text": "노스페이스 패딩", "type": "brand"},
+                {"text": "스톤아일랜드 패딩", "type": "brand"},
+                {"text": "프라다 패딩", "type": "brand"},
+                {"text": "롱패딩", "type": "keyword"},
+                {"text": "숏패딩", "type": "keyword"},
+                {"text": "겨울 패딩", "type": "keyword"},
+                {"text": "따뜻한 패딩", "type": "keyword"}
+            ],
+            "점퍼": [
+                {"text": "데일리 점퍼", "type": "keyword"},
+                {"text": "청점퍼", "type": "keyword"},
+                {"text": "가죽점퍼", "type": "keyword"},
+                {"text": "MA-1 점퍼", "type": "keyword"},
+                {"text": "아식스 점퍼", "type": "brand"}
+            ],
+            "코트": [
+                {"text": "롱코트", "type": "keyword"},
+                {"text": "버버리 코트", "type": "brand"},
+                {"text": "트렌치코트", "type": "keyword"},
+                {"text": "겨울 코트", "type": "keyword"},
+                {"text": "캐시미어 코트", "type": "keyword"},
+                {"text": "울 코트", "type": "keyword"}
+            ],
+            "자켓": [
+                {"text": "데님 자켓", "type": "keyword"},
+                {"text": "블레이저", "type": "keyword"},
+                {"text": "가죽 자켓", "type": "keyword"},
+                {"text": "봄 자켓", "type": "keyword"}
+            ],
+            "가디건": [
+                {"text": "니트 가디건", "type": "keyword"},
+                {"text": "오버핏 가디건", "type": "keyword"},
+                {"text": "데일리 가디건", "type": "keyword"},
+                {"text": "긴팔 가디건", "type": "keyword"}
+            ],
+            "조끼/베스트": [
+                {"text": "패딩 조끼", "type": "keyword"},
+                {"text": "니트 조끼", "type": "keyword"},
+                {"text": "아웃도어 조끼", "type": "keyword"},
+                {"text": "데일리 베스트", "type": "keyword"}
+            ]
+        },
+        "상의": {
+            "티셔츠": [
+                {"text": "기본 티셔츠", "type": "keyword"},
+                {"text": "오버핏 티셔츠", "type": "keyword"},
+                {"text": "반팔 티셔츠", "type": "keyword"},
+                {"text": "긴팔 티셔츠", "type": "keyword"},
+                {"text": "크롭 티셔츠", "type": "keyword"}
+            ],
+            "셔츠/블라우스": [
+                {"text": "데일리 셔츠", "type": "keyword"},
+                {"text": "화이트 셔츠", "type": "keyword"},
+                {"text": "체크 셔츠", "type": "keyword"},
+                {"text": "오버핏 블라우스", "type": "keyword"}
+            ],
+            "니트/스웨터": [
+                {"text": "울 니트", "type": "keyword"},
+                {"text": "모헤어 니트", "type": "keyword"},
+                {"text": "라운드넥 니트", "type": "keyword"},
+                {"text": "브이넥 니트", "type": "keyword"}
+            ],
+            "맨투맨/후드티": [
+                {"text": "기본 맨투맨", "type": "keyword"},
+                {"text": "오버핏 맨투맨", "type": "keyword"},
+                {"text": "후드 티셔츠", "type": "keyword"},
+                {"text": "기모 맨투맨", "type": "keyword"}
+            ]
+        },
+        "하의": {
+            "청바지": [
+                {"text": "스키니 청바지", "type": "keyword"},
+                {"text": "와이드 청바지", "type": "keyword"},
+                {"text": "데미지 청바지", "type": "keyword"},
+                {"text": "블랙 청바지", "type": "keyword"}
+            ],
+            "면바지/치노": [
+                {"text": "베이직 치노", "type": "keyword"},
+                {"text": "조거 팬츠", "type": "keyword"},
+                {"text": "슬랙스", "type": "keyword"}
+            ],
+            "레깅스": [
+                {"text": "요가 레깅스", "type": "keyword"},
+                {"text": "고탄력 레깅스", "type": "keyword"},
+                {"text": "기모 레깅스", "type": "keyword"}
+            ],
+            "스커트": [
+                {"text": "플레어 스커트", "type": "keyword"},
+                {"text": "데님 스커트", "type": "keyword"},
+                {"text": "미니 스커트", "type": "keyword"},
+                {"text": "롱 스커트", "type": "keyword"}
+            ]
+        }
+    },
+    "남성의류": {
+        "아우터": {
+            "패딩": [
+                {"text": "남성 경량패딩", "type": "keyword"},
+                {"text": "노스페이스 패딩", "type": "brand"},
+                {"text": "몽클레어 남성 패딩", "type": "brand"},
+                {"text": "패딩조끼", "type": "keyword"},
+                {"text": "겨울 패딩", "type": "keyword"},
+                {"text": "숏패딩", "type": "keyword"}
+            ],
+            "점퍼": [
+                {"text": "남성 봄 점퍼", "type": "keyword"},
+                {"text": "항공점퍼", "type": "keyword"},
+                {"text": "MA-1 점퍼", "type": "keyword"},
+                {"text": "가죽 점퍼", "type": "keyword"}
+            ],
+            "코트": [
+                {"text": "남성 롱코트", "type": "keyword"},
+                {"text": "트렌치코트", "type": "keyword"},
+                {"text": "울 코트", "type": "keyword"},
+                {"text": "오버코트", "type": "keyword"}
+            ]
+        },
+        "상의": {
+            "티셔츠": [
+                {"text": "남성 기본 티셔츠", "type": "keyword"},
+                {"text": "오버핏 티셔츠", "type": "keyword"},
+                {"text": "무지 티셔츠", "type": "keyword"},
+                {"text": "반팔 티셔츠", "type": "keyword"}
+            ],
+            "셔츠": [
+                {"text": "드레스 셔츠", "type": "keyword"},
+                {"text": "체크 셔츠", "type": "keyword"},
+                {"text": "옥스포드 셔츠", "type": "keyword"}
+            ],
+            "맨투맨/후드티": [
+                {"text": "기본 맨투맨", "type": "keyword"},
+                {"text": "오버핏 맨투맨", "type": "keyword"},
+                {"text": "후드 티셔츠", "type": "keyword"}
+            ]
+        }
+    },
+    "신발": {
+        "여성화": {
+            "운동화/스니커즈": [
+                {"text": "아디다스 스니커즈", "type": "brand"},
+                {"text": "나이키 운동화", "type": "brand"},
+                {"text": "컨버스", "type": "brand"},
+                {"text": "커플 스니커즈", "type": "keyword"},
+                {"text": "데일리 운동화", "type": "keyword"}
+            ],
+            "부츠": [
+                {"text": "앵클부츠", "type": "keyword"},
+                {"text": "첼시 부츠", "type": "keyword"},
+                {"text": "워커 부츠", "type": "keyword"},
+                {"text": "니하이 부츠", "type": "keyword"}
+            ]
+        },
+        "남성화": {
+            "운동화/스니커즈": [
+                {"text": "나이키 운동화", "type": "brand"},
+                {"text": "아디다스 스니커즈", "type": "brand"},
+                {"text": "뉴발란스", "type": "brand"},
+                {"text": "데일리 스니커즈", "type": "keyword"}
+            ],
+            "구두": [
+                {"text": "비즈니스 구두", "type": "keyword"},
+                {"text": "로퍼", "type": "keyword"},
+                {"text": "옥스퍼드화", "type": "keyword"}
+            ]
+        }
+    },
+    "가방/지갑": {
+        "여성가방": {
+            "토트백": [
+                {"text": "샤넬 토트백", "type": "brand"},
+                {"text": "구찌 토트백", "type": "brand"},
+                {"text": "가죽 토트백", "type": "keyword"},
+                {"text": "데일리 토트백", "type": "keyword"}
+            ],
+            "크로스백": [
+                {"text": "가죽 크로스백", "type": "keyword"},
+                {"text": "작은 크로스백", "type": "keyword"},
+                {"text": "미니 크로스백", "type": "keyword"}
+            ]
+        },
+        "남성가방": {
+            "서류가방": [
+                {"text": "가죽 서류가방", "type": "keyword"},
+                {"text": "노트북 가방", "type": "keyword"},
+                {"text": "서류 크로스백", "type": "keyword"}
+            ],
+            "백팩": [
+                {"text": "데일리 백팩", "type": "keyword"},
+                {"text": "노트북 백팩", "type": "keyword"},
+                {"text": "학생 백팩", "type": "keyword"}
+            ]
+        }
+    }
+}

@@ -1,0 +1,28 @@
+.Follow_button{
+    display: flex;
+    width: 245px;
+    padding: 6px 0px 6px 0px;
+    justify-content: center;
+    align-items: center;
+    gap: 3px;
+    background-color: #FFFFFF;
+    border-radius: 2px;
+    border: 1px solid #EEE;
+    cursor: pointer;
+}
+
+.Follow_icon{
+    width: 20px;
+    height: 14px;
+    flex-shrink: 0;
+}
+
+.Follow_text{
+    color: #888;
+    font-family: "Pretendard-Light";
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 350;
+    line-height: 14.95px; /* 115% */
+    letter-spacing: -0.5px;
+}

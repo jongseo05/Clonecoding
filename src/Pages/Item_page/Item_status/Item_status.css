@@ -1,0 +1,32 @@
+.Item_detail_status_section{
+    display: flex;
+    flex-direction: column;
+    width: 554px;
+    height: 117px;
+    flex-shrink: 0;
+    gap : 20px;
+}
+.Item_detail_status_container{
+    display: flex;
+    height : 21px;
+    gap : 20px;
+}
+.Item_detail_status_head{
+    color: #999;
+    font-family: Pretendard-Light;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 21px; /* 150% */
+    letter-spacing: -0.5px;
+}
+
+.Item_detail_status_text{
+    color: #212121;
+    font-family: Pretendard;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 21px; /* 150% */
+    letter-spacing: -0.5px;
+}

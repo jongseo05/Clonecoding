@@ -1,0 +1,231 @@
+.Item_explanation_section{
+    display: flex;
+    align-items: flex-start;
+    width: 1024px;
+    height: 1106px;
+    flex-shrink: 0;
+    align-content: stretch;
+    flex-wrap: wrap;
+}
+
+.Item_explanation_other_section{
+    display: flex;
+    width: 1024px;
+    height: 50px;
+    justify-content: flex-end;
+    align-items: flex-start;
+    gap: 10px;
+    flex-shrink: 0;
+    border-bottom: 1px solid #212121;
+}
+
+.Item_explanation_container{
+    display: flex;
+    flex-direction: column;
+    width: 700px;
+    height: 1056px;
+    flex-shrink: 0;
+    border-right: 1px solid #EEE;
+    gap : 40px;
+
+}
+
+.Item_explanation_head1_box{
+    display: flex;
+    width: 700px;
+    height: 83px;
+    margin: 44px 600px 13px 0px;
+    align-items: center;
+    flex-shrink: 0;
+
+    border-bottom: 1px solid #EEE;
+}
+
+.Item_explanation_box1{
+    display: flex;
+    width: 300px;
+    height: 125px;
+    flex-direction: column;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 14px;
+}
+
+.Item_explanation_box2{
+    display: flex;
+    width: 700px;
+    height: 112px;
+    flex-shrink: 0;
+    border-top: 1px solid #EEE;
+    border-bottom: 1px solid #EEE;
+
+    align-items: center;
+    margin-top : 20px;
+    margin-bottom : 20px;
+}
+
+.Item_info_box2{
+    display: flex;
+    width: 221px;
+    height: 70px;
+    flex-shrink: 0;
+    border-right: 1px solid #EEE;
+    flex-direction: column;
+    text-align: center;
+    gap : 15px;
+}
+.Item_info_icon{
+    width: 16px;
+    height: 18px;
+    flex-shrink: 0;
+    padding-right: 6px;
+}
+.Item_info_box2_head{
+    width : 221px;
+    text-align: center;
+    justify-content: center;
+    color: #B2B2B2;
+    font-family: "Pretendard-Light";
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 350;
+    line-height: 13px;
+    letter-spacing: -0.5px;
+
+}
+
+.Item_info_box2_text{
+
+    color: #999;
+    font-family: "Prentendard-Light";
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 650;
+    line-height: 18.2px; /* 140% */
+    letter-spacing: -0.5px;
+}
+
+
+
+
+
+
+.Item_explanation_container_text{
+    color: #212121;
+    font-family: "Pretendard-Light";
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 18px; /* 100% */
+    letter-spacing: -0.5px;
+}
+
+.Market_info_section{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 322px;
+    height: 1056px;
+    border-right: 1px solid #EEE;
+
+}
+
+.Market_info_head1_box{
+    display: flex;
+    width: 260px;
+    height: 83px;
+    margin: 44px 32px 13px 32px;
+    align-items: center;
+    flex-shrink: 0;
+
+    border-bottom: 1px solid #EEE;
+
+    color: #212121;
+    font-family: "Pretendard-Light";
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 350;
+    line-height: 18px; /* 100% */
+    letter-spacing: -0.5px;
+}
+
+.Market_info_container{
+    display: flex;
+    width: 168px;
+    height: 48px;
+    flex-shrink: 0;
+    padding-top : 20px;
+    padding-bottom : 20px;
+    padding-right: 40px;
+    gap : 16px;
+}
+
+.Market_info_icon{
+    width : 48px;
+    height : 48px;
+}
+
+.Market_info_head{
+    color: #212121;
+    font-family: "Pretendard-Light";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 450;
+    line-height: 14px; /* 100% */
+    letter-spacing: -0.5px;
+}
+
+.Market_info_box{
+    display: flex;
+    flex-direction: column;
+    gap : 8px;
+    align-items: center;
+    justify-content: center;
+}
+
+.Market_info_text{
+    color: #999;
+    font-family: "Pretendard-Light";
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 350;
+    line-height: 13px; /* 100% */
+    letter-spacing: -0.5px;
+}
+
+.Market_image_section{
+    display: flex;
+    width: 245px;
+    padding-top : 20px;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+
+}
+
+.Market_button_section{
+    display: flex;
+    width: 245px;
+    height: 56px;
+    padding-top : 50px;
+    gap : 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* Item_explanation.css 파일에 추가 */
+.Market_button_section .Lightning_talk_button {
+    width: 178px !important; /* 버튼의 원래 정의된 너비 */
+    align-items: center !important; /* 세로 중앙 정렬 수정 */
+}
+
+.Market_button_section .Purchase_button {
+    width: 178px !important; /* 버튼의 원래 정의된 너비 */
+}
+
+/* Market_button_section의 너비를 버튼 두 개와 간격에 맞게 조정 */
+.Market_info_section .Market_button_section {
+    width: auto !important;
+    min-width: 366px; /* 178px + 178px + 10px(gap) */
+}

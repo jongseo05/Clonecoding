@@ -64,5 +64,7 @@
 }
 
 .Image_upload_section{
-    padding: 15px 16px 14px 12px;
+    border: none;
+    background-color: rgb(250, 250, 250);
+
 }

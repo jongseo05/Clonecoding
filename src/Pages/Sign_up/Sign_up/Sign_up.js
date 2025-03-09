@@ -1,5 +1,3 @@
-// noinspection UnnecessaryLocalVariableJS
-
 import React, { useState , useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
 import './Sign_up.css';
@@ -75,7 +73,7 @@ function Sign_up() {
             }
 
             const internationalPhoneNumber = `+82${phoneNumber.slice(1)}`;
-            console.log("International format:", internationalPhoneNumber);
+            console.log("국제 전화번호 형식:", internationalPhoneNumber);
 
             const appVerifier = window.recaptchaVerifier;
             if (!appVerifier) {

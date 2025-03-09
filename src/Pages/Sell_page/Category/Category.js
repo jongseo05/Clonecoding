@@ -1,34 +1,40 @@
 import React, { useState, useEffect } from 'react';
+import categoriesData from '../../../Data/categories.json'; // JSON 파일 import
 import Category_select_button from './Category_select_button/Category_select_button';
 import './Category.css';
 
-function Category({ onCategoryChange , formDataCategory }) {
+function Category({ onCategoryChange, formDataCategory }) {
+    // JSON에서 동적으로 카테고리 데이터 추출
+    const mainCategories = Object.keys(categoriesData);
+
+    // 메인 카테고리에 따른 중간 카테고리 추출
+    const subCategories = Object.fromEntries(
+        Object.entries(categoriesData).map(([mainCategory, subCategoryData]) => [
+            mainCategory,
+            Object.keys(subCategoryData)
+        ])
+    );
+
+    // 중간 카테고리에 따른 소분류 카테고리 추출
+    const smallCategories = Object.fromEntries(
+        Object.entries(categoriesData).flatMap(([mainCategory, subCategoryData]) =>
+            Object.entries(subCategoryData).map(([subCategory, smallCategoryList]) => [
+                subCategory,
+                smallCategoryList
+            ])
+        )
+    );
+
+    // 상태 관리를 위한 useState 훅
     const [mainCategory, setMainCategory] = useState(null);
     const [subCategory, setSubCategory] = useState(null);
     const [smallCategory, setSmallCategory] = useState(null);
+
+    // 현재 선택 가능한 중간, 소분류 카테고리 상태
     const [currentSubCategories, setCurrentSubCategories] = useState([]);
     const [currentSmallCategories, setCurrentSmallCategories] = useState([]);
 
-    const mainCategories = [
-        "여성의류", "남성의류", "신발", "가방/지갑", "시계", "쥬얼리",
-        "패션 액세서리", "디지털", "가전제품", "스포츠/레저", "차량/오토바이",
-        "스타굿즈", "키덜트", "예술/희귀/수집품", "음반/악기", "도서/티켓/문구",
-        "뷰티/미용", "가구/인테리어", "생활/주방용품", "공구/산업용품", "식품",
-        "유아동/출산", "반려동물용품", "기타", "재능"
-    ];
-
-    const subCategories = {
-        "여성의류": [
-            "아우터", "상의", "바지", "치마", "원피스", "점프수트",
-            "셋업/세트", "언더웨어/홈웨어", "테마 이벤트"
-        ]
-    };
-
-    const smallCategories = {
-        "아우터": ["패딩", "점퍼", "코트", "자켓", "가디건", "조끼/베스트"]
-    };
-
-
+    // formDataCategory가 있을 경우 초기 카테고리 설정
     useEffect(() => {
         if (formDataCategory) {
             setMainCategory(formDataCategory.mainCategory);
@@ -37,26 +43,39 @@ function Category({ onCategoryChange , formDataCategory }) {
         }
     }, [formDataCategory]);
 
-
+    // 메인 카테고리 선택 시 동작
     useEffect(() => {
         if (mainCategory) {
+            // 선택된 메인 카테고리의 중간 카테고리 설정
             setCurrentSubCategories(subCategories[mainCategory] || []);
+
+            // 중간, 소분류 카테고리 초기화
             setSubCategory(null);
             setSmallCategory(null);
+
+            // 부모 컴포넌트에 카테고리 변경 알림
             onCategoryChange(mainCategory, null, null);
         }
     }, [mainCategory]);
 
+    // 중간 카테고리 선택 시 동작
     useEffect(() => {
         if (subCategory) {
+            // 선택된 중간 카테고리의 소분류 카테고리 설정
             setCurrentSmallCategories(smallCategories[subCategory] || []);
+
+            // 소분류 카테고리 초기화
             setSmallCategory(null);
+
+            // 부모 컴포넌트에 카테고리 변경 알림
             onCategoryChange(mainCategory, subCategory, null);
         }
     }, [subCategory]);
 
+    // 소분류 카테고리 선택 시 동작
     useEffect(() => {
         if (smallCategory) {
+            // 부모 컴포넌트에 최종 카테고리 변경 알림
             onCategoryChange(mainCategory, subCategory, smallCategory);
         }
     }, [smallCategory]);
@@ -69,6 +88,7 @@ function Category({ onCategoryChange , formDataCategory }) {
 
             <div className="Category_select_section">
                 <div className="Category_selection_section">
+                    {/* 메인 카테고리 선택 영역 */}
                     <div className="Category_selection_container_selected">
                         {mainCategories.map((category, index) => (
                             <Category_select_button
@@ -78,6 +98,8 @@ function Category({ onCategoryChange , formDataCategory }) {
                             />
                         ))}
                     </div>
+
+                    {/* 중간 카테고리 선택 영역 */}
                     <div className={
                         currentSubCategories.length > 0
                             ? "Category_selection_container_selected"
@@ -91,6 +113,8 @@ function Category({ onCategoryChange , formDataCategory }) {
                             />
                         ))}
                     </div>
+
+                    {/* 소분류 카테고리 선택 영역 */}
                     <div className={
                         currentSmallCategories.length > 0
                             ? "Category_selection_container_selected"
@@ -105,6 +129,8 @@ function Category({ onCategoryChange , formDataCategory }) {
                         ))}
                     </div>
                 </div>
+
+                {/* 선택된 카테고리 표시 */}
                 <div className="Chosen_category_section">
                     <p className="Category_text">
                         선택한 카테고리: <span style={{ color: 'red', fontWeight: 800 }}>

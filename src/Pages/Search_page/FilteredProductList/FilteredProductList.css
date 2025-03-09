@@ -1,0 +1,109 @@
+.FilteredProductList_section {
+    width: 100%;
+    padding: 20px 0;
+}
+
+.FilteredProductList_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.FilteredProductList_title {
+    color: #191919;
+    font-family: Pretendard-SemiBold;
+    font-size: 18px;
+    line-height: 22px;
+}
+
+.FilteredProductList_count {
+    color: #8C8C8C;
+    font-family: Pretendard-Light;
+    font-size: 14px;
+}
+
+.FilteredProductList_loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    color: #8C8C8C;
+    font-family: Pretendard-Light;
+    font-size: 16px;
+}
+
+.FilteredProductList_empty {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    color: #8C8C8C;
+    font-family: Pretendard-Light;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.Card_container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    width: 100%;
+    padding: 0;
+}
+
+.Card_container::after {
+    content: "";
+    flex: auto;
+    max-width: 207px;
+    min-width: 207px;
+    height: 0;
+    margin: 0;
+    padding: 0;
+    visibility: hidden;
+}
+
+.Card_container::before {
+    content: "";
+    flex: auto;
+    max-width: 207px;
+    min-width: 207px;
+    height: 0;
+    margin: 0;
+    padding: 0;
+    visibility: hidden;
+    order: 1;
+}
+
+.Card_container .ItemCard_section {
+    width: 207px;
+    padding: 0 11px 11px 0;
+    box-sizing: border-box;
+}
+
+@media screen and (max-width: 992px) {
+    .Card_container {
+        justify-content: space-between;
+    }
+
+    .Card_container::after,
+    .Card_container::before {
+        max-width: calc(33.333% - 16px);
+        min-width: calc(33.333% - 16px);
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .Card_container {
+        justify-content: space-between;
+    }
+
+    .Card_container::after,
+    .Card_container::before {
+        max-width: calc(50% - 12px);
+        min-width: calc(50% - 12px);
+    }
+}

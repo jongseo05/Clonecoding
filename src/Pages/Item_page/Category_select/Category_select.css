@@ -1,0 +1,33 @@
+
+.Item_page_Category_section{
+    display: flex;
+    width: 1024px;
+    height: 78px;
+    flex-shrink: 0;
+    border-bottom: 1px solid #3F3F3F;
+    align-items: center;
+
+}
+
+.Item_page_Home_icon{
+    width : 18px;
+    height : 18px;
+    padding-right: 5px;
+}
+
+.Item_page_Arrow_icon{
+    width : 6px;
+    height : 10px;
+    margin-left : 8px;
+    margin-right: 8px;
+}
+
+.Item_page_Category_text{
+    color: #3F3F3F;
+    font-family: "Pretendard-Light";
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 350;
+    line-height: 12px;
+    letter-spacing: -0.5px;
+}

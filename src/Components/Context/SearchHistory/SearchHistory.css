@@ -1,0 +1,300 @@
+.SearchHistory_container {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    border: 1px solid #eee;
+    border-radius: 0 0 4px 4px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.SearchHistory_tabs {
+    display: flex;
+    border-bottom: 1px solid #eee;
+    margin-right: 20px;
+    margin-left : 20px;
+}
+
+.SearchHistory_tab {
+    flex: 1;
+    padding: 12px;
+    text-align: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: Pretendard-Light;
+    font-size: 14px;
+    color: #666;
+    outline: none;
+}
+
+.SearchHistory_tab.active {
+    font-weight: 600;
+    color: #F72F33;
+    border-bottom: 2px solid #F72F33;
+}
+
+/* 최근 검색어 영역 전체 래퍼 */
+.SearchHistory_content_wrapper {
+    display: flex;
+    flex-direction: column;
+    max-height: 400px;
+}
+
+/* 스크롤 가능한 최근 검색어 리스트 */
+.SearchHistory_scrollable_list {
+    max-height: 350px;
+    overflow-y: auto;
+    padding: 8px 0;
+}
+
+.SearchHistory_list {
+    padding: 8px 0;
+}
+
+.SearchHistory_item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 2px 12px 20px;
+    cursor: pointer;
+}
+
+.SearchHistory_item:hover {
+    background-color: #f9f9f9;
+}
+
+.SearchHistory_query {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-family: Pretendard-Light;
+    font-size: 14px;
+    color: #333;
+}
+
+.SearchHistory_delete {
+    background: none;
+    border: none;
+    color: #999;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 4px 8px;
+    margin-left: 8px;
+    border-radius: 50%;
+}
+
+.SearchHistory_delete:hover {
+    background-color: #eee;
+}
+
+.SearchHistory_footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border-top: 1px solid #eee;
+    background-color: white;
+}
+
+.SearchHistory_clear,
+.SearchHistory_close {
+    background: none;
+    border: none;
+    color: #666;
+    font-size: 13px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.SearchHistory_clear_icon {
+    margin-right: 4px;
+    font-size: 16px;
+}
+
+.SearchHistory_empty {
+    padding: 24px 16px;
+    text-align: center;
+    color: #999;
+    font-family: Pretendard-Light;
+    font-size: 14px;
+}
+
+/* 검색 제안 컨테이너 */
+.SearchSuggestions_container {
+    padding: 8px 0;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+/* 카테고리 섹션 */
+.SearchSuggestions_category_section {
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+}
+
+/* 검색 제안 아이템 */
+.SearchSuggestions_item {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    cursor: pointer;
+}
+
+.SearchSuggestions_item:hover {
+    background-color: #f9f9f9;
+}
+
+/* 아이콘과 텍스트 사이 간격 */
+.SearchSuggestions_item svg {
+    margin-right: 10px;
+    flex-shrink: 0;
+}
+
+/* 검색 제안 텍스트 */
+.SearchSuggestions_text {
+    font-family: Pretendard-Light;
+    font-size: 14px;
+    color: #333;
+}
+
+
+@media screen and (max-width: 1024px) {
+    .SearchHistory_container {
+        max-width: 100%;
+        width: 100%;
+        position: fixed;
+        top: 100%;
+        left: 0;
+        z-index: 1000;
+        max-height: 70vh;
+        overflow-y: auto;
+    }
+
+    .SearchHistory_tabs {
+        margin-right: 10px;
+        margin-left: 10px;
+    }
+
+    .SearchHistory_tab {
+        padding: 10px;
+        font-size: 13px;
+    }
+
+    .SearchHistory_scrollable_list {
+        max-height: 300px;
+    }
+
+    .SearchHistory_item {
+        padding: 10px 10px 10px 15px;
+    }
+
+    .SearchHistory_query {
+        font-size: 13px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .SearchHistory_container {
+        top: 100%;
+        max-height: 60vh;
+    }
+
+    .SearchHistory_tabs {
+        margin-right: 5px;
+        margin-left: 5px;
+    }
+
+    .SearchHistory_tab {
+        padding: 8px;
+        font-size: 12px;
+    }
+
+    .SearchHistory_scrollable_list {
+        max-height: 250px;
+    }
+
+    .SearchHistory_item {
+        padding: 8px 8px 8px 12px;
+    }
+
+    .SearchHistory_query {
+        font-size: 12px;
+    }
+
+    .SearchHistory_delete {
+        font-size: 16px;
+    }
+
+    .SearchHistory_footer {
+        padding: 10px;
+    }
+
+    .SearchHistory_clear,
+    .SearchHistory_close {
+        font-size: 12px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .SearchHistory_container {
+        max-height: 50vh;
+    }
+
+    .SearchHistory_tabs {
+        margin-right: 0;
+        margin-left: 0;
+    }
+
+    .SearchHistory_tab {
+        padding: 6px;
+        font-size: 11px;
+    }
+
+    .SearchHistory_scrollable_list {
+        max-height: 200px;
+    }
+
+    .SearchHistory_item {
+        padding: 6px 6px 6px 10px;
+    }
+
+    .SearchHistory_query {
+        font-size: 11px;
+    }
+
+    .SearchSuggestions_item {
+        padding: 8px 15px;
+    }
+
+    .SearchSuggestions_text {
+        font-size: 12px;
+    }
+
+    .SearchSuggestions_item svg {
+        width: 14px;
+        height: 14px;
+        margin-right: 6px;
+    }
+}
+
+
+@media screen and (max-width: 480px) {
+    .SearchHistory_container {
+        position: fixed;
+        left: 0;
+        right: 0;
+        width: 100%;
+        margin: 0;
+        border-radius: 0;
+    }
+
+    .SearchSuggestions_container {
+        max-height: 50vh;
+        overflow-y: auto;
+    }
+}

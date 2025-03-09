@@ -1,9 +1,10 @@
 .User_chatIcon_section{
     display: flex;
-    width: 480px;
+    width: 440px;
     -webkit-box-align: end;
     align-items: end;
     justify-content : flex-end;
+    padding-bottom : 10px;
 }
 
 .User_chatIcon_container{
@@ -14,8 +15,7 @@
     border-radius: 25px;
     color: rgb(25, 25, 25);
     background-color: rgb(229, 229, 229);
-    border: none;
-
+    border: 1px solid rgb(208, 208, 208); /* 테두리 추가 - 약간 더 어두운 색상으로 */
     font-weight: 500;
     font-size: 15px;
     line-height: 145%;
@@ -32,4 +32,16 @@
     margin-top: 6px;
     text-align: left;
     margin-right: 8px;
+}
+
+.UserChatIcon_chat {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+
+
+.UserChatIcon_image {
+    border: 1px solid rgb(208, 208, 208);
+    padding : 14px 15px;
 }
