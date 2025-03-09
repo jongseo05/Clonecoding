@@ -1,4 +1,4 @@
-.Partner_chatIcon_section{
+.PartnerChatIcon_section{
     display: flex;
     -webkit-box-align: end;
     align-items: end;
@@ -6,7 +6,7 @@
     padding-bottom : 10px;
 }
 
-.Partner_chatIcon_container{
+.PartnerChatIcon_chat{
     display: flex;
     width: fit-content;
     padding: 14px 18px;
@@ -19,9 +19,11 @@
     font-weight: 500;
     font-size: 15px;
     line-height: 145%;
+    margin-top : 0px;
+    margin-bottom : 0px;
 }
 
-.Partner_chatIcon_time_container{
+.PartnerChatIcon_time_container{
     display: flex;
     white-space: nowrap;
     margin-left: 8px;

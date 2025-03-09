@@ -20,7 +20,9 @@ function PartnerChatIcon({ text, imageUrl, time, isImage }) {
                         }}
                     />
                 ) : (
-                    <p>{text}</p>
+                    <p style={{
+                        marginTop : '0px',
+                        marginBottom : '0px'}}>{text}</p>
                 )}
             </div>
             <div className="PartnerChatIcon_time_container">{time}</div>

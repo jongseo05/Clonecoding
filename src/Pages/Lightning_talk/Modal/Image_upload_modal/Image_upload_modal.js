@@ -217,6 +217,7 @@ function Image_upload_modal({ isOpen, onClose, chatId }) {
                         ref={fileInputRef}
                         className="file_input"
                     />
+                    
 
                     {errorMessage && (
                         <div style={{ color: 'red', marginTop: '10px', fontSize: '14px', textAlign: 'center', padding: '5px', backgroundColor: '#ffeeee', borderRadius: '4px' }}>
@@ -232,7 +233,7 @@ function Image_upload_modal({ isOpen, onClose, chatId }) {
                         onClick={handleSelectClick}
                         style={{ padding: '8px 16px', backgroundColor: '#f0f0f0', color: '#333', border: 'none', borderRadius: '4px', marginRight: '10px' }}
                     >
-                        이미지 선택
+                        사진 다시 선택하기
                     </button>
 
                     {preview && (

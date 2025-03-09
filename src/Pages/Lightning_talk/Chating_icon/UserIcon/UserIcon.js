@@ -16,6 +16,7 @@ function UserChatIcon({ text, imageUrl, time, isImage }) {
                                 maxHeight: '128px',
                                 borderRadius: '25px',
                                 objectFit: 'cover',
+                                border: '1px solid rgb(208, 208, 208)' // 인라인 스타일로도 테두리 추가
                             }}
                         />
                     </>
@@ -24,11 +25,10 @@ function UserChatIcon({ text, imageUrl, time, isImage }) {
                         <div className="User_chatIcon_time_container">{time}</div>
                         <div className="User_chatIcon_container">{text}</div>
                     </>
-                        )
-                }
+                )}
             </div>
-
         </div>
     );
 }
-export default UserChatIcon
+
+export default UserChatIcon;
