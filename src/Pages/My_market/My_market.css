@@ -64,7 +64,7 @@
     background : none;
     border: 1px solid #EEEEEE;
     cursor : pointer;
-
+    justify-content: center;
     color: #888888;
     font-family: Pretendard-Light;
     font-size: 11px;
@@ -158,3 +158,44 @@
 
 }
 
+/* 기존 CSS에 추가할 부분만 정의합니다 */
+
+/* 상점명 수정 관련 스타일 */
+.My_market_edit_container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.My_market_input {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    flex-grow: 1;
+}
+
+/* 소개글 수정 관련 스타일 */
+.My_market_desc_edit {
+    width: 100%;
+}
+
+.My_market_textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 400;
+    resize: vertical;
+
+}
+
+.My_market_desc_display {
+    min-height: 50px;
+    white-space: pre-wrap;
+    line-height: 1.5;
+    font-size: 11px;
+    font-weight: 400;
+    color: #333;
+}
