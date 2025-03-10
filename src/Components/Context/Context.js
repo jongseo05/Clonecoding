@@ -127,7 +127,7 @@ function Context() {
                         <div className="User_container">
                             <div className="Link_section">
                                 <img src={my_store} alt="Store_icon" className="User_container_img"/>
-                                <p className="User_container_text">내상점</p>
+                                <Link to='my_market' className="User_container_text">내상점</Link>
                             </div>
                         </div>
 

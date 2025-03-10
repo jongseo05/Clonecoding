@@ -1,0 +1,160 @@
+
+.My_market_section{
+    display: flex;
+    padding: 0px 200px;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+
+.My_market_container{
+    display: flex;
+    width: 1024px;
+    padding: 30px 0px 100px 0px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 30px;
+    align-self: stretch;
+
+}
+
+.My_Market_info_section{
+    display: flex;
+    width: 1024px;
+    height: 310px;
+    align-items: flex-start;
+    border: 1px solid #EEEEEE;
+}
+
+.My_market_info_container{
+    display: flex;
+    height: 310px;
+    padding: 1px 30px 1px 30px;
+    flex-direction: column;
+    align-items: flex-start;
+    flex: 1 0 0;
+}
+
+.My_market_market_name_section{
+    display: flex;
+    height: 75px;
+    align-items: center;
+    flex-shrink: 0;
+    align-self: stretch;
+    gap : 18px;
+}
+
+.My_market_name{
+    color: #212121;
+    font-family: Pretendard-SemiBold;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 650;
+    line-height: 18px;
+    letter-spacing: -0.5px;
+}
+
+.My_market_button{
+    display: flex;
+    width : 70px;
+    height: 30px;
+    padding: 3px 6px 3px 6px;
+    align-items: center;
+    flex-shrink: 0;
+    background : none;
+    border: 1px solid #EEEEEE;
+    cursor : pointer;
+
+    color: #888888;
+    font-family: Pretendard-Light;
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 350;
+    line-height: 12px;
+    letter-spacing: -0.5px;
+}
+
+.My_market_information_section{
+    display: flex;
+    height: 65px;
+    padding-bottom: 20px;
+    flex-direction: column;
+    align-items: flex-start;
+    flex-shrink: 0;
+    align-self: stretch;
+
+}
+
+.My_market_information_container{
+    display: flex;
+    height: 45px;
+    padding: 8px 0px;
+    align-items: center;
+    flex-shrink: 0;
+    align-self: stretch;
+    gap : 30px;
+
+    border-top: 1px solid #FAFAFA;
+    border-bottom: 1px solid #FAFAFA;
+}
+
+.My_market_information_box{
+    display: flex;
+    width: 160px;
+}
+
+.My_market_information_text1{
+    color: #888888;
+    font-family: Pretendard-Light;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 13px;
+    letter-spacing: -0.5px;
+    padding-right : 5px;
+}
+
+.My_market_information_text2{
+    color:#212121;
+    font-family: Pretendard-Light;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 350;
+    line-height: 13px;
+    letter-spacing: -0.5px;
+}
+
+.My_market_info_text_section{
+    width : 652px;
+    height : 112px;
+    border: 1px solid #FAFAFA;
+
+}
+
+.My_market_info_button_section{
+    display: flex;
+    height: 56px;
+    align-items: center;
+    flex-shrink: 0;
+    align-self: stretch;
+}
+
+.My_market_info_button{
+    display: flex;
+    height: 20px;
+    padding: 3px 6px 3px 6px;
+    align-items: center;
+    background: none;
+
+    border: 1px solid #EEEEEE;
+
+    color: #888888;
+    font-family: Pretendard-Light;
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 350;
+    line-height: 12px;
+    letter-spacing: -0.5px;
+
+}
+

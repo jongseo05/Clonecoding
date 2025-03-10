@@ -7,6 +7,7 @@ import Sell_page from "./Pages/Sell_page/Sell_page";
 import Lightning_talk from "./Pages/Lightning_talk/Lightning_talk";
 import Item_page from "./Pages/Item_page/Item_page";
 import Search_page from "./Pages/Search_page/Search_page";
+import My_market from './Pages/My_market/My_market'
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
                 <Route path="/search_page" element={<Search_page />} />
                 <Route path="/search" element={<Search_page />} />
                 <Route path="/lightning-talk" element={<Lightning_talk />}/>
+                <Route path="/my_market" element={<My_market />}/>
           </Routes>
         </div>
       </Router>

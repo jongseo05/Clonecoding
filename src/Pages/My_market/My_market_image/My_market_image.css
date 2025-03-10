@@ -1,0 +1,76 @@
+.My_market_image_container{
+    display: flex;
+    width: 310px;
+    height: 310px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    background-color: black;
+}
+
+.My_market_image_info_container{
+    display: flex;
+    padding: 47px 100px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex: 1 0 0;
+    align-self: stretch;
+
+    background: rgba(255,255,255,0.8);
+    box-shadow: 0px 5px 10px 0px rgba(4, 0, 0, 0.03);
+}
+
+.Market_icon_container{
+    display: flex;
+    width: 100px;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.Market_icon{
+    width : 100px;
+    height: 100px;
+}
+
+.Market_name{
+    display: flex;
+    padding-bottom: 10px;
+    flex-direction: column;
+    align-items: flex-start;
+
+    color: #FFFFFF;
+    font-family: Pretendard-Light;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 16px;
+    letter-spacing: -0.5px;
+}
+
+.Market_manage_button_section{
+    display: flex;
+    padding-top: 20px;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.Market_manage_button{
+    display: flex;
+    width: 110px;
+    height: 40px;
+    padding: 13.5px 21px 13.5px 21px;
+    justify-content: center;
+    align-items: center;
+    background : none;
+
+    border: 1px solid #FFFFFF;
+
+    color: #FFFFFF;
+    font-family: Pretendard-Light;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 13px;
+    letter-spacing: -0.5px;
+}
