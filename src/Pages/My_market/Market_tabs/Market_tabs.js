@@ -1,8 +1,14 @@
 import React, { useState } from 'react';
 import './Market_tabs.css';
 import ProductsTab from './ProductTab/ProductTab';
+import { useParams } from 'react-router-dom';
 
-const Market_tabs = ({ marketData, isOwnMarket}) => {
+const Market_tabs = ({ marketData, isOwnMarket }) => {
+
+    {/* url에서 userID 파싱*/}
+    const { userId: urlUserId } = useParams();
+    const userId = urlUserId || marketData.userId;
+
     // 현재 선택된 탭 상태
     const [activeTab, setActiveTab] = useState('상품');
 
@@ -24,7 +30,7 @@ const Market_tabs = ({ marketData, isOwnMarket}) => {
     const renderTabContent = () => {
         switch (activeTab) {
             case '상품':
-                return <ProductsTab products={marketData.products || []} />;
+                return <ProductsTab userId={userId} isOwnMarket={isOwnMarket} />;
             case '상점후기':
                 return (
                     <div className="empty-tab-content">

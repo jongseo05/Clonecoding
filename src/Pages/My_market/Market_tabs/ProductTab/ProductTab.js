@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './ProductTab.css';
 import { getDatabase, ref, get } from 'firebase/database';
 import CardItem from '../../../../Components/Card/CardItem';
+import { getAuth } from 'firebase/auth';
 
 const ProductsTab = ({ userId, isOwnMarket = false }) => {
     const [products, setProducts] = useState([]);
@@ -33,13 +34,11 @@ const ProductsTab = ({ userId, isOwnMarket = false }) => {
 
                 const itemsData = snapshot.val();
 
-                // 데이터베이스 구조 탐색 함수
-                // mainCategory > middleCategory > smallCategory > userId > productId
                 const processCategories = (data, path = ['items']) => {
                     if (!data || typeof data !== 'object') return;
 
-                    // userId를 찾았을 때
-                    if (data[userId] && typeof data[userId] === 'object') {
+                    // 현재 경로에서 UserID 찾기
+                    if (path.length > 1 && data[userId] && typeof data[userId] === 'object') {
                         const userProducts = data[userId];
 
                         // 각 상품 처리
@@ -48,14 +47,41 @@ const ProductsTab = ({ userId, isOwnMarket = false }) => {
 
                             if (productData && productData.name) {
                                 // 상품 정보 추출
+                                let imageUrl = null;
+
+                                // 이미지 URL 처리
+                                if (productData.images) {
+                                    if (Array.isArray(productData.images) && productData.images.length > 0) {
+                                        imageUrl = productData.images[0];
+                                    } else if (typeof productData.images === 'object') {
+                                        // 객체 형태의 이미지 처리
+                                        if (productData.images.main) {
+                                            imageUrl = productData.images.main;
+                                        } else {
+                                            const imgKeys = Object.keys(productData.images);
+                                            if (imgKeys.length > 0) {
+                                                imageUrl = productData.images[imgKeys[0]];
+                                            }
+                                        }
+                                    }
+                                }
+
+                                // 가격 정보 추출
+                                let price = "0";
+                                if (productData.price && productData.price.price) {
+                                    price = productData.price.price;
+                                } else if (productData.extraInfo && productData.extraInfo.price) {
+                                    price = productData.extraInfo.price;
+                                } else if (typeof productData.price === 'string' || typeof productData.price === 'number') {
+                                    price = productData.price;
+                                }
+
                                 const product = {
                                     id: [...path, userId, productId].join('/'),
-                                    name: productData.name,
-                                    price: productData.price?.price || "0",
-                                    timestamp: productData.createdAt || parseInt(productId),
-                                    imageUrl: Array.isArray(productData.images) ?
-                                        productData.images[0] :
-                                        (productData.images?.main || null),
+                                    name: productData.name || "상품명 없음",
+                                    price: price,
+                                    timestamp: productData.createdAt || parseInt(productId) || Date.now(),
+                                    imageUrl: imageUrl,
                                     status: productData.status || "판매중"
                                 };
 
@@ -63,11 +89,9 @@ const ProductsTab = ({ userId, isOwnMarket = false }) => {
                                 allProducts.push(product);
                             }
                         });
-
-                        return;
                     }
 
-                    // 더 깊은 수준 탐색
+                    // 더 깊은 수준 탐색 (다른 카테고리 내 사용자 상품 찾기)
                     Object.keys(data).forEach(key => {
                         processCategories(data[key], [...path, key]);
                     });
@@ -112,10 +136,25 @@ const ProductsTab = ({ userId, isOwnMarket = false }) => {
         );
     }
 
-    // 상품 목록 표시
+    // 상품 목록 표시c
     return (
         <div className="products-tab-container">
-            <div className="products-list">
+
+            <div className = "products-tab-header">
+
+                <div className="products-tab-header-title">
+                    <span className = "products-tab-header-text">상품</span>
+                    <span className = "products-tab-header-count">{products.length}</span>
+                </div>
+
+                <div className="products-tab-header-filter">
+
+                </div>
+
+            </div>
+
+
+            <div className="products-grid">
                 {products.map((product, index) => (
                     <CardItem key={product.id || index} item={product} />
                 ))}

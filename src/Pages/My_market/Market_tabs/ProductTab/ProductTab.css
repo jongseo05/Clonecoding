@@ -101,6 +101,42 @@
     grid-template-columns: repeat(5, 1fr); /* 한 줄에 5개 상품 */
     gap: 20px;
     width: 100%;
+    padding-top : 20px;
 }
 
+.products-tab-header{
+    display: flex;
+    padding: 50px 0px 20px 0px;
+    justify-content: space-between;
+    align-items: flex-start;
+    align-self: stretch;
 
+    border-bottom: 1px solid #EEEEEE;
+}
+
+.products-tab-header-title{
+    display: flex;
+    align-items: flex-start;
+    gap: 4px;
+    align-self: stretch;
+}
+
+.products-tab-header-text{
+    color: #212121;
+    font-family: Pretendard-Light;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 450;
+    line-height: 18px;
+    letter-spacing: -0.5px;
+}
+
+.products-tab-header-count{
+    color: #F72F33;
+    font-family: Pretendard-Light;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 350;
+    line-height: 18px;
+    letter-spacing: -0.5px;
+}

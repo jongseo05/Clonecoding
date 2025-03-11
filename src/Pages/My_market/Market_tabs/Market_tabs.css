@@ -61,7 +61,7 @@
 
 /* 탭 컨텐츠 영역 */
 .tab-content-container {
-    padding: 20px;
+    padding-top : 20px;
     min-height: 300px;
     background-color: #fff;
 }
