@@ -6,39 +6,46 @@ import Home_icon from './icon/Home.png'
 import People_icon from './icon/People.png'
 import Market_icon from './icon/Marekt.png'
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { getDatabase, ref, update, onValue } from 'firebase/database';
 import { getAuth } from 'firebase/auth';
-import Market_tabs from './Market_tabs/Market_tabs'; // 탭 컴포넌트 임포트
+import Market_tabs from './Market_tabs/Market_tabs';
 
 function My_market() {
-    // 사용자 정보 가져오기
-    const auth = getAuth();
-    const userId = auth.currentUser ? auth.currentUser.uid : null;
+    /* URL에서 userId 파라미터 가져오기 */
+    const { userId } = useParams();
 
-    // 상점 정보 상태 관리
+    /* 현재 로그인한 사용자 정보 */
+    const auth = getAuth();
+    const currentUser = auth.currentUser;
+
+    /* 현재 보고 있는 상점이 자신의 상점인지 확인 */
+    const isOwnMarket = currentUser && userId === currentUser.uid;
+
+    /* 상점 정보 상태 관리 */
     const [marketInfo, setMarketInfo] = useState({
         marketName: `상점${Math.floor(Math.random() * 10000000)}호`,
         description: '',
         visitCount: 0,
         salesCount: 0,
         openDate: new Date().toISOString(),
-        products: [], // 상품 목록
-        reviews: [], // 상점 후기
-        likes: 0,    // 찜 수
-        following: 0, // 팔로잉 수
-        followers: 0  // 팔로워 수
+        products: [],
+        reviews: [],
+        likes: 0,
+        following: 0,
+        followers: 0
     });
 
-    // 편집 모드 상태 관리
+    /* 편집 모드 상태 관리 */
     const [isEditingName, setIsEditingName] = useState(false);
     const [isEditingDesc, setIsEditingDesc] = useState(false);
     const [newMarketName, setNewMarketName] = useState('');
     const [newDescription, setNewDescription] = useState('');
 
-    // 데이터베이스 참조
+    /* 데이터베이스 참조 */
     const database = getDatabase();
 
-    // 데이터 로드
+    /* 데이터 로드 */
     useEffect(() => {
         if (!userId) return;
 
@@ -51,7 +58,7 @@ function My_market() {
                 setNewMarketName(data.marketName);
                 setNewDescription(data.description || '');
             } else {
-                // 샘플 데이터 생성 (실제 구현 시 빈 배열로 변경)
+                /* 샘플 데이터 생성 */
                 const sampleProducts = [
                     {
                         id: '1',
@@ -75,7 +82,7 @@ function My_market() {
                     visitCount: 0,
                     salesCount: 0,
                     openDate: new Date().toISOString(),
-                    products: sampleProducts, // 샘플 상품 데이터
+                    products: sampleProducts,
                     reviews: [],
                     likes: 0,
                     following: 0,
@@ -98,9 +105,9 @@ function My_market() {
         return () => unsubscribe();
     }, [userId, database]);
 
-    // 상점명 수정 처리
+    /* 상점명 수정 처리 */
     const handleUpdateName = async () => {
-        if (!userId || !newMarketName.trim()) return;
+        if (!isOwnMarket || !newMarketName.trim()) return;
 
         try {
             const marketNameRef = ref(database, `markets/${userId}`);
@@ -115,9 +122,9 @@ function My_market() {
         }
     };
 
-    // 소개글 수정 처리
+    /* 소개글 수정 처리 */
     const handleUpdateDescription = async () => {
-        if (!userId) return;
+        if (!isOwnMarket) return;
 
         try {
             const descriptionRef = ref(database, `markets/${userId}`);
@@ -132,7 +139,7 @@ function My_market() {
         }
     };
 
-    // 키 입력 처리 (Enter: 저장, Shift+Enter: 줄바꿈)
+    /* 키 입력 처리 (Enter: 저장, Shift+Enter: 줄바꿈) */
     const handleDescKeyDown = (e) => {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
@@ -140,7 +147,7 @@ function My_market() {
         }
     };
 
-    // 날짜 포맷팅 함수
+    /* 날짜 포맷팅 함수 */
     const formatDate = (dateString) => {
         if (!dateString) return '정보 없음';
 
@@ -160,11 +167,14 @@ function My_market() {
             <div className="My_market_section">
                 <div className="My_market_container">
                     <div className="My_Market_info_section">
-                        <My_market_image />
+                        <My_market_image
+                            marketName={marketInfo.marketName}
+                            isOwnMarket={isOwnMarket}
+                        />
 
                         <div className="My_market_info_container">
                             <div className="My_market_market_name_section">
-                                {isEditingName ? (
+                                {isOwnMarket && isEditingName ? (
                                     <div className="My_market_edit_container">
                                         <input
                                             type="text"
@@ -177,7 +187,11 @@ function My_market() {
                                 ) : (
                                     <>
                                         <div className="My_market_name">{marketInfo.marketName}</div>
-                                        <button className="My_market_button" onClick={() => setIsEditingName(true)}>상점명 수정</button>
+                                        {isOwnMarket && (
+                                            <button className="My_market_button" onClick={() => setIsEditingName(true)}>
+                                                상점명 수정
+                                            </button>
+                                        )}
                                     </>
                                 )}
                             </div>
@@ -205,7 +219,7 @@ function My_market() {
 
                                     {/* 상점 방문 수 */}
                                     <div className="My_market_information_box">
-                                        <img src={People_icon} alt="Home_icon"
+                                        <img src={People_icon} alt="People_icon"
                                              style={{
                                                  width: "14px",
                                                  height: "13px",
@@ -223,7 +237,7 @@ function My_market() {
 
                                     {/* 상점 판매 */}
                                     <div className="My_market_information_box">
-                                        <img src={Market_icon} alt="Home_icon"
+                                        <img src={Market_icon} alt="Market_icon"
                                              style={{
                                                  width: "14px",
                                                  height: "13px",
@@ -243,7 +257,7 @@ function My_market() {
 
                             {/* 상점 소개글 */}
                             <div className="My_market_info_text_section">
-                                {isEditingDesc ? (
+                                {isOwnMarket && isEditingDesc ? (
                                     <div className="My_market_desc_edit">
                                         <textarea
                                             value={newDescription}
@@ -269,21 +283,27 @@ function My_market() {
                                 )}
                             </div>
 
-                            {/* 소개글 수정 버튼 */}
-                            <div className="My_market_info_button_section">
-                                {isEditingDesc ? (
-                                    <button className="My_market_info_button" onClick={handleUpdateDescription}>수정완료</button>
-                                ) : (
-                                    <button className="My_market_info_button" onClick={() => setIsEditingDesc(true)}>소개글 수정</button>
-                                )}
-                            </div>
+                            {/* 소개글 수정 버튼 - 자신의 상점일 경우에만 표시 */}
+                            {isOwnMarket && (
+                                <div className="My_market_info_button_section">
+                                    {isEditingDesc ? (
+                                        <button className="My_market_info_button" onClick={handleUpdateDescription}>
+                                            수정완료
+                                        </button>
+                                    ) : (
+                                        <button className="My_market_info_button" onClick={() => setIsEditingDesc(true)}>
+                                            소개글 수정
+                                        </button>
+                                    )}
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
             </div>
 
             {/* 탭 컴포넌트 */}
-            <Market_tabs marketData={marketInfo} />
+            <Market_tabs marketData={marketInfo} isOwnMarket={isOwnMarket} />
         </div>
     )
 }

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './Market_tabs.css';
 import ProductsTab from './ProductTab/ProductTab';
 
-const Market_tabs = ({ marketData }) => {
+const Market_tabs = ({ marketData, isOwnMarket}) => {
     // 현재 선택된 탭 상태
     const [activeTab, setActiveTab] = useState('상품');
 

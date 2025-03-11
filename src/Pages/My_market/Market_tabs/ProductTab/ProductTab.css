@@ -78,3 +78,29 @@
     color: #888;
     margin: 0;
 }
+
+/* 상품 탭 컨테이너 */
+.products-tab-container {
+    width: 100%;
+    padding: 20px 0;
+}
+
+/* 상품 목록이 없을 때 표시되는 메시지 */
+.empty-product-message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    color: #999;
+    font-size: 16px;
+}
+
+/* 상품 목록 그리드 레이아웃 */
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 한 줄에 5개 상품 */
+    gap: 20px;
+    width: 100%;
+}
+
+
