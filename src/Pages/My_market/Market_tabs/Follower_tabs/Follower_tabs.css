@@ -1,7 +1,9 @@
 /* 팔로워 탭 컨테이너 */
 .followers-tab-container {
     width: 100%;
-    padding: 20px 0;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
 }
 
 /* 팔로워 목록이 없을 때 표시되는 메시지 */
@@ -12,6 +14,9 @@
     height: 200px;
     color: #999;
     font-size: 16px;
+    background-color: #fff;
+    border-radius: 10px;
+    margin: 20px 0;
 }
 
 /* 팔로워 목록 그리드 레이아웃 */
@@ -23,20 +28,32 @@
     padding-top: 20px;
 }
 
+/* 모바일 화면에서 그리드 조정 */
+@media (max-width: 768px) {
+    .followers-grid {
+        grid-template-columns: repeat(2, 1fr); /* 한 줄에 2개 팔로워 */
+    }
+}
+
+@media (max-width: 480px) {
+    .followers-grid {
+        grid-template-columns: 1fr; /* 한 줄에 1개 팔로워 */
+    }
+}
+
 .followers-tab-header {
     display: flex;
-    padding: 50px 0px 20px 0px;
+    padding: 15px 0px;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: center;
     align-self: stretch;
     border-bottom: 1px solid #EEEEEE;
 }
 
 .followers-tab-header-title {
     display: flex;
-    align-items: flex-start;
-    gap: 4px;
-    align-self: stretch;
+    align-items: center;
+    gap: 8px;
 }
 
 .followers-tab-header-text {
@@ -44,7 +61,7 @@
     font-family: Pretendard-Light;
     font-size: 18px;
     font-style: normal;
-    font-weight: 450;
+    font-weight: 500;
     line-height: 18px;
     letter-spacing: -0.5px;
 }
@@ -52,60 +69,9 @@
 .followers-tab-header-count {
     color: #F72F33;
     font-family: Pretendard-Light;
-    font-size: 20px;
+    font-size: 18px;
     font-style: normal;
-    font-weight: 350;
+    font-weight: 500;
     line-height: 18px;
     letter-spacing: -0.5px;
-}
-
-/* 개별 팔로워 카드 */
-.follower-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    border-radius: 10px;
-    background-color: #fff;
-    text-align: center;
-}
-
-.follower-avatar {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    overflow: hidden;
-    margin-bottom: 10px;
-}
-
-.follower-avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.follower-name {
-    font-size: 16px;
-    font-weight: 500;
-    margin-bottom: 5px;
-    color: #212121;
-}
-
-.follower-stats {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 5px;
-    font-size: 12px;
-    color: #888;
-}
-
-.follower-stat {
-    display: flex;
-    align-items: center;
-}
-
-.follower-stat-divider {
-    margin: 0 5px;
-    color: #ddd;
 }

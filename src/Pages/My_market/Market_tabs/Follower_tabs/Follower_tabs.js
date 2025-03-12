@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Follower_tabs.css';
-import { getDatabase, ref, get } from 'firebase/database';
+import { getDatabase, ref, get , update} from 'firebase/database';
+import Follower from './Follower/Follower';
 
 const FollowerTabs = ({ userId, isOwnProfile = false }) => {
     const [followers, setFollowers] = useState([]);
@@ -17,42 +18,76 @@ const FollowerTabs = ({ userId, isOwnProfile = false }) => {
             try {
                 console.log("팔로워 데이터 불러오기 시작, 사용자 ID:", userId);
                 const db = getDatabase();
-                const allFollowers = [];
 
-                // followers 데이터 가져오기
-                const followersRef = ref(db, `followers/${userId}`);
-                const snapshot = await get(followersRef);
+                // 먼저 직접 사용자 데이터를 확인합니다
+                const userRef = ref(db, `users/${userId}`);
+                const userSnapshot = await get(userRef);
 
-                if (!snapshot.exists()) {
-                    console.log("팔로워 데이터가 없습니다.");
+                console.log("사용자 데이터 존재 여부:", userSnapshot.exists());
+
+                if (!userSnapshot.exists()) {
+                    console.log("사용자 데이터가 없습니다");
                     setFollowers([]);
                     setLoading(false);
                     return;
                 }
 
-                const followersData = snapshot.val();
+                const userData = userSnapshot.val();
+                console.log("전체 사용자 데이터:", userData);
+
+                // 마켓 정보도 확인
+                const marketRef = ref(db, `markets/${userId}`);
+                const marketSnapshot = await get(marketRef);
+                console.log("마켓 데이터 존재 여부:", marketSnapshot.exists());
+                if (marketSnapshot.exists()) {
+                    console.log("마켓 데이터:", marketSnapshot.val());
+                }
+
+                // followers 필드가 없거나 비어있는 경우
+                if (!userData.followers || Object.keys(userData.followers).length === 0) {
+                    console.log("팔로워 데이터가 없습니다");
+                    setFollowers([]);
+                    setLoading(false);
+                    return;
+                }
+
+                const followersData = userData.followers;
+                console.log("팔로워 데이터:", followersData);
 
                 // 각 팔로워 정보 처리
                 const followerPromises = Object.keys(followersData).map(async (followerId) => {
-                    // 사용자 정보 가져오기
-                    const userRef = ref(db, `users/${followerId}`);
-                    const userSnapshot = await get(userRef);
+                    console.log("팔로워 ID 처리 중:", followerId);
 
-                    if (userSnapshot.exists()) {
-                        const userData = userSnapshot.val();
+                    // 팔로워의 사용자 정보 가져오기
+                    const followerUserRef = ref(db, `users/${followerId}`);
+                    const followerUserSnapshot = await get(followerUserRef);
+
+                    if (followerUserSnapshot.exists()) {
+                        const followerUserData = followerUserSnapshot.val();
+                        console.log("팔로워 사용자 데이터:", followerUserData);
+
+                        // 팔로워의 마켓 정보 가져오기
+                        const marketRef = ref(db, `markets/${followerId}`);
+                        const marketSnapshot = await get(marketRef);
+                        const marketData = marketSnapshot.exists() ? marketSnapshot.val() : {};
+                        console.log("팔로워 마켓 데이터:", marketData);
 
                         const follower = {
                             id: followerId,
-                            name: userData.displayName || userData.username || "사용자",
-                            avatar: userData.photoURL || null,
-                            following: userData.following ? Object.keys(userData.following).length : 0,
-                            followers: userData.followers ? Object.keys(userData.followers).length : 0,
-                            timestamp: followersData[followerId].timestamp || Date.now()
+                            name: marketData.marketName || followerUserData.displayName ||
+                                followerUserData.username || followerUserData.name || "사용자",
+                            avatar: followerUserData.photoURL || null,
+                            following: followerUserData.following ? Object.keys(followerUserData.following).length : 0,
+                            followers: followerUserData.followers ? Object.keys(followerUserData.followers).length : 0,
+                            timestamp: followersData[followerId] === true ? Date.now() :
+                                (followersData[followerId].timestamp || Date.now())
                         };
 
-                        console.log(`팔로워 발견: ${follower.name}, ID: ${follower.id}`);
+                        console.log(`팔로워 처리 완료: ${follower.name}, ID: ${follower.id}`);
                         return follower;
                     }
+
+                    console.log("팔로워 사용자 정보가 없습니다:", followerId);
                     return null;
                 });
 
@@ -75,6 +110,41 @@ const FollowerTabs = ({ userId, isOwnProfile = false }) => {
 
         fetchFollowers();
     }, [userId]);
+
+    // 데이터 동기화 함수
+    const synchronizeFollowerData = async (userId) => {
+        try {
+            const db = getDatabase();
+            const marketRef = ref(db, `markets/${userId}`);
+            const userRef = ref(db, `users/${userId}`);
+
+            const [marketSnapshot, userSnapshot] = await Promise.all([
+                get(marketRef),
+                get(userRef)
+            ]);
+
+            if (marketSnapshot.exists() && userSnapshot.exists()) {
+                const marketData = marketSnapshot.val();
+                const userData = userSnapshot.val();
+
+                // 팔로워 데이터 확인
+                const followers = userData.followers || {};
+                const followerCount = Object.keys(followers).length;
+
+                console.log("마켓 팔로워 수:", marketData.followers, "실제 팔로워 수:", followerCount);
+
+                // 카운트와 실제 데이터가 불일치하면 업데이트
+                if (marketData.followers !== followerCount) {
+                    await update(marketRef, {
+                        followers: followerCount
+                    });
+                    console.log("마켓 팔로워 수 동기화 완료");
+                }
+            }
+        } catch (error) {
+            console.error("팔로워 데이터 동기화 오류:", error);
+        }
+    };
 
     // 로딩 중 표시
     if (loading) {
@@ -104,32 +174,13 @@ const FollowerTabs = ({ userId, isOwnProfile = false }) => {
                     <span className="followers-tab-header-text">팔로워</span>
                     <span className="followers-tab-header-count">{followers.length}</span>
                 </div>
-
-                <div className="followers-tab-header-filter">
-                    {/* 필요한 경우 필터 옵션 추가 */}
-                </div>
             </div>
 
             {/* 팔로워 그리드 */}
             <div className="followers-grid">
                 {followers.map((follower) => (
-                    <div key={follower.id} className="follower-item">
-                        <div className="follower-avatar">
-                            {follower.avatar ? (
-                                <img src={follower.avatar} alt={`${follower.name}의 프로필`} />
-                            ) : (
-                                <div className="default-avatar">
-                                    {follower.name.charAt(0).toUpperCase()}
-                                </div>
-                            )}
-                        </div>
-                        <div className="follower-name">{follower.name}</div>
-                        <div className="follower-stats">
-                            <span className="follower-stat">팔로잉 {follower.following}</span>
-                            <span className="follower-stat-divider">|</span>
-                            <span className="follower-stat">팔로워 {follower.followers}</span>
-                        </div>
-                    </div>
+                    <Follower key={follower.id} followerData={follower} />
+
                 ))}
             </div>
         </div>

@@ -118,7 +118,10 @@ function Item_explanation({ item }) {
                 </div>
 
                 {/*상점 팔로우 버튼*/}
-                <Follow_button sellerId={item.seller && item.seller.uid ? item.seller.uid : null}/>
+                <Follow_button
+                    targetUserId={item.seller && item.seller.uid ? item.seller.uid : null}
+                    followersCount={0}
+                />
 
                 {/*상점 상품 이미지*/}
                 <div className="Market_image_section">

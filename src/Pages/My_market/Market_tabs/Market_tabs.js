@@ -45,16 +45,14 @@ const Market_tabs = ({ marketData, isOwnMarket }) => {
                     </div>
                 );
             case '팔로잉':
-
-                return (
-                    <FollowerTabs userId={userId} />
-                );
-            case '팔로워':
                 return (
                     <div className="empty-tab-content">
-                        <p>팔로워 목록이 없습니다.</p>
+                        <p>팔로잉 목록이 없습니다.</p>
                     </div>
                 );
+            case '팔로워':
+                // 팔로워 탭 표시 수정
+                return <FollowerTabs userId={userId} isOwnProfile={isOwnMarket} />;
             default:
                 return null;
         }
