@@ -63,7 +63,7 @@ function CardList() {
                             }
 
                             const item = {
-                                id: path.join('/'),
+                                id: "items/" + path.join('/'),  // 'items/' 접두어 추가
                                 name: obj.name,
                                 price: price,
                                 timestamp: itemTimestamp,

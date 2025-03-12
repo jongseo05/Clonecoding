@@ -1,0 +1,111 @@
+/* 팔로워 탭 컨테이너 */
+.followers-tab-container {
+    width: 100%;
+    padding: 20px 0;
+}
+
+/* 팔로워 목록이 없을 때 표시되는 메시지 */
+.empty-follower-message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    color: #999;
+    font-size: 16px;
+}
+
+/* 팔로워 목록 그리드 레이아웃 */
+.followers-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 한 줄에 3개 팔로워 */
+    gap: 20px;
+    width: 100%;
+    padding-top: 20px;
+}
+
+.followers-tab-header {
+    display: flex;
+    padding: 50px 0px 20px 0px;
+    justify-content: space-between;
+    align-items: flex-start;
+    align-self: stretch;
+    border-bottom: 1px solid #EEEEEE;
+}
+
+.followers-tab-header-title {
+    display: flex;
+    align-items: flex-start;
+    gap: 4px;
+    align-self: stretch;
+}
+
+.followers-tab-header-text {
+    color: #212121;
+    font-family: Pretendard-Light;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 450;
+    line-height: 18px;
+    letter-spacing: -0.5px;
+}
+
+.followers-tab-header-count {
+    color: #F72F33;
+    font-family: Pretendard-Light;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 350;
+    line-height: 18px;
+    letter-spacing: -0.5px;
+}
+
+/* 개별 팔로워 카드 */
+.follower-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #fff;
+    text-align: center;
+}
+
+.follower-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.follower-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.follower-name {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 5px;
+    color: #212121;
+}
+
+.follower-stats {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 5px;
+    font-size: 12px;
+    color: #888;
+}
+
+.follower-stat {
+    display: flex;
+    align-items: center;
+}
+
+.follower-stat-divider {
+    margin: 0 5px;
+    color: #ddd;
+}

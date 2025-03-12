@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './Market_tabs.css';
 import ProductsTab from './ProductTab/ProductTab';
+import FollowerTabs from "./Follower_tabs/Follower_tabs";
 import { useParams } from 'react-router-dom';
 
 const Market_tabs = ({ marketData, isOwnMarket }) => {
@@ -44,10 +45,9 @@ const Market_tabs = ({ marketData, isOwnMarket }) => {
                     </div>
                 );
             case '팔로잉':
+
                 return (
-                    <div className="empty-tab-content">
-                        <p>팔로잉 목록이 없습니다.</p>
-                    </div>
+                    <FollowerTabs userId={userId} />
                 );
             case '팔로워':
                 return (

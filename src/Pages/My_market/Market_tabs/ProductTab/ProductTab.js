@@ -140,6 +140,8 @@ const ProductsTab = ({ userId, isOwnMarket = false }) => {
     return (
         <div className="products-tab-container">
 
+
+            {/* 상품 탭 */}
             <div className = "products-tab-header">
 
                 <div className="products-tab-header-title">

@@ -1,5 +1,5 @@
 import './Item_explanation.css';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Location_icon from './Images/location.png';
 import Category_icon from './Images/Category.png';
 import Tag_icon from './Images/Tag.png';
@@ -8,8 +8,33 @@ import Follow_button from "../Button/Follow_button/Follow_button";
 import Market_item_image from "../Market_item_image/Market_item_image";
 import Lightning_talk_button_size from "../Button/Lightning_talk_button/Lightning_talk_button_size";
 import Purchase_button_size from "../Button/Purchase_button/Purchase_button_size";
+import { ref, get } from "firebase/database";
+import { db } from "../../../firebase";
 
 function Item_explanation({ item }) {
+    const [marketName, setMarketName] = useState("상점명");
+
+    useEffect(() => {
+        // 판매자 ID가 있을 경우 상점명 가져오기
+        const fetchMarketName = async () => {
+            if (item && item.seller && item.seller.uid) {
+                try {
+                    const sellerId = item.seller.uid;
+                    const marketRef = ref(db, `markets/${sellerId}/marketName`);
+                    const snapshot = await get(marketRef);
+
+                    if (snapshot.exists()) {
+                        setMarketName(snapshot.val());
+                    }
+                } catch (error) {
+                    console.error("상점명 가져오기 오류:", error);
+                }
+            }
+        };
+
+        fetchMarketName();
+    }, [item]);
+
     return (
         <div className="Item_explanation_section">
             <div className="Item_explanation_other_section"/>
@@ -84,9 +109,7 @@ function Item_explanation({ item }) {
 
                     <div className="Market_info_box">
                         <span className="Market_info_head">
-                            {item.seller && item.seller.name ?
-                                `${item.seller.name} 상점` :
-                                "판매자 정보"}
+                            {marketName || "상점명"}
                         </span>
                         <span className="Market_info_text">
                             {"상품 정보 | 팔로워"}
@@ -95,7 +118,7 @@ function Item_explanation({ item }) {
                 </div>
 
                 {/*상점 팔로우 버튼*/}
-                <Follow_button/>
+                <Follow_button sellerId={item.seller && item.seller.uid ? item.seller.uid : null}/>
 
                 {/*상점 상품 이미지*/}
                 <div className="Market_image_section">
