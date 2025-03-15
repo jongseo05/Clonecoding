@@ -123,6 +123,7 @@ function Item_explanation({ item }) {
                     followersCount={0}
                 />
 
+
                 {/*상점 상품 이미지*/}
                 <div className="Market_image_section">
                     <Market_item_image sellerId={item.seller && item.seller.uid ? item.seller.uid : null}/>

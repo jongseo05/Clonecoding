@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './Follower_tabs.css';
-import { getDatabase, ref, get , update} from 'firebase/database';
+import { getDatabase, ref, get, update, set } from 'firebase/database';
 import Follower from './Follower/Follower';
 
 const FollowerTabs = ({ userId, isOwnProfile = false }) => {
@@ -41,17 +41,31 @@ const FollowerTabs = ({ userId, isOwnProfile = false }) => {
                 console.log("마켓 데이터 존재 여부:", marketSnapshot.exists());
                 if (marketSnapshot.exists()) {
                     console.log("마켓 데이터:", marketSnapshot.val());
+
+                    // 마켓 데이터와 사용자 데이터의 팔로워 정보 동기화
+                    await synchronizeFollowerData(userId);
                 }
 
+                // 다시 최신 사용자 데이터 가져오기 (동기화 후)
+                const updatedUserSnapshot = await get(userRef);
+                const updatedUserData = updatedUserSnapshot.val();
+
                 // followers 필드가 없거나 비어있는 경우
-                if (!userData.followers || Object.keys(userData.followers).length === 0) {
+                if (!updatedUserData.followers || Object.keys(updatedUserData.followers).length === 0) {
                     console.log("팔로워 데이터가 없습니다");
+
+                    // 마켓에 팔로워 수가 있지만 실제 데이터가 없는 경우 초기화
+                    if (marketSnapshot.exists() && marketSnapshot.val().followers > 0) {
+                        await update(marketRef, { followers: 0 });
+                        console.log("마켓 팔로워 수 0으로 초기화");
+                    }
+
                     setFollowers([]);
                     setLoading(false);
                     return;
                 }
 
-                const followersData = userData.followers;
+                const followersData = updatedUserData.followers;
                 console.log("팔로워 데이터:", followersData);
 
                 // 각 팔로워 정보 처리
@@ -88,6 +102,8 @@ const FollowerTabs = ({ userId, isOwnProfile = false }) => {
                     }
 
                     console.log("팔로워 사용자 정보가 없습니다:", followerId);
+                    // 존재하지 않는 팔로워 ID를 사용자의 팔로워 목록에서 제거
+                    await set(ref(db, `users/${userId}/followers/${followerId}`), null);
                     return null;
                 });
 
@@ -95,6 +111,14 @@ const FollowerTabs = ({ userId, isOwnProfile = false }) => {
                 const validFollowers = resolvedFollowers.filter(follower => follower !== null);
 
                 console.log(`총 ${validFollowers.length}명의 팔로워를 발견했습니다.`);
+
+                // 마켓의 팔로워 수 업데이트
+                if (marketSnapshot.exists()) {
+                    await update(marketRef, {
+                        followers: validFollowers.length
+                    });
+                    console.log("마켓 팔로워 수 업데이트:", validFollowers.length);
+                }
 
                 // 최신순으로 정렬
                 validFollowers.sort((a, b) => b.timestamp - a.timestamp);
@@ -111,7 +135,7 @@ const FollowerTabs = ({ userId, isOwnProfile = false }) => {
         fetchFollowers();
     }, [userId]);
 
-    // 데이터 동기화 함수
+    // 데이터 동기화 함수 - 개선된 버전
     const synchronizeFollowerData = async (userId) => {
         try {
             const db = getDatabase();
@@ -127,18 +151,26 @@ const FollowerTabs = ({ userId, isOwnProfile = false }) => {
                 const marketData = marketSnapshot.val();
                 const userData = userSnapshot.val();
 
-                // 팔로워 데이터 확인
+                // 기존 팔로워 데이터 보존 로직 추가
                 const followers = userData.followers || {};
                 const followerCount = Object.keys(followers).length;
 
                 console.log("마켓 팔로워 수:", marketData.followers, "실제 팔로워 수:", followerCount);
 
-                // 카운트와 실제 데이터가 불일치하면 업데이트
+                // 카운트만 업데이트하고 팔로워 데이터는 보존
                 if (marketData.followers !== followerCount) {
                     await update(marketRef, {
                         followers: followerCount
                     });
-                    console.log("마켓 팔로워 수 동기화 완료");
+                    console.log("마켓 팔로워 수 동기화 완료:", followerCount);
+                }
+
+                // 팔로워 필드가 없을 때만 초기화 (기존 데이터 덮어쓰기 방지)
+                if (!userData.followers && marketData.followers === 0) {
+                    await update(userRef, {
+                        followers: {}
+                    });
+                    console.log("사용자 팔로워 필드 초기화");
                 }
             }
         } catch (error) {
@@ -180,7 +212,6 @@ const FollowerTabs = ({ userId, isOwnProfile = false }) => {
             <div className="followers-grid">
                 {followers.map((follower) => (
                     <Follower key={follower.id} followerData={follower} />
-
                 ))}
             </div>
         </div>

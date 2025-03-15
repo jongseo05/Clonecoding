@@ -18,9 +18,7 @@ export const checkFollowStatus = async (currentUserId, targetUserId) => {
     }
 };
 
-/**
- * 사용자의 팔로워 목록을 가져오는 함수
- */
+// 사용자들의 팔로워 목록을 가져오는 함수
 export const fetchUserFollowers = async (userId) => {
     if (!userId) return [];
 
@@ -29,11 +27,27 @@ export const fetchUserFollowers = async (userId) => {
         const userRef = ref(db, `users/${userId}`);
         const snapshot = await get(userRef);
 
-        if (!snapshot.exists() || !snapshot.val().followers) {
+        // 사용자 데이터가 없으면 빈 배열 반환
+        if (!snapshot.exists()) {
+            console.log("사용자 데이터가 없습니다");
             return [];
         }
 
-        const followersData = snapshot.val().followers;
+        const userData = snapshot.val();
+
+        // 팔로워 필드가 없으면 초기화하고 빈 배열 반환
+        if (!userData.followers) {
+            await update(userRef, { followers: {} });
+            console.log("팔로워 필드 초기화됨");
+            return [];
+        }
+
+        const followersData = userData.followers;
+
+        // 팔로워가 없으면 빈 배열 반환
+        if (Object.keys(followersData).length === 0) {
+            return [];
+        }
 
         // 각 팔로워의 세부 정보 가져오기
         const followerPromises = Object.keys(followersData).map(async (followerId) => {
@@ -60,15 +74,47 @@ export const fetchUserFollowers = async (userId) => {
                         (followersData[followerId].timestamp || Date.now())
                 };
             }
+
+            // 유효하지 않은 팔로워는 자동으로 제거
+            await set(ref(db, `users/${userId}/followers/${followerId}`), null);
+            console.log("존재하지 않는 팔로워 제거:", followerId);
             return null;
         });
 
         const resolvedFollowers = await Promise.all(followerPromises);
-        return resolvedFollowers.filter(follower => follower !== null);
+        const validFollowers = resolvedFollowers.filter(follower => follower !== null);
 
+        // 마켓 팔로워 수 동기화
+        await syncMarketFollowerCount(userId, validFollowers.length);
+
+        return validFollowers;
     } catch (error) {
         console.error("팔로워 목록 가져오기 오류:", error);
         return [];
+    }
+};
+
+/**
+ * 마켓의 팔로워 수를 동기화하는 함수
+ */
+export const syncMarketFollowerCount = async (userId, followerCount) => {
+    try {
+        const db = getDatabase();
+        const marketRef = ref(db, `markets/${userId}`);
+        const marketSnapshot = await get(marketRef);
+
+        if (marketSnapshot.exists()) {
+            const marketData = marketSnapshot.val();
+
+            if (marketData.followers !== followerCount) {
+                await update(marketRef, {
+                    followers: followerCount
+                });
+                console.log("마켓 팔로워 수 동기화됨:", followerCount);
+            }
+        }
+    } catch (error) {
+        console.error("마켓 팔로워 수 동기화 오류:", error);
     }
 };
 

@@ -6,8 +6,9 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-import { auth } from "../../../firebase";
+import { auth ,db} from "../../../firebase";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
+import { ref, get, query, orderByChild, equalTo } from "firebase/database";
 
 function Sign_up() {
     const [formData, setFormData] = useState({
@@ -61,8 +62,21 @@ function Sign_up() {
 
     const sendVerificationCode = async () => {
         try {
+            // 필수 입력 필드 검증
+            if (!formData.name.trim()) {
+                throw new Error("이름을 입력해주세요.");
+            }
+
+            if (!formData.birthdate.trim() || formData.birthdate.length !== 6) {
+                throw new Error("올바른 생년월일 6자리를 입력해주세요.");
+            }
+
+            if (!formData.carrier) {
+                throw new Error("통신사를 선택해주세요.");
+            }
+
             const phoneNumber = formData.phoneNumber.trim();
-            console.log("Phone number:", phoneNumber);
+            console.log("전화번호:", phoneNumber);
 
             if (!/^010\d{8}$/.test(phoneNumber)) {
                 throw new Error("전화번호 형식이 잘못되었습니다. 01012345678 형식으로 입력해주세요.");
@@ -72,6 +86,20 @@ function Sign_up() {
                 throw new Error("Firebase 인증이 초기화되지 않았습니다.");
             }
 
+            // 전화번호로 기존 사용자 확인
+            const usersRef = ref(db, 'users');
+            const userQuery = query(usersRef, orderByChild('phoneNumber'), equalTo(phoneNumber));
+            const snapshot = await get(userQuery);
+
+            let existingUserMessage = "";
+            if (snapshot.exists()) {
+                console.log("이미 등록된 전화번호입니다. 로그인을 진행합니다.");
+                existingUserMessage = " 이미 등록된 전화번호이므로 로그인으로 진행됩니다.";
+            } else {
+                console.log("새로운 전화번호입니다. 회원가입을 진행합니다.");
+            }
+
+            // 인증번호 발송
             const internationalPhoneNumber = `+82${phoneNumber.slice(1)}`;
             console.log("국제 전화번호 형식:", internationalPhoneNumber);
 
@@ -90,10 +118,10 @@ function Sign_up() {
             // 회원가입 데이터를 localStorage에 저장
             localStorage.setItem("formData", JSON.stringify(formData));
 
-            alert("인증번호가 발송되었습니다.");
+            alert("인증번호가 발송되었습니다." + existingUserMessage);
             navigate('/sign_up/number');
         } catch (error) {
-            console.error("Error:", error);
+            console.error("오류:", error);
             alert(error.message);
 
             if (window.recaptchaVerifier) {

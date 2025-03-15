@@ -1,9 +1,10 @@
 /* 팔로워 탭 컨테이너 */
 .followers-tab-container {
-    width: 100%;
+    width: 340px;
+    height : 350px;
     padding: 20px;
-    background-color: #f9f9f9;
     border-radius: 10px;
+    background-color: #fff;
 }
 
 /* 팔로워 목록이 없을 때 표시되는 메시지 */
@@ -22,7 +23,6 @@
 /* 팔로워 목록 그리드 레이아웃 */
 .followers-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 한 줄에 3개 팔로워 */
     gap: 20px;
     width: 100%;
     padding-top: 20px;
@@ -48,6 +48,7 @@
     align-items: center;
     align-self: stretch;
     border-bottom: 1px solid #EEEEEE;
+    width : 1024px;
 }
 
 .followers-tab-header-title {
